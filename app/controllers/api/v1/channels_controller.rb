@@ -6,7 +6,7 @@ class Api::V1::ChannelsController < ApplicationController
   private
 
   def get_channels
-    Rails.cache.fetch('get_channels', expires_in: 1.minute) do
+    Rails.cache.fetch('get_channels', expires_in: 5.minute) do
       tp_response = get("http://temp.orz.hm/yp/index.txt")
       sp_response = get("http://bayonet.ddo.jp/sp/index.txt")
       tp_response + sp_response
