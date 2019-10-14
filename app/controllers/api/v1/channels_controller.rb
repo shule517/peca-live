@@ -6,16 +6,12 @@ class Api::V1::ChannelsController < ApplicationController
   private
 
   def get_channels
-    Rails.cache.fetch('get_channels', expires_in: 5.minute) do
-      tp_response = get("http://temp.orz.hm/yp/index.txt")
-      sp_response = get("http://bayonet.ddo.jp/sp/index.txt")
-      tp_response + sp_response
+    Rails.cache.fetch('get_channels', expires_in: 1.minute) do
+      peca_tip = 'http://150.95.177.111:7144'
+      api = JsonRpc.new("#{peca_tip}/api/1")
+      channels = api.update_yp_channels
+      channels = channels.select { |channel| channel['channelId'] != '00000000000000000000000000000000' && channel['contentType'] == 'FLV' }
+      channels
     end
-  end
-
-  def get(url)
-    uri = URI.parse(url)
-    response = Net::HTTP.get_response(uri)
-    response.body.force_encoding('UTF-8')
   end
 end
