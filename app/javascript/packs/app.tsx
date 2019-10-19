@@ -23,7 +23,7 @@ const App = () => {
       <Link to='/'>チャンネル一覧</Link>
       <Link to='/channels/1234'>チャンネル再生</Link>
       <Route exact path='/' render={(props) => <ChannelList />} />
-      <Route path='/channels/:streamId' render={(props) => { return <ChannelPlayer />}} />
+      <Route path='/channels/:streamId' render={(props) => <ChannelPlayer />} />
     </BrowserRouter>
   )
 }
