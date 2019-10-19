@@ -1,5 +1,12 @@
 import React from "react";
 import { BrowserRouter, Route, Link } from 'react-router-dom'
+import styled from 'styled-components';
+
+const Logo = styled.img`
+  height: 50px;
+  width: 180px;
+  padding-left: 7px;
+`
 
 const ChannelList = () => {
   return (
@@ -20,6 +27,9 @@ const ChannelPlayer = () => {
 const App = () => {
   return (
     <BrowserRouter>
+      <Link to='/'>
+        <Logo src='/images/pecalive.png' />
+      </Link>
       <Link to='/'>チャンネル一覧</Link>
       <Link to='/channels/1234'>チャンネル再生</Link>
       <Route exact path='/' render={(props) => <ChannelList />} />
