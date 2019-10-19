@@ -1,13 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-const App = () => {
-  return (
-    <div>
-      test
-    </div>
-  )
-}
+import App from './app'
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
