@@ -34,39 +34,15 @@ const ChannelItem = (props: Props) => {
       text += details
     }
     return text;
-  }
-
-  const videoElementId = `videoElement-${channel.streamId}`;
-  const thumnbailElementId = `thumnbailElement-${channel.streamId}`;
-  let flvPlayer: any = null;
-  let hiddenPlayer = true;
-  const onSelectChannel = () => {
-    return;
-    if (!flvPlayer) {
-      let thumnbailElement:any = document.getElementById(thumnbailElementId);
-      thumnbailElement.hidden = true;
-
-      let videoElement:any = document.getElementById(videoElementId);
-      videoElement.hidden = false;
-      const url = `http://150.95.177.111:7144/stream/${channel.streamId}.flv?auth=JkVYNUxQTmVaTUEwWSdlMDouSWhDQnE7c1lZKCFyeXVY&tip=${channel.tip}`;
-      flvPlayer = flvjs.createPlayer({
-        type: 'flv',
-        isLive: true,
-        url: url
-      });
-      flvPlayer.attachMediaElement(videoElement);
-      flvPlayer.load();
-      flvPlayer.play();
-      hiddenPlayer = false;
-    }
   };
+
+  const thumnbailElementId = `thumnbailElement-${channel.streamId}`;
 
   return (
     <Link to={`/channels/${channel.streamId}`}>
-      <ChannelItemStyle onClick={() => onSelectChannel()}>
+      <ChannelItemStyle>
         <div>
-          <Thumbnail id={thumnbailElementId} src="/images/live-chuu.png" hidden={!hiddenPlayer} />
-          <video id={videoElementId} controls width="347.5" height="195.47" hidden={hiddenPlayer}></video>
+          <Thumbnail id={thumnbailElementId} src="/images/live-chuu.png" />
         </div>
         <ChannelDetail>
           <Title>

@@ -27,7 +27,7 @@ const ChannelPlayer = (props: Props) => {
     relayCount: 0,
     bitrate: 0,
     type: 'FLV',
-  }
+  };
 
   function unescapeHTML(html: string) {
     var escapeEl = document.createElement('textarea');
@@ -49,10 +49,9 @@ const ChannelPlayer = (props: Props) => {
       text += details
     }
     return text;
-  }
+  };
 
   const videoElementId = `videoElement-${channel.streamId}`;
-  const thumnbailElementId = `thumnbailElement-${channel.streamId}`;
   let flvPlayer: any = null;
   let hiddenPlayer = true;
 
@@ -75,7 +74,7 @@ const ChannelPlayer = (props: Props) => {
       flvPlayer.play();
       hiddenPlayer = false;
     }
-  })
+  });
 
   return (
     <ChannelItemStyle>
