@@ -1,25 +1,28 @@
 <script src="https://github.com/Bilibili/flv.js/releases/download/v1.0.0/flv.min.js"></script>
 <%= javascript_pack_tag 'hello_react' %>
 
+<script src="https://vjs.zencdn.net/7.4.1/video.js"></script>
+<link href="https://vjs.zencdn.net/7.4.1/video-js.css" rel="stylesheet">
+
+
 <% if false %>
 <html>
 <head>
   <title>VHS de HLS</title>
-  <link href="https://vjs.zencdn.net/7.4.1/video-js.css" rel="stylesheet">
 </head>
 <body>
-<video-js id=example-video width=1280 height=720
-          class="vjs-default-skin" controls>
+
+aaa
+
+<video id=example-video width=1280 height=720 class="video-js vjs-default-skin" controls>
   <source
-    src="http://150.95.177.111:7144/pls/1548EDE8443883745BD8E6654E1DF3C0.m3u8"
+    src="http://150.95.177.111:7144/pls/9C8DAB5EFB221F58D640C9786DA7730E.m3u8"
     type="application/x-mpegURL">
-</video-js>
-<script src="https://vjs.zencdn.net/7.4.1/video.js"></script>
+</video>
+
 <script>
   var player = videojs('example-video');
 </script>
 </body>
 </html>
-
-src="http://150.95.177.111:7144/pls/81ABF0D3F1C633B5089A08CA2ADE90BD.m3u8?fmt=m3u8"
 <% end %>
