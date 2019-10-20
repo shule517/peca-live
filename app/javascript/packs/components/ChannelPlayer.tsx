@@ -4,6 +4,7 @@ import Channel from '../types/Channel';
 import { useState, useEffect } from 'react';
 
 declare var flvjs: any;
+declare var videojs: any;
 
 type Props = {
   streamId: String,
@@ -57,7 +58,13 @@ const ChannelPlayer = (props: Props) => {
 
   window.scrollTo(0, 0);
 
+  const streamUrl = `http://150.95.177.111:7144/pls/${channel.streamId}.m3u8?tip=${channel.tip}`;
+
   useEffect(() => {
+    var player = videojs(videoElementId);
+    return;
+
+    // TODO ↓flv再生
     let videoElement:any = document.getElementById(videoElementId);
     videoElement.hidden = false;
     console.log('channel.streamId:' + channel.streamId)
@@ -80,7 +87,11 @@ const ChannelPlayer = (props: Props) => {
     <ChannelItemStyle>
       <a>
         <div>
-          <video id={videoElementId} controls width="100%"></video>
+          <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >
+            <source
+              src={streamUrl}
+              type="application/x-mpegURL" />
+          </video>
         </div>
         <ChannelDetail>
           <Title>
