@@ -101,6 +101,9 @@ const ChannelPlayer = (props: Props) => {
           </Title>
           <Details>
             {channel.name}
+            <div>
+              <a href={channel.contactUrl}>{channel.contactUrl}</a>
+            </div>
           </Details>
         </ChannelDetail>
       </a>
