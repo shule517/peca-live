@@ -1,21 +1,24 @@
 import React, { useEffect } from 'react';
 import flvjs from 'flv.js'
+import videojs from 'video.js'
 import styled from 'styled-components';
 import Channel from '../types/Channel';
 import { Helmet } from 'react-helmet';
 
-declare var videojs: any;
-
 type Props = {
   streamId: String,
   channels: Channel[],
+  isHls: boolean,
 }
 
 const ChannelPlayer = (props: Props) => {
   const {
     streamId,
     channels,
+    isHls,
   } = props;
+
+  console.log('isHls: ' + isHls);
 
   const channel: any = channels.find((channel) => channel.streamId === streamId) || {
     name: '配信が見つかりません。',
@@ -59,12 +62,19 @@ const ChannelPlayer = (props: Props) => {
 
   window.scrollTo(0, 0);
 
-  // const streamUrl = `http://150.95.177.111:7144/pls/${channel.streamId}.m3u8?tip=${channel.tip}`;
+  const streamUrl = `http://150.95.177.111:7144/pls/${channel.streamId}.m3u8?tip=${channel.tip}`;
+  const isHlsPlay = isHls && channel.streamId.length;
 
   useEffect(() => {
     // TODO HLS再生
-    // var player = videojs(videoElementId);
-    // return;
+    if (isHlsPlay) {
+      var player = videojs(videoElementId);
+      return;
+    }
+
+    if (isHls) {
+      return;
+    }
 
     // TODO FLV再生
     let videoElement:any = document.getElementById(videoElementId);
@@ -84,16 +94,21 @@ const ChannelPlayer = (props: Props) => {
     }
   });
 
+  console.log('channel.streamId: ' + channel.streamId);
+  console.log('channel.streamId.length: ' + channel.streamId.length)
+
   return (
     <ChannelItemStyle>
       <Helmet title={`${channel.name} - ぺからいぶ！`} />
       <div>
-        <video id={videoElementId} controls width="100%"></video>
-        {/*<video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
-        {/*  <source*/}
-        {/*    src={streamUrl}*/}
-        {/*    type="application/x-mpegURL" />*/}
-        {/*</video>*/}
+        {isHls ? null : <video id={videoElementId} controls width="100%"></video> }
+        {
+          isHlsPlay ? (
+            <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >
+              <source src={streamUrl} type="application/x-mpegURL" />
+            </video>
+          ) : null
+        }
       </div>
       <ChannelDetail>
         <Title>
