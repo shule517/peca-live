@@ -935,6 +935,11 @@
     "@types/react-native" "*"
     csstype "^2.2.0"
 
+"@types/video.js@^7.2.15":
+  version "7.2.15"
+  resolved "https://registry.yarnpkg.com/@types/video.js/-/video.js-7.2.15.tgz#03d950f01c985a5082ead4d1b73064455a1c8c6f"
+  integrity sha512-NsojVfvTwdVqDe0+vJaoHOO2iuLm0sp/u8jEsZeLGsM3gNfg5WIOFd6NC0cQR9JHUuDPPSPF70jxdklGWm5jhQ==
+
 "@videojs/http-streaming@1.10.6":
   version "1.10.6"
   resolved "https://registry.yarnpkg.com/@videojs/http-streaming/-/http-streaming-1.10.6.tgz#a9119b1828b354c5cc17b42ea051cc7bcce2dca0"
