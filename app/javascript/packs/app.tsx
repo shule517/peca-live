@@ -51,10 +51,7 @@ const App = () => {
       </Link>
       <div>
         <Route exact path='/' render={(props) => <ChannelList channels={channels} />} />
-        <Route path='/channels/:streamId' render={
-          (props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels}/>}
-        }
-        />
+        <Route path='/channels/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels}/>}} />
       </div>
     </BrowserRouter>
   )
