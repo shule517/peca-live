@@ -86,27 +86,25 @@ const ChannelPlayer = (props: Props) => {
 
   return (
     <ChannelItemStyle>
-      <a>
-        <div>
-          <video id={videoElementId} controls width="100%"></video>
-          {/*<video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
-          {/*  <source*/}
-          {/*    src={streamUrl}*/}
-          {/*    type="application/x-mpegURL" />*/}
-          {/*</video>*/}
-        </div>
-        <ChannelDetail>
-          <Title>
-            {channelDetail(channel)}
-          </Title>
-          <Details>
-            {channel.name}
-            <div>
-              <a href={channel.contactUrl}>{channel.contactUrl}</a>
-            </div>
-          </Details>
-        </ChannelDetail>
-      </a>
+      <div>
+        <video id={videoElementId} controls width="100%"></video>
+        {/*<video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
+        {/*  <source*/}
+        {/*    src={streamUrl}*/}
+        {/*    type="application/x-mpegURL" />*/}
+        {/*</video>*/}
+      </div>
+      <ChannelDetail>
+        <Title>
+          {channelDetail(channel)}
+        </Title>
+        <Details>
+          {channel.name}
+          <div>
+            <a href={channel.contactUrl}>{channel.contactUrl}</a>
+          </div>
+        </Details>
+      </ChannelDetail>
     </ChannelItemStyle>
   );
 };
