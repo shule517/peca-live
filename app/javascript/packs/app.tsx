@@ -6,6 +6,7 @@ import Channel from './types/Channel'
 import ChannelList from './components/ChannelList';
 import ChannelPlayer from './components/ChannelPlayer';
 import PageViewTracker from './components/PageViewTracker'
+import { isIOS } from 'react-device-detect'
 
 const App = () => {
   const [channels, setChannels] = useState<Channel[]>([]);
@@ -55,7 +56,7 @@ const App = () => {
         <div>
           <Switch>
             <Route exact path='/' render={(props) => <ChannelList channels={channels} />} />
-            <Route path='/channels/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels} isHls={false} />}} />
+            <Route path='/channels/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels} isHls={isIOS} />}} />
             <Route path='/hls/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels} isHls={true} />}} />
           </Switch>
         </div>
