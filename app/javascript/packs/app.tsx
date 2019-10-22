@@ -5,11 +5,13 @@ import { useState, useEffect } from 'react';
 import Channel from './types/Channel'
 import ChannelList from './components/ChannelList';
 import ChannelPlayer from './components/ChannelPlayer';
+import PageViewTracker from './components/PageViewTracker'
 
 const App = () => {
   const [channels, setChannels] = useState<Channel[]>([]);
 
   useEffect(() => {
+    // チャンネル一覧を取得
     const fetchData = async () => {
       const res = await fetch('/api/v1/channels', {credentials: 'same-origin'});
       const response = await res.json() as Array<any>;
@@ -46,15 +48,17 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Link to='/'>
-        <Logo src='/images/pecalive.png' />
-      </Link>
-      <div>
-        <Switch>
-          <Route exact path='/' render={(props) => <ChannelList channels={channels} />} />
-          <Route path='/channels/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels}/>}} />
-        </Switch>
-      </div>
+      <PageViewTracker>
+        <Link to='/'>
+          <Logo src='/images/pecalive.png' />
+        </Link>
+        <div>
+          <Switch>
+            <Route exact path='/' render={(props) => <ChannelList channels={channels} />} />
+            <Route path='/channels/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels}/>}} />
+          </Switch>
+        </div>
+      </PageViewTracker>
     </BrowserRouter>
   )
 };
