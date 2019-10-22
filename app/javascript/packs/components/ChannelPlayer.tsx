@@ -70,7 +70,6 @@ const ChannelPlayer = (props: Props) => {
     videoElement.hidden = false;
     console.log('channel.streamId:' + channel.streamId)
     if (channel.streamId.length > 0) {
-      console.log('aaa')
       const url = `http://150.95.177.111:7144/stream/${channel.streamId}.flv?tip=${channel.tip}`;
       flvPlayer = flvjs.createPlayer({
         type: 'flv',
