@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Route, Link, Switch } from 'react-router-dom'
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import Channel from './types/Channel'
@@ -50,8 +50,10 @@ const App = () => {
         <Logo src='/images/pecalive.png' />
       </Link>
       <div>
-        <Route exact path='/' render={(props) => <ChannelList channels={channels} />} />
-        <Route path='/channels/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels}/>}} />
+        <Switch>
+          <Route exact path='/' render={(props) => <ChannelList channels={channels} />} />
+          <Route path='/channels/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels}/>}} />
+        </Switch>
       </div>
     </BrowserRouter>
   )
