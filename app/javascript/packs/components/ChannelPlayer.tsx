@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import flvjs from 'flv.js'
 import styled from 'styled-components';
 import Channel from '../types/Channel';
+import { Helmet } from 'react-helmet';
 
 declare var videojs: any;
 
@@ -17,7 +18,7 @@ const ChannelPlayer = (props: Props) => {
   } = props;
 
   const channel: any = channels.find((channel) => channel.streamId === streamId) || {
-    name: 'チャンネルが見つかりません',
+    name: '配信が見つかりません。',
     streamId: '',
     tip: '',
     contactUrl: '',
@@ -85,6 +86,7 @@ const ChannelPlayer = (props: Props) => {
 
   return (
     <ChannelItemStyle>
+      <Helmet title={`${channel.name} - ぺからいぶ！`} />
       <div>
         <video id={videoElementId} controls width="100%"></video>
         {/*<video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
