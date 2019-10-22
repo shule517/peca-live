@@ -6,12 +6,6 @@ import Channel from './types/Channel'
 import ChannelList from './components/ChannelList';
 import ChannelPlayer from './components/ChannelPlayer';
 
-const Logo = styled.img`
-  height: 50px;
-  width: 180px;
-  padding-left: 7px;
-`;
-
 const App = () => {
   const [channels, setChannels] = useState<Channel[]>([]);
 
@@ -65,5 +59,11 @@ const App = () => {
     </BrowserRouter>
   )
 };
+
+const Logo = styled.img`
+  height: 50px;
+  width: 180px;
+  padding-left: 7px;
+`;
 
 export default App;
