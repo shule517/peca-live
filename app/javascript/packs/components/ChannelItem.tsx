@@ -22,10 +22,11 @@ const ChannelItem = (props: Props) => {
 
   const channelDetail = (channel: Channel) => {
     let text = '';
-    const details = unescapeHTML(channel.details.replace(/ - .*/, '')) || ''
+    const details = unescapeHTML(channel.details.replace(/ - .*/, '')) || '';
 
     if (channel.genre.length) {
       text = channel.genre
+
       if (details.length) {
         text += ' - '
       }
@@ -56,15 +57,6 @@ const ChannelItem = (props: Props) => {
     </Link>
   );
 };
-
-const StyledButton = styled.button`
-  background: transparent;
-  border-radius: 3px;
-  border: 2px solid palevioletred;
-  color: palevioletred;
-  margin: 0 1em;
-  padding: 0.25em 1em;
-`;
 
 const Thumbnail = styled.img`
   width: 347.5px;

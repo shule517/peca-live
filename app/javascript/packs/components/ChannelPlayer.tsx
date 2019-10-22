@@ -37,10 +37,11 @@ const ChannelPlayer = (props: Props) => {
 
   const channelDetail = (channel: Channel) => {
     let text = '';
-    const details = unescapeHTML(channel.details.replace(/ - .*/, '')) || ''
+    const details = unescapeHTML(channel.details.replace(/ - .*/, '')) || '';
 
     if (channel.genre.length) {
       text = channel.genre
+
       if (details.length) {
         text += ' - '
       }
@@ -57,7 +58,7 @@ const ChannelPlayer = (props: Props) => {
 
   window.scrollTo(0, 0);
 
-  const streamUrl = `http://150.95.177.111:7144/pls/${channel.streamId}.m3u8?tip=${channel.tip}`;
+  // const streamUrl = `http://150.95.177.111:7144/pls/${channel.streamId}.m3u8?tip=${channel.tip}`;
 
   useEffect(() => {
     // TODO HLS再生
@@ -67,7 +68,7 @@ const ChannelPlayer = (props: Props) => {
     // TODO FLV再生
     let videoElement:any = document.getElementById(videoElementId);
     videoElement.hidden = false;
-    console.log('channel.streamId:' + channel.streamId)
+
     if (channel.streamId.length > 0) {
       const url = `http://150.95.177.111:7144/stream/${channel.streamId}.flv?tip=${channel.tip}`;
       flvPlayer = flvjs.createPlayer({
