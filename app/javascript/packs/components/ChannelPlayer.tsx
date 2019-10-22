@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
+import flvjs from 'flv.js'
 import styled from 'styled-components';
 import Channel from '../types/Channel';
 
-declare var flvjs: any;
 declare var videojs: any;
 
 type Props = {
