@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Channel from '../types/Channel';
 import { Link } from 'react-router-dom'
+import Channel from '../types/Channel';
 
 declare var flvjs: any;
 

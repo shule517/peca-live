@@ -1,7 +1,6 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Channel from '../types/Channel';
-import { useState, useEffect } from 'react';
 
 declare var flvjs: any;
 declare var videojs: any;

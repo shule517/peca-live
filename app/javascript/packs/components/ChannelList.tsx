@@ -1,7 +1,7 @@
-import * as React from 'react';
-import ChannelItem from './ChannelItem'
-import Channel from '../types/Channel'
+import React from 'react';
 import styled from 'styled-components';
+import Channel from '../types/Channel'
+import ChannelItem from './ChannelItem'
 
 type Props = {
   channels: Channel[],
