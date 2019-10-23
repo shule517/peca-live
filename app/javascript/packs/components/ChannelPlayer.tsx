@@ -62,7 +62,7 @@ const ChannelPlayer = (props: Props) => {
 
   window.scrollTo(0, 0);
 
-  const streamUrl = `http://150.95.177.111:7144/pls/${channel.streamId}.m3u8?tip=${channel.tip}`;
+  const streamUrl = `http://150.95.177.111:7144/pls/${channel.streamId}.m3u8?tip=${channel.tip}&fmt=m3u8`;
   const isHlsPlay = isHls && channel.streamId.length;
 
   useEffect(() => {
