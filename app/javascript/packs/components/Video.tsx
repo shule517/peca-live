@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import flvjs from 'flv.js'
-import videojs from 'video.js'
+// import videojs from 'video.js'
 import Channel from '../types/Channel';
 
 type Props = {
@@ -24,7 +24,7 @@ const Video = (props: Props) => {
   useEffect(() => {
     // TODO HLS再生
     if (isHlsPlay) {
-      var player = videojs(videoElementId);
+      // var player = videojs(videoElementId);
       return;
     }
 
@@ -53,13 +53,7 @@ const Video = (props: Props) => {
   return (
     <div>
       {isHls ? null : <video id={videoElementId} controls width="100%"></video> }
-      {
-        isHlsPlay ? (
-          <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >
-            <source src={streamUrl} type="application/x-mpegURL" />
-          </video>
-        ) : null
-      }
+      {isHlsPlay ? <video src={streamUrl} width={1280} height={720} controls /> : null}
     </div>
   );
 };
