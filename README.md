@@ -1,24 +1,17 @@
-# README
+[ぺからいぶ！](http://peca.live/)
+=======================================================
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 環境設定
+環境変数に設定しておくこと
+- PEERCAST_TIP
+- PEERCAST_BASIC_TOKEN
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## 開発環境の準備
+```
+$ git clone git@github.com:shule517/pecalive.git
+$ cd pecalive
+$ bundle
+$ cp example.env .env
+$ yarn install
+$ yarn start
+```
