@@ -36,3 +36,4 @@ yarn-debug.log*
 
 .idea/*
 vendor/bundle/*
+.env
