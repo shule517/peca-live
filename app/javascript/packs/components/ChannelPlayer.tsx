@@ -20,7 +20,7 @@ const ChannelPlayer = (props: Props) => {
   console.log('isHls: ' + isHls);
 
   const channel: any = channels.find((channel) => channel.streamId === streamId) || {
-    name: '配信が見つかりません。',
+    name: '配信は終了しました。',
     streamId: '',
     tip: '',
     contactUrl: '',
