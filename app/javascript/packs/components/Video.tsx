@@ -18,12 +18,15 @@ const Video = (props: Props) => {
   let flvPlayer: any = null;
   let hiddenPlayer = true;
 
-  const streamUrl = `http://150.95.177.111:7144/pls/${channel.streamId}.m3u8?tip=${channel.tip}&fmt=m3u8`;
+  // const peercastTip = '150.95.177.111:7144'; // VPSのぴあきゃす
+  const peercastTip = '183.76.2.14:8144'; // 自宅のぴあきゃす
+  const streamUrl = `http://${peercastTip}/pls/${channel.streamId}.m3u8?tip=${channel.tip}&fmt=m3u8`;
   const isHlsPlay = isHls && channel.streamId.length;
 
   useEffect(() => {
     // TODO HLS再生
     if (isHlsPlay) {
+      console.log('hls play:' + streamUrl);
       var player = videojs(videoElementId);
       return;
     }
@@ -37,7 +40,8 @@ const Video = (props: Props) => {
     videoElement.hidden = false;
 
     if (channel.streamId.length > 0) {
-      const url = `http://150.95.177.111:7144/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+      const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+      console.log('flv play:' + url);
       flvPlayer = flvjs.createPlayer({
         type: 'flv',
         isLive: true,

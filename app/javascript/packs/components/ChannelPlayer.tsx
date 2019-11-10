@@ -32,18 +32,18 @@ const ChannelPlayer = (props: Props) => {
     type: 'FLV',
   };
 
-  function unescapeHTML(html: string) {
-    var escapeEl = document.createElement('textarea');
+  const unescapeHTML = (html: string) => {
+    let escapeEl = document.createElement('textarea');
     escapeEl.innerHTML = html;
     return escapeEl.textContent;
-  }
+  };
 
   const channelDetail = (channel: Channel) => {
     let text = '';
     const details = unescapeHTML(channel.details.replace(/ - .*/, '')) || '';
 
     if (channel.genre.length) {
-      text = channel.genre
+      text = channel.genre;
 
       if (details.length) {
         text += ' - '
@@ -58,7 +58,7 @@ const ChannelPlayer = (props: Props) => {
   window.scrollTo(0, 0);
 
   console.log('channel.streamId: ' + channel.streamId);
-  console.log('channel.streamId.length: ' + channel.streamId.length)
+  console.log('channel.streamId.length: ' + channel.streamId.length);
 
   return (
     <ChannelItemStyle>
