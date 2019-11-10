@@ -23,6 +23,6 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def ignore_channel?(channel_name)
-    %w(isuZuﾋﾟﾁｭｰﾝch).include?(channel_name)
+    %w(isuZuﾋﾟﾁｭｰﾝch なる).include?(channel_name)
   end
 end
