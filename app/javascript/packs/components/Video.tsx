@@ -54,8 +54,11 @@ const Video = (props: Props) => {
     }
   });
 
+  const vlcUrl = `vlc://192.168.11.9:8144/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+
   return (
     <div>
+      {isHls ? <a href={vlcUrl}>テスト - VLCで再生！</a> : null }
       {isHls ? null : <video id={videoElementId} controls width="100%"></video> }
       {
         isHlsPlay ? (
