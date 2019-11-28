@@ -54,7 +54,8 @@ const Video = (props: Props) => {
     }
   });
 
-  const vlcUrl = `vlc://192.168.11.9:8144/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+  // rtmp://192.168.11.9:8144/stream/60BA06B00187D8E3378113AA212BF6DC.flv
+  const vlcUrl = `rtmp://192.168.11.9:8144/stream/${channel.streamId}.flv?tip=${channel.tip}`;
 
   return (
     <div>
