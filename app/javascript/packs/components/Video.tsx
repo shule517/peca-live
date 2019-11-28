@@ -6,12 +6,14 @@ import Channel from '../types/Channel';
 type Props = {
   channel: Channel,
   isHls: boolean,
+  local: boolean,
 }
 
 const Video = (props: Props) => {
   const {
     channel,
     isHls,
+    local,
   } = props;
 
   const videoElementId = `videoElement-${channel.streamId}`;
@@ -54,7 +56,7 @@ const Video = (props: Props) => {
     }
   });
 
-  const vlcUrl = `rtmp://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+  const vlcUrl = `rtmp://${local ? '192.168.11.9:8144' : peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
 
   return (
     <div>

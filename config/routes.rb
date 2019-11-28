@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root 'home#index'
   get 'channels/*path', to: 'home#index'
   get 'hls/*path', to: 'home#index'
+  get 'local/*path', to: 'home#index'
 
   namespace :api do
     namespace :v1 do

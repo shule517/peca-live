@@ -8,6 +8,7 @@ type Props = {
   streamId: String,
   channels: Channel[],
   isHls: boolean,
+  local: boolean,
 }
 
 const ChannelPlayer = (props: Props) => {
@@ -15,6 +16,7 @@ const ChannelPlayer = (props: Props) => {
     streamId,
     channels,
     isHls,
+    local,
   } = props;
 
   console.log('isHls: ' + isHls);
@@ -64,7 +66,7 @@ const ChannelPlayer = (props: Props) => {
     <ChannelItemStyle>
       <Helmet title={`${channel.name} - ぺからいぶ！`} />
       <div>
-        <Video channel={channel} isHls={isHls} />
+        <Video channel={channel} isHls={isHls} local={local} />
       </div>
       <ChannelDetail>
         <Title>
