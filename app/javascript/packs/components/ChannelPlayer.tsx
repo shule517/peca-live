@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Channel from '../types/Channel';
 import { Helmet } from 'react-helmet';
 import Video from './Video'
+import { Link } from 'react-router-dom'
 
 type Props = {
   streamId: String,
@@ -33,6 +34,9 @@ const ChannelPlayer = (props: Props) => {
     bitrate: 0,
     type: 'FLV',
   };
+
+  const index = channels.findIndex(item => item === channel);
+  const nextChannel = channels[(index+1) % channels.length];
 
   const unescapeHTML = (html: string) => {
     let escapeEl = document.createElement('textarea');
@@ -65,6 +69,7 @@ const ChannelPlayer = (props: Props) => {
   return (
     <ChannelItemStyle>
       <Helmet title={`${channel.name} - ぺからいぶ！`} />
+      {nextChannel ? <Link to={`/channels/${nextChannel.streamId}`}>次の配信へ</Link> : null}
       <div>
         <Video channel={channel} isHls={isHls} local={local} />
       </div>
