@@ -54,6 +54,17 @@ const Video = (props: Props) => {
       flvPlayer.play();
       hiddenPlayer = false;
     }
+
+    return () => {
+      // FLVプレイヤーの終了処理
+      if (flvPlayer) {
+        flvPlayer.pause();
+        flvPlayer.unload();
+        flvPlayer.detachMediaElement();
+        flvPlayer.destroy();
+        flvPlayer = null;
+      }
+    }
   });
 
   const vlcUrl = `rtmp://${local ? '192.168.11.9:8144' : peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
