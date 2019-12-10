@@ -28,8 +28,8 @@ const Video = (props: Props) => {
   useEffect(() => {
     // TODO HLS再生
     if (isHlsPlay) {
-      console.log('hls play:' + streamUrl);
-      var player = videojs(videoElementId);
+      // console.log('hls play:' + streamUrl);
+      // var player = videojs(videoElementId);
       return;
     }
 

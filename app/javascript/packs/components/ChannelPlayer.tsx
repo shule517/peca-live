@@ -70,9 +70,9 @@ const ChannelPlayer = (props: Props) => {
     <ChannelItemStyle>
       <Helmet title={`${channel.name} - ぺからいぶ！`} />
       {nextChannel ? <Link to={`/channels/${nextChannel.streamId}`}>次の配信へ</Link> : null}
-      {/*<div>*/}
-      {/*  <Video channel={channel} isHls={isHls} local={local} />*/}
-      {/*</div>*/}
+      <div>
+        <Video channel={channel} isHls={isHls} local={local} />
+      </div>
       <ChannelDetail>
         <Title>
           {channelDetail(channel)}
