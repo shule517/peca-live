@@ -21,8 +21,8 @@ const Video = (props: Props) => {
   let hiddenPlayer = true;
 
   // const peercastTip = '150.95.177.111:7144'; // VPSのぴあきゃす
-  const peercastTip = 'shule.peca.live:8144'; // 自宅のぴあきゃす
-  const streamUrl = `http://${peercastTip}/pls/${channel.streamId}.m3u8?tip=${channel.tip}&fmt=m3u8`;
+  const peercastTip = '192.168.11.9:9144'; // 自宅のぴあきゃす
+  const streamUrl = `http://${peercastTip}/hls/${channel.streamId}.m3u8?tip=${channel.tip}&fmt=m3u8`;
   const isHlsPlay = isHls && channel.streamId.length;
 
   useEffect(() => {
@@ -73,13 +73,13 @@ const Video = (props: Props) => {
     <div>
       {isHls ? <a href={vlcUrl}>VLCで再生！</a> : null }
       {isHls ? null : <video id={videoElementId} controls width="100%"></video> }
-      {
-        isHlsPlay ? (
-          <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >
-            <source src={streamUrl} type="application/x-mpegURL" />
-          </video>
-        ) : null
-      }
+      {/*{*/}
+      {/*  isHlsPlay ? (*/}
+      {/*    <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
+      {/*      <source src={streamUrl} type="application/x-mpegURL" />*/}
+      {/*    </video>*/}
+      {/*  ) : null*/}
+      {/*}*/}
     </div>
   );
 };
