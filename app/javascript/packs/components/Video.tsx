@@ -21,8 +21,8 @@ const Video = (props: Props) => {
   let hiddenPlayer = true;
 
   // const peercastTip = '150.95.177.111:7144'; // VPSのぴあきゃす
-  const peercastTip = '192.168.11.9:9144'; // 自宅のぴあきゃす
-  const streamUrl = `http://${peercastTip}/hls/${channel.streamId}.m3u8?tip=${channel.tip}&fmt=m3u8`;
+  const peercastTip = 'shule.peca.live:8144'; // 自宅のぴあきゃす
+  const streamUrl = `http://${peercastTip}/pls/${channel.streamId}.m3u8?tip=${channel.tip}&fmt=m3u8`;
   const isHlsPlay = isHls && channel.streamId.length;
 
   useEffect(() => {
