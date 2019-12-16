@@ -22,7 +22,7 @@ const Video = (props: Props) => {
 
   // const peercastTip = '150.95.177.111:7144'; // VPSのぴあきゃす
   const peercastTip = 'shule.peca.live:8144'; // 自宅のぴあきゃす
-  const streamUrl = `https://${peercastTip}/pls/${channel.streamId}.m3u8?tip=${channel.tip}&fmt=m3u8`;
+  const streamUrl = `http://${peercastTip}/pls/${channel.streamId}.m3u8?tip=${channel.tip}&fmt=m3u8`;
   const isHlsPlay = isHls && channel.streamId.length;
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Video = (props: Props) => {
     videoElement.hidden = false;
 
     if (channel.streamId.length > 0) {
-      const url = `https://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+      const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
       console.log('flv play:' + url);
       flvPlayer = flvjs.createPlayer({
         type: 'flv',
