@@ -22,7 +22,7 @@ const AsukaChannelPlayer = (props: Props) => {
 
   // const asukaChannels: any = channels.filter((channel) => channel.name.match(/アスカ駅伝/));
   const channel: any = channels.find((channel) => channel.name.match(/駅伝/)) || {
-    name: channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...',
+    name: channels.length > 0 ? '' : 'チャンネル情報を取得中...',
     streamId: '',
     tip: '',
     contactUrl: '',
