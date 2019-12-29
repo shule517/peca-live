@@ -68,7 +68,8 @@ const Video = (props: Props) => {
   });
 
   const isFlv = channel.type === 'FLV';
-  const vlcUrl = `${isFlv ? 'rtmp' : 'mms'}://${local ? '192.168.11.9:8144' : peercastTip}/stream/${channel.streamId}.${isFlv ? 'flv' : 'asf'}?tip=${channel.tip}`;
+  const protocol = isFlv ? 'rtmp' : 'vlc';
+  const vlcUrl = `${protocol}://${local ? '192.168.11.9:8144' : peercastTip}/stream/${channel.streamId}.${isFlv ? 'flv' : 'asf'}?tip=${channel.tip}`;
 
   return (
     <div>
