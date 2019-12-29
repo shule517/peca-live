@@ -17,7 +17,7 @@ class Api::V1::ChannelsController < ApplicationController
 
   def visible_channel?(channel)
     return false if channel['channelId'] == '00000000000000000000000000000000'
-    return false unless channel['contentType'] == 'FLV'
+    # return false unless channel['contentType'] == 'FLV'
     return false if ignore_channel?(channel['name'])
     true
   end

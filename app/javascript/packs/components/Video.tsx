@@ -67,11 +67,13 @@ const Video = (props: Props) => {
     }
   });
 
-  const vlcUrl = `rtmp://${local ? '192.168.11.9:8144' : peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+  const isFlv = channel.type === 'FLV';
+  const vlcUrl = `${isFlv ? 'rtmp' : 'mms'}://${local ? '192.168.11.9:8144' : peercastTip}/stream/${channel.streamId}.${channel.type.toLowerCase()}?tip=${channel.tip}`;
 
   return (
     <div>
-      {isHls ? <a href={vlcUrl}>VLCで再生！</a> : null }
+      {/*{isHls ? <a href={vlcUrl}>VLCで再生！</a> : null }*/}
+      <a href={vlcUrl}>VLCで再生！</a>
       {isHls ? null : <video id={videoElementId} controls width="100%"></video> }
       {/*{*/}
       {/*  isHlsPlay ? (*/}

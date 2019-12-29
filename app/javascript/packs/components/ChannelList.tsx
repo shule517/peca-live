@@ -33,7 +33,7 @@ const ChannelList = (props: Props) => {
       <Helmet title='ぺからいぶ！' />
       <AsukaChannelItem channel={asuka_channel}/>
       {
-        channels.filter(channel => channel.type === 'FLV').map((item, index) => {
+        channels/*.filter(channel => channel.type === 'FLV')*/.map((item, index) => {
           return <ChannelItem key={index} channel={item}/>
         })
       }
