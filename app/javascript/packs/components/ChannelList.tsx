@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Channel from '../types/Channel'
 import ChannelItem from './ChannelItem'
+import AsukaChannelItem from './AsukaChannelItem'
 import { Link } from 'react-router-dom'
 import { Helmet } from "react-helmet";
 
@@ -14,16 +15,23 @@ const ChannelList = (props: Props) => {
     channels,
   } = props;
 
+  const asuka_channel: any = channels.find((channel) => channel.name.match(/駅伝/)) || {
+    name: channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...',
+    streamId: '',
+    tip: '',
+    contactUrl: '',
+    genre: '',
+    details: '',
+    listenerCount: 0,
+    relayCount: 0,
+    bitrate: 0,
+    type: 'FLV',
+  };
+
   return (
     <ChannelStyle>
       <Helmet title='ぺからいぶ！' />
-      <Link to={`/asuka`}>
-        <ChannelItemStyle>
-          <div>
-            <Thumbnail src="/images/2019asukaekiden.jpg" />
-          </div>
-        </ChannelItemStyle>
-      </Link>
+      <AsukaChannelItem channel={asuka_channel}/>
       {
         channels.filter(channel => channel.type === 'FLV').map((item, index) => {
           return <ChannelItem key={index} channel={item}/>
