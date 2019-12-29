@@ -16,6 +16,7 @@ const Video = (props: Props) => {
     local,
   } = props;
 
+  const isFlv = channel.type === 'FLV';
   const videoElementId = `videoElement-${channel.streamId}`;
   let flvPlayer: any = null;
   let hiddenPlayer = true;
@@ -39,7 +40,7 @@ const Video = (props: Props) => {
 
     // TODO FLV再生
     let videoElement:any = document.getElementById(videoElementId);
-    videoElement.hidden = false;
+    videoElement.hidden = !isFlv;
 
     if (channel.streamId.length > 0) {
       const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
@@ -67,7 +68,6 @@ const Video = (props: Props) => {
     }
   });
 
-  const isFlv = channel.type === 'FLV';
   const protocol = isFlv ? 'rtmp' : 'vlc';
   const vlcUrl = `${protocol}://${local ? '192.168.11.9:8144' : peercastTip}/stream/${channel.streamId}.${isFlv ? 'flv' : 'asf'}?tip=${channel.tip}`;
 
@@ -75,7 +75,7 @@ const Video = (props: Props) => {
     <div>
       {/*{isHls ? <a href={vlcUrl}>VLCで再生！</a> : null }*/}
       <a href={vlcUrl}>VLCで再生！</a>
-      {isFlv ? <video id={videoElementId} controls width="100%"></video> : null }
+      <video id={videoElementId} controls width="100%"></video>
       {/*{*/}
       {/*  isHlsPlay ? (*/}
       {/*    <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
