@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Channel from './types/Channel'
 import ChannelList from './components/ChannelList';
 import ChannelPlayer from './components/ChannelPlayer';
+import AsukaPlayer from './components/AsukaPlayer';
 import PageViewTracker from './components/PageViewTracker'
 import { isIOS } from 'react-device-detect'
 
@@ -60,6 +61,7 @@ const App = () => {
             <Route path='/channels/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels} isHls={isIOS} local={false} />}} />
             <Route path='/hls/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels} isHls={true} local={false} />}} />
             <Route path='/local/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels} isHls={true} local={true} />}} />
+            <Route path='/asuka' render={(props) => { return <AsukaPlayer channels={channels} isHls={isIOS} local={false} />}} />
           </Switch>
         </div>
       </PageViewTracker>
