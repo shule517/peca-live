@@ -34,9 +34,6 @@ const AsukaPlayer = (props: Props) => {
     type: 'FLV',
   };
 
-  console.log("channel");
-  console.log(channel);
-
   const index = channels.findIndex(item => item === channel);
   const nextChannel = channels[(index+1) % channels.length];
 
@@ -71,6 +68,7 @@ const AsukaPlayer = (props: Props) => {
   return (
     <ChannelItemStyle>
       <Helmet title={`${channel.name} - ぺからいぶ！`} />
+      <Link onClick={() => location.reload()}>次の走者へ！ ばっふぁっふぁ！</Link>
       <div>
         <Video channel={channel} isHls={isHls} local={local} />
       </div>
