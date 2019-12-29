@@ -74,7 +74,7 @@ const Video = (props: Props) => {
     <div>
       {/*{isHls ? <a href={vlcUrl}>VLCで再生！</a> : null }*/}
       <a href={vlcUrl}>VLCで再生！</a>
-      {isHls ? null : <video id={videoElementId} controls width="100%"></video> }
+      {isFlv ? <video id={videoElementId} controls width="100%"></video> : null }
       {/*{*/}
       {/*  isHlsPlay ? (*/}
       {/*    <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
