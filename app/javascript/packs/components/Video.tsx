@@ -29,8 +29,8 @@ const Video = (props: Props) => {
   useEffect(() => {
     // TODO HLS再生
     if (isHlsPlay) {
-      console.log('hls play:' + streamUrl);
-      var player = videojs(videoElementId);
+      // console.log('hls play:' + streamUrl);
+      // var player = videojs(videoElementId);
       return;
     }
 
@@ -73,14 +73,14 @@ const Video = (props: Props) => {
   return (
     <div>
       {isFlv ? <a href={vlcUrl}>VLCで再生！</a> : null }
-1      {isHls ? null : <video id={videoElementId} controls width="100%"></video>}
-      {
-        isHlsPlay ? (
-          <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >
-            <source src={streamUrl} type="application/x-mpegURL" />
-          </video>
-        ) : null
-      }
+      {isHls ? null : <video id={videoElementId} controls width="100%"></video>}
+      {/*{*/}
+      {/*  isHlsPlay ? (*/}
+      {/*    <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
+      {/*      <source src={streamUrl} type="application/x-mpegURL" />*/}
+      {/*    </video>*/}
+      {/*  ) : null*/}
+      {/*}*/}
     </div>
   );
 };
