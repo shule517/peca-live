@@ -23,14 +23,14 @@ const Video = (props: Props) => {
 
   // const peercastTip = '150.95.177.111:7144'; // VPSのぴあきゃす
   const peercastTip = 'shule.peca.live:8144'; // 自宅のぴあきゃす
-  const streamUrl = `http://${peercastTip}/pls/${channel.streamId}.m3u8?tip=${channel.tip}&fmt=m3u8`;
+  const streamUrl = `http://${peercastTip}/hls/${channel.streamId}`;
   const isHlsPlay = isHls && channel.streamId.length;
 
   useEffect(() => {
     // TODO HLS再生
     if (isHlsPlay) {
-      // console.log('hls play:' + streamUrl);
-      // var player = videojs(videoElementId);
+      console.log('hls play:' + streamUrl);
+      var player = videojs(videoElementId);
       return;
     }
 
@@ -73,14 +73,14 @@ const Video = (props: Props) => {
   return (
     <div>
       {isFlv ? <a href={vlcUrl}>VLCで再生！</a> : null }
-      <video id={videoElementId} controls width="100%"></video>
-      {/*{*/}
-      {/*  isHlsPlay ? (*/}
-      {/*    <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
-      {/*      <source src={streamUrl} type="application/x-mpegURL" />*/}
-      {/*    </video>*/}
-      {/*  ) : null*/}
-      {/*}*/}
+1      {isHls ? null : <video id={videoElementId} controls width="100%"></video>}
+      {
+        isHlsPlay ? (
+          <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >
+            <source src={streamUrl} type="application/x-mpegURL" />
+          </video>
+        ) : null
+      }
     </div>
   );
 };
