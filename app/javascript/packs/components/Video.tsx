@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import flvjs from 'flv.js'
 import videojs from 'video.js'
 import Channel from '../types/Channel';
+import styled from "styled-components";
 
 type Props = {
   channel: Channel,
@@ -73,7 +74,7 @@ const Video = (props: Props) => {
   return (
     <div>
       {isFlv ? <a href={vlcUrl}>VLCで再生！</a> : null }
-      {isHls ? null : <video id={videoElementId} controls width="100%"></video>}
+      {isHls ? null : <VideoStyle id={videoElementId} controls width="100%"></VideoStyle>}
       {/*{*/}
       {/*  isHlsPlay ? (*/}
       {/*    <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
@@ -84,5 +85,9 @@ const Video = (props: Props) => {
     </div>
   );
 };
+
+const VideoStyle = styled.video`
+  background-color: #333333;
+`;
 
 export default Video;
