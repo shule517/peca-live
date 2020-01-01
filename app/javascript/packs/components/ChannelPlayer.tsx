@@ -4,6 +4,7 @@ import Channel from '../types/Channel';
 import { Helmet } from 'react-helmet';
 import Video from './Video'
 import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type Props = {
   streamId: String,
@@ -77,6 +78,12 @@ const ChannelPlayer = (props: Props) => {
         <Title>
           {channelDetail(channel)}
         </Title>
+        <ListenerStyle>
+          <FontAwesomeIcon icon="headphones" />
+          <ListenerCountStyle title="リスナー数">
+            {channel.listenerCount}
+          </ListenerCountStyle>
+        </ListenerStyle>
         <Details>
           {channel.name}
           <div>
@@ -104,6 +111,7 @@ const Title = styled.div`
   font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
   margin-top: 5px;
   margin-bottom: 2px;
+  float: left;
 `;
 
 const Details = styled.div`
@@ -120,6 +128,15 @@ const Details = styled.div`
 const ChannelItemStyle = styled.div`
   float: left;
   padding: 10px;
+`;
+
+const ListenerStyle = styled.div`
+  display: block;
+  text-align: right;
+`;
+
+const ListenerCountStyle = styled.span`
+  margin-left: 4px;
 `;
 
 export default ChannelPlayer;
