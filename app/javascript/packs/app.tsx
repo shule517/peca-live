@@ -9,6 +9,11 @@ import AsukaChannelPlayer from './components/AsukaChannelPlayer';
 import PageViewTracker from './components/PageViewTracker'
 import { isIOS } from 'react-device-detect'
 
+import { library } from '@fortawesome/fontawesome-svg-core'; //fontawesomeのコアファイル
+import { fab } from '@fortawesome/free-brands-svg-icons'; //fontawesomeのbrandアイコンのインポート
+import { fas } from '@fortawesome/free-solid-svg-icons'; //fontawesomeのsolidアイコンのインポート
+import { far } from '@fortawesome/free-regular-svg-icons'; //fontawesomeのregularアイコンのインポート
+
 const App = () => {
   const [channels, setChannels] = useState<Channel[]>([]);
 
@@ -44,6 +49,10 @@ const App = () => {
       );
       setChannels(channels);
     };
+
+    useEffect(() => {
+      library.add(fab, fas, far);
+    });
 
     fetchData();
   }, []);
