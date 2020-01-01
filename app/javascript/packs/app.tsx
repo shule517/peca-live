@@ -50,11 +50,10 @@ const App = () => {
       setChannels(channels);
     };
 
-    useEffect(() => {
-      library.add(fab, fas, far);
-    });
-
     fetchData();
+
+    //fontawesomeを読み込み
+    library.add(fab, fas, far);
   }, []);
 
   return (
