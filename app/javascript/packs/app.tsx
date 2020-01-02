@@ -14,6 +14,16 @@ import { fab } from '@fortawesome/free-brands-svg-icons'; //fontawesomeのbrand�
 import { fas } from '@fortawesome/free-solid-svg-icons'; //fontawesomeのsolidアイコンのインポート
 import { far } from '@fortawesome/free-regular-svg-icons'; //fontawesomeのregularアイコンのインポート
 
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    toolbar: theme.mixins.toolbar,
+  }),
+);
+
 const App = () => {
   const [channels, setChannels] = useState<Channel[]>([]);
 
@@ -56,13 +66,20 @@ const App = () => {
     library.add(fab, fas, far);
   }, []);
 
+  const classes = useStyles({});
+
   return (
     <BrowserRouter>
       <PageViewTracker>
-        <Link to='/'>
-          <Logo src='/images/pecalive.png' />
-        </Link>
-        <div>
+        <AppBar position="fixed" color="inherit" >
+          <Toolbar>
+            <Link to='/'>
+              <Logo src='/images/pecalive.png' />
+            </Link>
+          </Toolbar>
+        </AppBar>
+        <main>
+          <div className={classes.toolbar} />
           <Switch>
             <Route exact path='/' render={(props) => <ChannelList channels={channels} />} />
             {/*<Route path='/channels/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels} isHls={isIOS} local={false} />}} />*/}
@@ -71,16 +88,16 @@ const App = () => {
             <Route path='/local/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels} isHls={true} local={true} />}} />
             <Route path='/asuka' render={(props) => { return <AsukaChannelPlayer channels={channels} isHls={isIOS} local={false} />}} />
           </Switch>
-        </div>
+        </main>
       </PageViewTracker>
     </BrowserRouter>
   )
 };
 
 const Logo = styled.img`
-  height: 50px;
-  width: 180px;
-  padding-left: 7px;
+  height: 30px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 `;
 
 export default App;
