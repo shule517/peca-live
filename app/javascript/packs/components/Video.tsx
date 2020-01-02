@@ -73,7 +73,6 @@ const Video = (props: Props) => {
 
   return (
     <div>
-      {isFlv ? <a href={vlcUrl}>VLCで再生！</a> : null }
       {isHls ? null : <VideoStyle id={videoElementId} controls width="100%"></VideoStyle>}
       {/*{*/}
       {/*  isHlsPlay ? (*/}
@@ -88,6 +87,7 @@ const Video = (props: Props) => {
 
 const VideoStyle = styled.video`
   background-color: #333333;
+  margin-top: 10px;
 `;
 
 export default Video;

@@ -5,6 +5,8 @@ import { Helmet } from 'react-helmet';
 import Video from './Video'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom'
 
 type Props = {
   streamId: String,
@@ -38,6 +40,7 @@ const ChannelPlayer = (props: Props) => {
 
   const index = channels.findIndex(item => item === channel);
   const nextChannel = channels[(index+1) % channels.length];
+  const next_channel_url = nextChannel ? `/channels/${nextChannel.streamId}` : null;
 
   const unescapeHTML = (html: string) => {
     let escapeEl = document.createElement('textarea');
@@ -67,10 +70,32 @@ const ChannelPlayer = (props: Props) => {
   console.log('channel.streamId: ' + channel.streamId);
   console.log('channel.streamId.length: ' + channel.streamId.length);
 
+  const history = useHistory();
+
+  const peercastTip = 'shule.peca.live:8144'; // 自宅のぴあきゃす
+  const isFlv = channel.type === 'FLV';
+  const vlcUrl = `rtmp://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+
   return (
     <ChannelItemStyle>
       <Helmet title={`${channel.name} - ぺからいぶ！`} />
-      {nextChannel ? <Link to={`/channels/${nextChannel.streamId}`}>次の配信へ</Link> : null}
+
+      {
+        nextChannel &&
+        <Button variant="outlined" size="small" color="primary" onClick={() => {history.push(next_channel_url)}} style={{marginRight: '5px'}}>
+          次の配信へ
+        </Button>
+      }
+
+      {
+        isFlv &&
+        <Button variant="outlined" size="small" color="primary">
+          <a href={vlcUrl}>
+            VLCで再生
+          </a>
+        </Button>
+      }
+
       <div>
         <Video channel={channel} isHls={isHls} local={local} />
       </div>
