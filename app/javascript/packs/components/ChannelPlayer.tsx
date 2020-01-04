@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom'
+import Tooltip from '@material-ui/core/Tooltip';
 
 type Props = {
   streamId: String,
@@ -104,10 +105,14 @@ const ChannelPlayer = (props: Props) => {
           {channelDetail(channel)}
         </Title>
         <ListenerStyle>
-          <FontAwesomeIcon icon="headphones" />
-          <ListenerCountStyle title="リスナー数">
-            {channel.listenerCount}
-          </ListenerCountStyle>
+          <Tooltip title="リスナー数" aria-label="listener">
+            <span>
+              <FontAwesomeIcon icon="headphones" />
+              <ListenerCountStyle title="リスナー数">
+                {channel.listenerCount}
+              </ListenerCountStyle>
+            </span>
+          </Tooltip>
         </ListenerStyle>
         <Details>
           {channel.name}
