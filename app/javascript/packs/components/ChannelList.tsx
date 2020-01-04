@@ -117,7 +117,7 @@ const ChannelList = (props: Props) => {
                       </Grid>
                       <Grid item xs={2}>
                         {/*{false ? <StarIcon /> : <StarBorder style={{position: 'absolute', right: '16px', top: '10px'}} />}*/}
-                        <Typography variant="body2" color="textSecondary" component="p" style={{position: 'absolute', right: '16px', bottom: '10px'}}>
+                        <Typography variant="body2" color="textSecondary" component="p" style={{position: 'absolute', right: '16px', bottom: '16px'}}>
                           {time(channel)}
                         </Typography>
                       </Grid>
