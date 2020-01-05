@@ -23,7 +23,8 @@ const Video = (props: Props) => {
   let hiddenPlayer = true;
 
   // const peercastTip = '150.95.177.111:7144'; // VPSのぴあきゃす
-  const peercastTip = 'localhost:7144'; // 自宅のぴあきゃす
+  // const peercastTip = 'localhost:7144'; // 自宅のぴあきゃす
+  const peercastTip = 'shule.peca.live:8144'; // 自宅のぴあきゃす
   const streamUrl = `http://${peercastTip}/hls/${channel.streamId}`;
   const isHlsPlay = isHls && channel.streamId.length;
 
