@@ -8,6 +8,7 @@ import ChannelPlayer from './components/ChannelPlayer';
 import AsukaChannelPlayer from './components/AsukaChannelPlayer';
 import PageViewTracker from './components/PageViewTracker'
 import { isIOS } from 'react-device-detect'
+import Fonts from './components/fonts';
 
 import { library } from '@fortawesome/fontawesome-svg-core'; //fontawesomeのコアファイル
 import { fab } from '@fortawesome/free-brands-svg-icons'; //fontawesomeのbrandアイコンのインポート
@@ -71,6 +72,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <PageViewTracker>
+        <Fonts />
         <AppBar position="fixed" color="inherit" >
           <Toolbar>
             <Link to='/'>
