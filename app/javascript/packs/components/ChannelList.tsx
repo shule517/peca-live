@@ -13,6 +13,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -95,8 +97,8 @@ const ChannelList = (props: Props) => {
       {
         channels.map((channel, index) => {
           return (
-            <Fade in={true}>
-              <Card key={channel.streamId} className={classes.card} onClick={() => {history.push(`/channels/${channel.streamId}`)}}>
+            <Fade key={channel.streamId} in={true}>
+              <Card className={classes.card} onClick={() => {history.push(`/channels/${channel.streamId}`)}}>
                 <CardActionArea>
                   <CardContent>
                     <Grid container wrap="nowrap" spacing={2}>
@@ -116,7 +118,7 @@ const ChannelList = (props: Props) => {
                         </Typography>
                       </Grid>
                       <Grid item xs={2}>
-                        {/*{false ? <StarIcon /> : <StarBorder style={{position: 'absolute', right: '16px', top: '10px'}} />}*/}
+                        {/*{false ? <FavoriteIcon /> : <FavoriteBorder style={{position: 'absolute', right: '16px', top: '10px'}} />}*/}
                         <Typography variant="body2" color="textSecondary" component="p" style={{position: 'absolute', right: '16px', bottom: '16px'}}>
                           {time(channel)}
                         </Typography>
