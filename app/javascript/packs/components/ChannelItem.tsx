@@ -20,23 +20,6 @@ const ChannelItem = (props: Props) => {
     return escapeEl.textContent;
   }
 
-  const channelDetail = (channel: Channel) => {
-    let text = '';
-    const details = unescapeHTML(channel.details.replace(/ - .*/, '')) || '';
-
-    if (channel.genre.length) {
-      text = channel.genre
-
-      if (details.length) {
-        text += ' - '
-      }
-    }
-    if (details.length) {
-      text += details
-    }
-    return text;
-  };
-
   const thumnbailElementId = `thumnbailElement-${channel.streamId}`;
 
   return (
@@ -47,7 +30,7 @@ const ChannelItem = (props: Props) => {
         </div>
         <ChannelDetail>
           <Title>
-            {channelDetail(channel)}
+            {channel.explanation}
           </Title>
           <Details>
             {channel.name}

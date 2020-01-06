@@ -26,39 +26,23 @@ const ChannelPlayer = (props: Props) => {
 
   console.log('isHls: ' + isHls);
 
-  const channel: any = channels.find((channel) => channel.streamId === streamId) || {
-    name: channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...',
-    streamId: '',
-    tip: '',
-    contactUrl: '',
-    genre: '',
-    details: '',
-    listenerCount: 0,
-    relayCount: 0,
-    bitrate: 0,
-    type: 'FLV',
-  };
+  const channel = channels.find((channel) => channel.streamId === streamId) || new Channel("", "", "", "", "", "", -1, -1, -1, "", "", "", "", "", "", -1, "")
+  // {
+  //   name: channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...',
+  //   streamId: '',
+  //   tip: '',
+  //   contactUrl: '',
+  //   genre: '',
+  //   details: '',
+  //   listenerCount: 0,
+  //   relayCount: 0,
+  //   bitrate: 0,
+  //   type: 'FLV',
+  // };
 
   const index = channels.findIndex(item => item === channel);
   const nextChannel = channels[(index+1) % channels.length];
   const next_channel_url = nextChannel ? `/channels/${nextChannel.streamId}` : null;
-
-  const channelDetail = (channel: Channel) => {
-    let text = '';
-    const details = channel.unescapeHTML(channel.details.replace(/ - .*/, '')) || '';
-
-    if (channel.genre.length) {
-      text = channel.genre;
-
-      if (details.length) {
-        text += ' - '
-      }
-    }
-    if (details.length) {
-      text += details
-    }
-    return text;
-  };
 
   window.scrollTo(0, 0);
 
@@ -95,7 +79,7 @@ const ChannelPlayer = (props: Props) => {
       </div>
       <ChannelDetail>
         <Title>
-          {channelDetail(channel)}
+          {channel.explanation}
         </Title>
         <ListenerStyle>
           <Tooltip title="リスナー数" aria-label="listener">

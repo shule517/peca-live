@@ -63,23 +63,6 @@ const ChannelList = (props: Props) => {
     return escapeEl.textContent;
   };
 
-  const channelDetail = (channel: Channel) => {
-    let text = '';
-    const details = unescapeHTML(channel.details.replace(/ - .*/, '')) || '';
-
-    if (channel.genre.length) {
-      text = channel.genre
-
-      if (details.length) {
-        text += ' - '
-      }
-    }
-    if (details.length) {
-      text += details
-    }
-    return text;
-  };
-
   const history = useHistory();
 
   return (
@@ -105,7 +88,7 @@ const ChannelList = (props: Props) => {
                           {channel.name}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                          {channelDetail(channel)}
+                          {channel.explanation}
                         </Typography>
                       </Grid>
                       <Grid item xs={2}>

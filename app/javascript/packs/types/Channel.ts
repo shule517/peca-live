@@ -42,45 +42,23 @@ class Channel {
     return this.type === 'FLV';
   }
 
-  // get explanation() {
-  //   console.log('aaaa')
-  //   let text = 'aa';
-  //   // const details = this.unescapeHTML(this.details.replace(/ - .*/, '')) || '';
-  //   const details = this.details;
-  //
-  //   if (this.genre.length) {
-  //     text = this.genre;
-  //
-  //     if (details.length) {
-  //       text += ' - ';
-  //     }
-  //   }
-  //
-  //   if (details.length) {
-  //     text += details;
-  //   }
-  //   return text;
-  // }
-  //
-  // explanation2() {
-  //   console.log('aaaa')
-  //   let text = 'aa';
-  //   // const details = this.unescapeHTML(this.details.replace(/ - .*/, '')) || '';
-  //   const details = this.details;
-  //
-  //   if (this.genre.length) {
-  //     text = this.genre;
-  //
-  //     if (details.length) {
-  //       text += ' - ';
-  //     }
-  //   }
-  //
-  //   if (details.length) {
-  //     text += details;
-  //   }
-  //   return text;
-  // }
+  get explanation() {
+    const details = this.unescapeHTML(this.details.replace(/ - .*/, '')) || '';
+
+    let text = '';
+    if (this.genre.length) {
+      text = this.genre;
+
+      if (details.length) {
+        text += ' - ';
+      }
+    }
+
+    if (details.length) {
+      text += details;
+    }
+    return text;
+  }
 
   unescapeHTML(html: string) {
     return html.replace(/&amp;/g, '&')
