@@ -23,7 +23,7 @@ class Channel {
     if (minutes > 60) {
       const hours = minutes / 60;
 
-      if (hours > 24) {
+      if (hours < 24) {
         return `${Math.round(hours)}時間前`;
       } else {
         const days = hours / 24;
