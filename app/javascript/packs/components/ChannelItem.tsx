@@ -14,12 +14,6 @@ const ChannelItem = (props: Props) => {
     channel,
   } = props;
 
-  function unescapeHTML(html: string) {
-    var escapeEl = document.createElement('textarea');
-    escapeEl.innerHTML = html;
-    return escapeEl.textContent;
-  }
-
   const thumnbailElementId = `thumnbailElement-${channel.streamId}`;
 
   return (
