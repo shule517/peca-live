@@ -18,25 +18,22 @@ class Channel {
     public uptime: number,
     public yellowPage: string){}
 
-  // public startingTime() {
-  //   return "startingTime!!!!!";
-  //
-  //   console.log('startingTime!!!');
-  //   const minutes = this.uptime / 60;
-  //   if (minutes > 60) {
-  //     const hours = minutes / 60;
-  //
-  //     if (hours > 24) {
-  //       return `${Math.round(hours)}時間前`;
-  //     } else {
-  //       const days = hours / 24;
-  //       return `${Math.round(days)}日前`;
-  //     }
-  //   } else {
-  //     return `${minutes}分前`;
-  //   }
-  // }
-  //
+  get startingTime() {
+    const minutes = this.uptime / 60;
+    if (minutes > 60) {
+      const hours = minutes / 60;
+
+      if (hours > 24) {
+        return `${Math.round(hours)}時間前`;
+      } else {
+        const days = hours / 24;
+        return `${Math.round(days)}日前`;
+      }
+    } else {
+      return `${minutes}分前`;
+    }
+  }
+
   // get isFlv() {
   //   return this.type === 'FLV';
   // }

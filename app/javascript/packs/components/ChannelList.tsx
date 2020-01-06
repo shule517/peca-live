@@ -82,15 +82,6 @@ const ChannelList = (props: Props) => {
 
   const history = useHistory();
 
-  const time = (channel: Channel) => {
-    const minutes = channel.uptime / 60;
-    if (minutes > 60) {
-      return `${Math.round(minutes / 60)}時間前`;
-    } else {
-      return `${minutes}分前`;
-    }
-  };
-
   return (
     <div className={classes.root}>
       <Helmet title='ぺからいぶ！' />
@@ -120,7 +111,7 @@ const ChannelList = (props: Props) => {
                       <Grid item xs={2}>
                         {/*{false ? <FavoriteIcon /> : <FavoriteBorder style={{position: 'absolute', right: '16px', top: '10px'}} />}*/}
                         <Typography variant="body2" color="textSecondary" component="p" style={{position: 'absolute', right: '16px', bottom: '16px'}}>
-                          {time(channel)}
+                          {channel.startingTime}
                         </Typography>
                       </Grid>
                     </Grid>
