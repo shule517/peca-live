@@ -54,6 +54,8 @@ const App = () => {
           channel.yellowPage
         );
       });
+
+      channels.sort((a, b) => { return a.uptime - b.uptime });
       setChannels(channels);
     };
 
