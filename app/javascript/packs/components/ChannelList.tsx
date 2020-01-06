@@ -44,25 +44,6 @@ const ChannelList = (props: Props) => {
   } = props;
 
   const classes = useStyles({});
-
-  // const asuka_channel: any = channels.find((channel) => channel.name.match(/駅伝/)) || {
-  //   name: channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...',
-  //   streamId: '',
-  //   tip: '',
-  //   contactUrl: '',
-  //   genre: '',
-  //   details: '',
-  //   listenerCount: 0,
-  //   relayCount: 0,
-  //   bitrate: 0,
-  //   type: 'FLV',
-  // };
-  const unescapeHTML = (html: string) => {
-    var escapeEl = document.createElement('textarea');
-    escapeEl.innerHTML = html;
-    return escapeEl.textContent;
-  };
-
   const history = useHistory();
 
   return (
