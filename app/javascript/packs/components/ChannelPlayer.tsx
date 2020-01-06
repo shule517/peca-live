@@ -74,7 +74,6 @@ const ChannelPlayer = (props: Props) => {
   const history = useHistory();
 
   const peercastTip = 'shule.peca.live:8144'; // 自宅のぴあきゃす
-  const isFlv = channel.type === 'FLV';
   const vlcUrl = `rtmp://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
 
   return (
@@ -89,7 +88,7 @@ const ChannelPlayer = (props: Props) => {
       }
 
       {
-        isFlv &&
+        channel.isFlv &&
         <Button variant="outlined" size="small" color="primary">
           <a href={vlcUrl}>
             VLCで再生

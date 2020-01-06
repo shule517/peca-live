@@ -17,7 +17,6 @@ const Video = (props: Props) => {
     local,
   } = props;
 
-  const isFlv = channel.type === 'FLV';
   const videoElementId = `videoElement-${channel.streamId}`;
   let flvPlayer: any = null;
   let hiddenPlayer = true;
@@ -42,7 +41,7 @@ const Video = (props: Props) => {
 
     // TODO FLV再生
     let videoElement:any = document.getElementById(videoElementId);
-    videoElement.hidden = !isFlv;
+    videoElement.hidden = !channel.isFlv;
 
     if (channel.streamId.length > 0) {
       const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
