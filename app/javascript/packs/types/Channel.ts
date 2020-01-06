@@ -18,6 +18,10 @@ class Channel {
     public uptime: number,
     public yellowPage: string){}
 
+  static nullObject(name) {
+    return new Channel(name, "", "", "", "", "", -1, -1, -1, "", "", "", "", "", "", -1, "")
+  }
+
   get startingTime() {
     if (this.uptime < 60) {
       return `${this.uptime}秒前`;

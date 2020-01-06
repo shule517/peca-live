@@ -26,20 +26,7 @@ const ChannelPlayer = (props: Props) => {
 
   console.log('isHls: ' + isHls);
 
-  const channel = channels.find((channel) => channel.streamId === streamId) || new Channel("", "", "", "", "", "", -1, -1, -1, "", "", "", "", "", "", -1, "")
-  // {
-  //   name: channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...',
-  //   streamId: '',
-  //   tip: '',
-  //   contactUrl: '',
-  //   genre: '',
-  //   details: '',
-  //   listenerCount: 0,
-  //   relayCount: 0,
-  //   bitrate: 0,
-  //   type: 'FLV',
-  // };
-
+  const channel = channels.find((channel) => channel.streamId === streamId) || Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...');
   const index = channels.findIndex(item => item === channel);
   const nextChannel = channels[(index+1) % channels.length];
   const next_channel_url = nextChannel ? `/channels/${nextChannel.streamId}` : null;
