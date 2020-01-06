@@ -32,30 +32,28 @@ const App = () => {
       const res = await fetch('/api/v1/channels', {credentials: 'same-origin'});
       const response = await res.json() as Array<any>;
 
-      const channels: any = response.map(channel => {
-        const type = channel.contentType;
-        if (type === null) { return null; }
-
-        return {
-          name: channel.name,                   // A.ch
-          streamId: channel.channelId,          // 0C1A6C6959CEB2A8BF9598BC9185FF32
-          tip: channel.tracker,                 // 14.13.42.64:5184
-          contactUrl: channel.contactUrl,       // http://jbbs.shitaraba.net/bbs/read.cgi/game/52685/1567349533/
-          genre: channel.genre,                 // PS4
-          details: channel.description,         // モンスターハンターワールド：アイスボーン MHWIB - &lt;Open&gt;
-          listenerCount: channel.listeners,     // -1
-          relayCount: channel.relays,           // -1
-          bitrate: channel.bitrate,             // 1500
-          type: type,                           // FLV
-          album: channel.album,
-          comment: channel.comment,
-          creator: channel.creator,
-          trackTitle: channel.trackTitle,
-          trackUrl: channel.trackUrl,
-          uptime: channel.uptime,
-          yellowPage: channel.yellowPage,
-        } }
-      );
+      const channels = response.map(channel => {
+        if (channel.contentType === null) { return null; }
+        return new Channel(
+          channel.name,         // A.ch
+          channel.channelId,    // 0C1A6C6959CEB2A8BF9598BC9185FF32
+          channel.tracker,      // 14.13.42.64:5184
+          channel.contactUrl,   // http://jbbs.shitaraba.net/bbs/read.cgi/game/52685/1567349533/
+          channel.genre,        // PS4
+          channel.description,  // モンスターハンターワールド：アイスボーン MHWIB - &lt;Open&gt;
+          channel.listeners,    // -1
+          channel.relays,       // -1
+          channel.bitrate,      // 1500
+          channel.contentType,  // FLV
+          channel.album,
+          channel.comment,
+          channel.creator,
+          channel.trackTitle,
+          channel.trackUrl,
+          channel.uptime,
+          channel.yellowPage
+        );
+      });
       setChannels(channels);
     };
 

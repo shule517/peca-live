@@ -83,7 +83,7 @@ const ChannelList = (props: Props) => {
   const history = useHistory();
 
   const time = (channel: Channel) => {
-    const minutes = parseInt(channel.uptime) / 60;
+    const minutes = channel.uptime / 60;
     if (minutes > 60) {
       return `${Math.round(minutes / 60)}時間前`;
     } else {
