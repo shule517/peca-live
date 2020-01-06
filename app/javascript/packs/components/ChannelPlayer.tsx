@@ -43,15 +43,9 @@ const ChannelPlayer = (props: Props) => {
   const nextChannel = channels[(index+1) % channels.length];
   const next_channel_url = nextChannel ? `/channels/${nextChannel.streamId}` : null;
 
-  const unescapeHTML = (html: string) => {
-    let escapeEl = document.createElement('textarea');
-    escapeEl.innerHTML = html;
-    return escapeEl.textContent;
-  };
-
   const channelDetail = (channel: Channel) => {
     let text = '';
-    const details = unescapeHTML(channel.details.replace(/ - .*/, '')) || '';
+    const details = channel.unescapeHTML(channel.details.replace(/ - .*/, '')) || '';
 
     if (channel.genre.length) {
       text = channel.genre;

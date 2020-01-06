@@ -81,17 +81,14 @@ class Channel {
   //   }
   //   return text;
   // }
-  //
-  // private unescapeHTML(html: string) {
-  //   return html.replace(/&amp;/g, '&')
-  //     .replace(/&lt;/g, '<')
-  //     .replace(/&gt;/g, '>')
-  //     .replace(/&quot;/g, '"')
-  //     .replace(/&#039;/g, '\'');
-  //   // let escapeEl = document.createElement('textarea');
-  //   // escapeEl.innerHTML = html;
-  //   // return escapeEl.textContent;
-  // }
+
+  unescapeHTML(html: string) {
+    return html.replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#039;/g, '\'');
+  }
 }
 
 export default Channel;
