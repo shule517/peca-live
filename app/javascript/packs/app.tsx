@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter, Route, Link, Switch } from 'react-router-dom'
-import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import Channel from './types/Channel'
 import ChannelList from './components/ChannelList';
 import ChannelPlayer from './components/ChannelPlayer';
 import PageViewTracker from './components/PageViewTracker'
+import SideBar from './components/SideBar'
 import { isIOS } from 'react-device-detect'
 
 import { library } from '@fortawesome/fontawesome-svg-core'; //fontawesomeのコアファイル
@@ -14,8 +14,6 @@ import { fas } from '@fortawesome/free-solid-svg-icons'; //fontawesomeのsolid�
 import { far } from '@fortawesome/free-regular-svg-icons'; //fontawesomeのregularアイコンのインポート
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -70,18 +68,11 @@ const App = () => {
   return (
     <BrowserRouter>
       <PageViewTracker>
-        <AppBar position="fixed" color="inherit" >
-          <Toolbar>
-            <Link to='/'>
-              <Logo src='/images/pecalive.png' />
-            </Link>
-          </Toolbar>
-        </AppBar>
+        <SideBar channels={channels}/>
         <main>
           <div className={classes.toolbar} />
           <Switch>
             <Route exact path='/' render={(props) => <ChannelList channels={channels} />} />
-            {/*<Route path='/channels/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels} isHls={isIOS} local={false} />}} />*/}
             <Route path='/channels/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels} isHls={isIOS} local={false} />}} />
             <Route path='/hls/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels} isHls={true} local={false} />}} />
             <Route path='/local/:streamId' render={(props) => { return <ChannelPlayer streamId={props.match.params.streamId} channels={channels} isHls={true} local={true} />}} />
@@ -91,11 +82,5 @@ const App = () => {
     </BrowserRouter>
   )
 };
-
-const Logo = styled.img`
-  height: 30px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-`;
 
 export default App;
