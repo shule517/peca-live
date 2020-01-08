@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       overflow: 'hidden',
       padding: theme.spacing(0, 1),
-      backgroundColor: '#F5F5F5'
     },
     card: {
       maxWidth: 550,
