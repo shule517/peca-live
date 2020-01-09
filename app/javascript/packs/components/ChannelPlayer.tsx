@@ -39,7 +39,13 @@ const ChannelPlayer = (props: Props) => {
   const history = useHistory();
 
   const peercastTip = 'shule.peca.live:8144'; // 自宅のぴあきゃす
-  const vlcUrl = `rtmp://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+
+  let vlcUrl = null;
+  if (channel.isFlv) {
+    vlcUrl = `rtmp://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+  } else if (channel.isWmv) {
+    vlcUrl = `mms://${peercastTip}/stream/${channel.streamId}.wmv?tip=${channel.tip}`;
+  }
 
   return (
     <ChannelItemStyle>
@@ -53,7 +59,7 @@ const ChannelPlayer = (props: Props) => {
       }
 
       {
-        channel.isFlv &&
+        channel.isFlv || channel.isWmv &&
         <Button variant="outlined" size="small" color="primary">
           <a href={vlcUrl}>
             VLCで再生

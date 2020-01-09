@@ -46,6 +46,10 @@ class Channel {
     return this.type === 'FLV';
   }
 
+  get isWmv() {
+    return this.type === 'WMV';
+  }
+
   get explanation() {
     const details = this.unescapeHTML(this.details.replace(/ - .*/, '')) || '';
 
