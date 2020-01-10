@@ -55,9 +55,9 @@ class Channel {
 
     let text = '';
     if (this.genre.length) {
-      text = this.genre;
+      text = this.genre.replace(/[　 ]+/, '');
 
-      if (details.length) {
+      if (text.length && details.length) {
         text += ' - ';
       }
     }
