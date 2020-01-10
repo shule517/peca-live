@@ -59,7 +59,7 @@ const ChannelPlayer = (props: Props) => {
       }
 
       {
-        channel.isFlv || channel.isWmv &&
+        vlcUrl &&
         <Button variant="outlined" size="small" color="primary">
           <a href={vlcUrl}>
             VLCで再生
