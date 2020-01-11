@@ -60,10 +60,8 @@ const ChannelPlayer = (props: Props) => {
 
       {
         vlcUrl &&
-        <Button variant="outlined" size="small" color="primary">
-          <a href={vlcUrl}>
-            VLCで再生
-          </a>
+        <Button variant="outlined" size="small" color="primary" onClick={() => {window.location.href = vlcUrl}}>
+          VLCで再生
         </Button>
       }
 
