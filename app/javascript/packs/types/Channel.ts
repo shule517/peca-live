@@ -23,10 +23,6 @@ class Channel {
   }
 
   get startingTime() {
-    if (this.uptime < 60) {
-      return `${this.uptime}秒前`;
-    }
-
     const minutes = this.uptime / 60;
     if (minutes > 60) {
       const hours = minutes / 60;
