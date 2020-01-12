@@ -58,7 +58,13 @@ const App = () => {
       setChannels(channels);
     };
 
+    // 初回のチャンネル情報を取得
     fetchData();
+
+    // 1分間に1回チャンネル情報を再取得
+    setInterval(()=>{
+      fetchData();
+    }, 10000);
 
     //fontawesomeを読み込み
     library.add(fab, fas, far);
