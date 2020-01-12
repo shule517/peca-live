@@ -61,7 +61,9 @@ class Channel {
       .replace(' - <Free>', '')
       .replace('<Free>', '')
       .replace(' - <2M Over>', '')
-      .replace('<2M Over>', '');
+      .replace('<2M Over>', '')
+      .replace(' - <Over>', '')
+      .replace('<Over>', '');
 
     if (this.comment.length) {
       return `${label} ${this.comment}`;
