@@ -1,19 +1,20 @@
 import React from "react";
-import { BrowserRouter, Route, Link, Switch } from 'react-router-dom'
 import { useState, useEffect } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import styled from 'styled-components';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { library } from '@fortawesome/fontawesome-svg-core'; //fontawesomeのコアファイル
+import { fab } from '@fortawesome/free-brands-svg-icons';    //fontawesomeのbrandアイコンのインポート
+import { fas } from '@fortawesome/free-solid-svg-icons';     //fontawesomeのsolidアイコンのインポート
+import { far } from '@fortawesome/free-regular-svg-icons';   //fontawesomeのregularアイコンのインポート
+import { isIOS, isMobile } from 'react-device-detect'
+
 import Channel from './types/Channel'
 import ChannelList from './components/ChannelList';
 import ChannelPlayer from './components/ChannelPlayer';
 import PageViewTracker from './components/PageViewTracker'
 import SideBar from './components/SideBar'
-import { isIOS } from 'react-device-detect'
-
-import { library } from '@fortawesome/fontawesome-svg-core'; //fontawesomeのコアファイル
-import { fab } from '@fortawesome/free-brands-svg-icons'; //fontawesomeのbrandアイコンのインポート
-import { fas } from '@fortawesome/free-solid-svg-icons'; //fontawesomeのsolidアイコンのインポート
-import { far } from '@fortawesome/free-regular-svg-icons'; //fontawesomeのregularアイコンのインポート
-
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import PecaLiveAppBar from "./components/PecaLiveAppBar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
