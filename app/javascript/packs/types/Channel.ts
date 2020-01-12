@@ -46,8 +46,32 @@ class Channel {
     return this.type === 'WMV';
   }
 
+  get compact_genre() {
+    return this.genre.replace(/game/gi, ''); // ジャンルの「game」には情報量がないので省略。
+  }
+
+  get compact_details() {
+    return this.compact_genre + this.details_label;
+  }
+
+  get details_label() {
+    const label = this.details
+      .replace(' - <Open>', '')
+      .replace('<Open>', '')
+      .replace(' - <Free>', '')
+      .replace('<Free>', '')
+      .replace(' - <2M Over>', '')
+      .replace('<2M Over>', '');
+
+    if (this.comment.length) {
+      return `${label} ${this.comment}`;
+    } else {
+      return label;
+    }
+  }
+
   get explanation() {
-    const details = this.unescapeHTML(this.details.replace(/ - .*/, '')) || '';
+    const details = this.unescapeHTML(this.details_label) || '';
 
     let text = '';
     if (this.genre.length) {
