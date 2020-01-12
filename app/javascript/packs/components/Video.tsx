@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import flvjs from 'flv.js'
 import videojs from 'video.js'
 import Channel from '../types/Channel';
@@ -17,6 +17,9 @@ const Video = (props: Props) => {
     local,
   } = props;
 
+  const [player, setPlayer] = useState<any>(null);
+  const [currentStreamUrl, setCurrentStreamUrl] = useState<string>(null);
+
   const videoElementId = `videoElement-${channel.streamId}`;
   let flvPlayer: any = null;
   let hiddenPlayer = true;
@@ -28,6 +31,8 @@ const Video = (props: Props) => {
   const isHlsPlay = isHls && channel.streamId.length;
 
   useEffect(() => {
+    if (channel.streamId.length <= 0) { return; }
+
     // TODO HLS再生
     if (isHlsPlay) {
       // console.log('hls play:' + streamUrl);
@@ -43,18 +48,30 @@ const Video = (props: Props) => {
     let videoElement:any = document.getElementById(videoElementId);
     videoElement.hidden = !channel.isFlv;
 
-    if (channel.streamId.length > 0) {
-      const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+    const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+
+    if (!player || currentStreamUrl !== url) {
+
+      if (player) {
+        player.pause();
+        player.unload();
+        player.detachMediaElement();
+        player.destroy();
+      }
+
       console.log('flv play:' + url);
-      flvPlayer = flvjs.createPlayer({
+      const flvPlayer = flvjs.createPlayer({
         type: 'flv',
         isLive: true,
         url: url
       });
+
       flvPlayer.attachMediaElement(videoElement);
       flvPlayer.load();
       flvPlayer.play();
       hiddenPlayer = false;
+      setPlayer(flvPlayer);
+      setCurrentStreamUrl(url);
     }
 
     return () => {
@@ -88,6 +105,7 @@ const Video = (props: Props) => {
 const VideoStyle = styled.video`
   background-color: #333333;
   margin-top: 10px;
+  max-width: 800px;
 `;
 
 export default Video;
