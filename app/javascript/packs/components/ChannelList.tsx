@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import Channel from '../types/Channel'
-import ChannelItem from './ChannelItem'
 import { Helmet } from "react-helmet";
 import { useHistory } from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar';
@@ -13,8 +12,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import { useSelector } from "react-redux";
+import { RootState } from "../modules/rootState";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,13 +33,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
-  channels: Channel[],
 }
 
 const ChannelList = (props: Props) => {
-  const {
-    channels,
-  } = props;
+  const channels = useSelector((state: RootState) => state.channels).map((channel: any) => new Channel(channel));
 
   const classes = useStyles({});
   const history = useHistory();

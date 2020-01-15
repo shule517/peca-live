@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Channel from '../types/Channel';
 import { Helmet } from 'react-helmet';
 import Video from './Video'
-import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom'
 import Tooltip from '@material-ui/core/Tooltip';
+import {useSelector} from "react-redux";
+import {RootState} from "../modules/rootState";
 
 type Props = {
   streamId: String,
-  channels: Channel[],
   isHls: boolean,
   local: boolean,
 }
@@ -19,13 +19,13 @@ type Props = {
 const ChannelPlayer = (props: Props) => {
   const {
     streamId,
-    channels,
     isHls,
     local,
   } = props;
 
   console.log('isHls: ' + isHls);
 
+  const channels = useSelector((state: RootState) => state.channels).map((channel: any) => new Channel(channel));
   const channel = channels.find((channel) => channel.streamId === streamId) || Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...');
   const index = channels.findIndex(item => item === channel);
   const nextChannel = channels[(index+1) % channels.length];

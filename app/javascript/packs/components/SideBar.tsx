@@ -15,6 +15,8 @@ import { isMobile } from 'react-device-detect'
 import Typography from '@material-ui/core/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Grid from '@material-ui/core/Grid';
+import { useSelector } from "react-redux";
+import { RootState } from "../modules/rootState";
 
 const StyledBadge = withStyles((theme: Theme) =>
   createStyles({
@@ -55,14 +57,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 type Props = {
-  channels: Channel[],
   onChannelClick: () => void,
 }
 
 const SideBar = (props: Props) => {
-  const { channels, onChannelClick } = props;
+  const { onChannelClick } = props;
   const classes = useStyles({});
   const history = useHistory();
+
+  const channels = useSelector((state: RootState) => state.channels).map((channel: any) => new Channel(channel));
 
   const dup = channels.slice(0, channels.length);
   const hotChannels = dup
