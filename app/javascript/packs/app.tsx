@@ -45,9 +45,7 @@ const App = () => {
     updateChannels(dispatch);
 
     // 1分間に1回チャンネル情報を再取得
-    setInterval(()=>{
-      updateChannels(dispatch);
-    }, 10000);
+    setInterval(() => updateChannels(dispatch), 10000);
 
     //fontawesomeを読み込み
     library.add(fab, fas, far);
