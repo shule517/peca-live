@@ -59,7 +59,6 @@ const Video = (props: Props) => {
         player.destroy();
       }
 
-      console.log('flv play:' + url);
       const flvPlayer = flvjs.createPlayer({
         type: 'flv',
         isLive: true,

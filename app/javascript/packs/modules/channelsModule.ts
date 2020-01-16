@@ -16,6 +16,5 @@ export const updateChannels = async (dispatch) => {
   const channels = await response.json() as Array<ChannelInterface>;
   channels.sort((a, b) => { return Number(a.uptime) - Number(b.uptime) });
 
-  console.log(`channels!!!: ${channels[0].name}`);
   dispatch(channelsModules.actions.setChannels(channels));
 };

@@ -23,8 +23,6 @@ const ChannelPlayer = (props: Props) => {
     local,
   } = props;
 
-  console.log('isHls: ' + isHls);
-
   const channels = useSelector((state: RootState) => state.channels).map((channel: any) => new Channel(channel));
   const channel = channels.find((channel) => channel.streamId === streamId) || Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...');
   const index = channels.findIndex(item => item === channel);
@@ -33,11 +31,7 @@ const ChannelPlayer = (props: Props) => {
 
   window.scrollTo(0, 0);
 
-  console.log('channel.streamId: ' + channel.streamId);
-  console.log('channel.streamId.length: ' + channel.streamId.length);
-
   const history = useHistory();
-
   const peercastTip = 'shule.peca.live:8144'; // 自宅のぴあきゃす
 
   let vlcUrl = null;
