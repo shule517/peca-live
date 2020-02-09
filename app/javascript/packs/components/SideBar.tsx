@@ -17,6 +17,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Grid from '@material-ui/core/Grid';
 import { useSelector } from "react-redux";
 import { RootState } from "../modules/rootState";
+import MenuIcon from '@material-ui/icons/Menu';
+import Divider from '@material-ui/core/Divider';
 
 const StyledBadge = withStyles((theme: Theme) =>
   createStyles({
@@ -125,10 +127,25 @@ const SideBar = (props: Props) => {
 
   return (
     <div>
-      {!isMobile && <div className={classes.toolbar} />}
+      {isMobile ?
+        <>
+          <List>
+            <ListItem button key={'pecalive'} onClick={() => onChannelClick()}>
+              <ListItemIcon><MenuIcon /></ListItemIcon>
+              <Logo src='/images/pecalive.png' />
+            </ListItem>
+          </List>
+          <Divider />
+        </>
+        :
+        <>
+          <div className={classes.toolbar} />
+        </>
+      }
       <List subheader={<ListSubheader component="div" id="nested-list-subheader">リスナーが多い</ListSubheader>}>
         {hotChannels.map((channel) => {return test(channel, channel.name, 'headphones', channel.listenerCount);})}
       </List>
+      {isMobile && <Divider />}
       <List subheader={<ListSubheader component="div" id="nested-list-subheader">最近はじまった</ListSubheader>}>
         {newChannels.map((channel) => {return test(channel, channel.name, 'clock', channel.startingTime.replace('前', ''));})}
       </List>
@@ -147,6 +164,13 @@ const ChannelDetailTooltip = styled(Tooltip)`
 
 const StyledAvator = styled(Avatar)`
   border: solid 1px rgba(0, 0, 0, 0.04);
+`;
+
+const Logo = styled.img`
+  height: 30px;
+  width: 105px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 `;
 
 export default SideBar;
