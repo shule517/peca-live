@@ -126,7 +126,7 @@ const SideBar = (props: Props) => {
   return (
     <div>
       {!isMobile && <div className={classes.toolbar} />}
-      <List subheader={<ListSubheader component="div" id="nested-list-subheader">視聴者が多い</ListSubheader>}>
+      <List subheader={<ListSubheader component="div" id="nested-list-subheader">リスナーが多い</ListSubheader>}>
         {hotChannels.map((channel) => {return test(channel, channel.name, 'headphones', channel.listenerCount);})}
       </List>
       <List subheader={<ListSubheader component="div" id="nested-list-subheader">最近はじまった</ListSubheader>}>
