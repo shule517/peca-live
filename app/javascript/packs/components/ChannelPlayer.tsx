@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom'
 import Tooltip from '@material-ui/core/Tooltip';
 import { useSelectorChannels } from "../modules/channelsModule";
+import { useSelectorPeerCast } from "../modules/peercastModule";
 
 type Props = {
   streamId: String,
@@ -23,6 +24,8 @@ const ChannelPlayer = (props: Props) => {
   } = props;
 
   const channels = useSelectorChannels();
+  const peercast = useSelectorPeerCast();
+
   const channel = channels.find((channel) => channel.streamId === streamId) || Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...');
   const index = channels.findIndex(item => item === channel);
   const nextChannel = channels[(index+1) % channels.length];
@@ -31,13 +34,12 @@ const ChannelPlayer = (props: Props) => {
   window.scrollTo(0, 0);
 
   const history = useHistory();
-  const peercastTip = 'shule.peca.live:8144'; // 自宅のぴあきゃす
 
   let vlcUrl = null;
   if (channel.isFlv) {
-    vlcUrl = `rtmp://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
+    vlcUrl = `rtmp://${peercast.tip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
   } else if (channel.isWmv) {
-    vlcUrl = `mms://${peercastTip}/stream/${channel.streamId}.wmv?tip=${channel.tip}`;
+    vlcUrl = `mms://${peercast.tip}/stream/${channel.streamId}.wmv?tip=${channel.tip}`;
   }
 
   return (

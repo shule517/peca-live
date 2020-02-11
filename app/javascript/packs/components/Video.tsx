@@ -3,6 +3,7 @@ import FlvJs from 'flv.js'
 import videojs from 'video.js'
 import Channel from '../types/Channel';
 import styled from "styled-components";
+import { useSelectorPeerCast } from "../modules/peercastModule"
 
 type Props = {
   channel: Channel,
@@ -17,16 +18,14 @@ const Video = (props: Props) => {
     local,
   } = props;
 
+  const peercast = useSelectorPeerCast();
   const [player, setPlayer] = useState<FlvJs.Player>(null);
   const [currentStreamUrl, setCurrentStreamUrl] = useState<string>(null);
 
   const videoElementId = `videoElement-${channel.streamId}`;
   let flvPlayer: any = null;
 
-  // const peercastTip = '150.95.177.111:7144'; // VPSのぴあきゃす
-  // const peercastTip = 'localhost:7144'; // 自宅のぴあきゃす
-  const peercastTip = 'shule.peca.live:8144'; // 自宅のぴあきゃす
-  const streamUrl = `http://${peercastTip}/hls/${channel.streamId}`;
+  const peercastTip = peercast.tip;
   const isHlsPlay = isHls && channel.streamId.length;
 
   useEffect(() => {
@@ -82,8 +81,6 @@ const Video = (props: Props) => {
       }
     }
   });
-
-  const vlcUrl = `rtmp://${local ? '192.168.11.9:8144' : peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
 
   return (
     <div>
