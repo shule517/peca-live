@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import flvjs from 'flv.js'
+import FlvJs from 'flv.js'
 import videojs from 'video.js'
 import Channel from '../types/Channel';
 import styled from "styled-components";
@@ -17,12 +17,11 @@ const Video = (props: Props) => {
     local,
   } = props;
 
-  const [player, setPlayer] = useState<any>(null);
+  const [player, setPlayer] = useState<FlvJs.Player>(null);
   const [currentStreamUrl, setCurrentStreamUrl] = useState<string>(null);
 
   const videoElementId = `videoElement-${channel.streamId}`;
   let flvPlayer: any = null;
-  let hiddenPlayer = true;
 
   // const peercastTip = '150.95.177.111:7144'; // VPSのぴあきゃす
   // const peercastTip = 'localhost:7144'; // 自宅のぴあきゃす
@@ -45,7 +44,7 @@ const Video = (props: Props) => {
     }
 
     // TODO FLV再生
-    let videoElement:any = document.getElementById(videoElementId);
+    let videoElement: any = document.getElementById(videoElementId);
     videoElement.hidden = !channel.isFlv;
 
     const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`;
@@ -59,7 +58,7 @@ const Video = (props: Props) => {
         player.destroy();
       }
 
-      const flvPlayer = flvjs.createPlayer({
+      const flvPlayer = FlvJs.createPlayer({
         type: 'flv',
         isLive: true,
         url: url
@@ -68,7 +67,6 @@ const Video = (props: Props) => {
       flvPlayer.attachMediaElement(videoElement);
       flvPlayer.load();
       flvPlayer.play();
-      hiddenPlayer = false;
       setPlayer(flvPlayer);
       setCurrentStreamUrl(url);
     }
