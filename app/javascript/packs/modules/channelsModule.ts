@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChannelInterface } from '../types/Channel'
+import Channel, { ChannelInterface } from '../types/Channel'
+import { useSelector } from "react-redux";
+import { RootState } from "./rootState";
 
 export const channelsInitialState: ChannelInterface[] = [];
 
@@ -18,3 +20,5 @@ export const updateChannels = async (dispatch) => {
 
   dispatch(channelsModules.actions.setChannels(channels));
 };
+
+export const useSelectorChannels = () => useSelector((state: RootState) => state.channels.map(channel => new Channel(channel)));

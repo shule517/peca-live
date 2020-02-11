@@ -7,8 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom'
 import Tooltip from '@material-ui/core/Tooltip';
-import {useSelector} from "react-redux";
-import {RootState} from "../modules/rootState";
+import { useSelectorChannels } from "../modules/channelsModule";
 
 type Props = {
   streamId: String,
@@ -23,7 +22,7 @@ const ChannelPlayer = (props: Props) => {
     local,
   } = props;
 
-  const channels = useSelector((state: RootState) => state.channels).map((channel) => new Channel(channel));
+  const channels = useSelectorChannels();
   const channel = channels.find((channel) => channel.streamId === streamId) || Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...');
   const index = channels.findIndex(item => item === channel);
   const nextChannel = channels[(index+1) % channels.length];

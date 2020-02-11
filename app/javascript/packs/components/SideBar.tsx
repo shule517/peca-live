@@ -4,7 +4,6 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Channel from '../types/Channel'
 import { withStyles, createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
 import ListSubheader from '@material-ui/core/ListSubheader';
@@ -15,10 +14,9 @@ import { isMobile } from 'react-device-detect'
 import Typography from '@material-ui/core/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Grid from '@material-ui/core/Grid';
-import { useSelector } from "react-redux";
-import { RootState } from "../modules/rootState";
 import MenuIcon from '@material-ui/icons/Menu';
 import Divider from '@material-ui/core/Divider';
+import { useSelectorChannels } from "../modules/channelsModule";
 
 const StyledBadge = withStyles((theme: Theme) =>
   createStyles({
@@ -67,8 +65,7 @@ const SideBar = (props: Props) => {
   const classes = useStyles({});
   const history = useHistory();
 
-  const channels = useSelector((state: RootState) => state.channels).map((channel) => new Channel(channel));
-
+  const channels = useSelectorChannels();
   const dup = channels.slice(0, channels.length);
   const hotChannels = dup
     .sort((a, b) => { return b.listenerCount - a.listenerCount })
