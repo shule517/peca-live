@@ -137,7 +137,7 @@ class Channel {
   }
 
   get compact_genre() {
-    return this.genre.replace(/game/gi, ''); // ジャンルの「game」には情報量がないので省略。
+    return this.genre.replace(/game[　 ]*/gi, ''); // ジャンルの「game」には情報量がないので省略。
   }
 
   get compact_details() {
@@ -167,7 +167,7 @@ class Channel {
 
     let text = '';
     if (this.genre.length) {
-      text = this.genre.replace(/[　 ]+/, '');
+      text = this.genre;
 
       if (text.length && details.length) {
         text += ' - ';
