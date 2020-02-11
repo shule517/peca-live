@@ -67,7 +67,7 @@ const SideBar = (props: Props) => {
   const classes = useStyles({});
   const history = useHistory();
 
-  const channels = useSelector((state: RootState) => state.channels).map((channel: any) => new Channel(channel));
+  const channels = useSelector((state: RootState) => state.channels).map((channel) => new Channel(channel));
 
   const dup = channels.slice(0, channels.length);
   const hotChannels = dup

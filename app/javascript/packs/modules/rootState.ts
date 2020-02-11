@@ -1,9 +1,9 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { channelsModules } from "./channelsModule";
-import Channel from '../types/Channel'
+import { ChannelInterface } from '../types/Channel'
 
 export interface RootState {
-  channels: Channel[];
+  channels: ChannelInterface[];
 }
 
 export const rootReducer = combineReducers({

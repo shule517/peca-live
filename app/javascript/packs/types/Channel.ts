@@ -1,4 +1,4 @@
-export interface ChannelInterface {
+export type ChannelInterface = {
   name: string,         // A.ch
   channelId: string,    // 0C1A6C6959CEB2A8BF9598BC9185FF32
   tracker: string,      // 14.13.42.64:5184

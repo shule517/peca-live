@@ -23,7 +23,7 @@ const ChannelPlayer = (props: Props) => {
     local,
   } = props;
 
-  const channels = useSelector((state: RootState) => state.channels).map((channel: any) => new Channel(channel));
+  const channels = useSelector((state: RootState) => state.channels).map((channel) => new Channel(channel));
   const channel = channels.find((channel) => channel.streamId === streamId) || Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...');
   const index = channels.findIndex(item => item === channel);
   const nextChannel = channels[(index+1) % channels.length];

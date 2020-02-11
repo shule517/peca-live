@@ -36,7 +36,7 @@ type Props = {
 }
 
 const ChannelList = (props: Props) => {
-  const channels = useSelector((state: RootState) => state.channels).map((channel: any) => new Channel(channel));
+  const channels = useSelector((state: RootState) => state.channels).map((channel) => new Channel(channel));
 
   const classes = useStyles({});
   const history = useHistory();
