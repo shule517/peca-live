@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar';
@@ -6,7 +6,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles, Theme } from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Avatar from "@material-ui/core/Avatar";
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import SettingDialog from "./SettingDialog";
 
 const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
@@ -30,6 +32,7 @@ type Props = {
 const PecaLiveAppBar = (props: Props) => {
   const { onAppButtonClick } = props;
   const classes = useStyles({});
+  const [open, setOpen] = useState(false);
 
   return (
     <AppBar position="fixed" color="inherit" className={classes.appBar}>
@@ -48,12 +51,10 @@ const PecaLiveAppBar = (props: Props) => {
           <Logo src='/images/pecalive.png' />
         </Link>
 
-        <IconButton
-          // aria-haspopup="true"
-          // onClick={handleMenu}
-        >
+        <IconButton onClick={() => setOpen(true)}>
           <AccountCircle />
         </IconButton>
+        <SettingDialog open={open} onClose={() => setOpen(false)} />
       </Toolbar>
     </AppBar>
   );
@@ -63,6 +64,12 @@ const Logo = styled.img`
   height: 30px;
   padding-top: 3px;
   padding-bottom: 3px;
+`;
+
+const StyledAvator = styled(Avatar)`
+  border: solid 1px rgba(0, 0, 0, 0.04);
+  width: 32px;
+  height: 32px;
 `;
 
 export default PecaLiveAppBar;
