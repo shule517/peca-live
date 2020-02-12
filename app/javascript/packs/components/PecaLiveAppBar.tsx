@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles, Theme } from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
@@ -16,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
+  },
+  logo: {
+    flexGrow: 1,
   },
 }));
 
@@ -40,9 +44,16 @@ const PecaLiveAppBar = (props: Props) => {
           <MenuIcon />
         </IconButton>
 
-        <Link to='/'>
+        <Link to='/' className={classes.logo}>
           <Logo src='/images/pecalive.png' />
         </Link>
+
+        <IconButton
+          // aria-haspopup="true"
+          // onClick={handleMenu}
+        >
+          <AccountCircle />
+        </IconButton>
       </Toolbar>
     </AppBar>
   );
