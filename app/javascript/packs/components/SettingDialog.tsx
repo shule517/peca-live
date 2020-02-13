@@ -18,7 +18,7 @@ type Props = {
 const SettingDialog = (props: Props) => {
   const dispatch = useDispatch();
   const peercast = useSelectorPeerCast();
-  const [cookies, setCookie] = useCookies(['host', 'portNo']);
+  const [cookies, setCookie] = useCookies(['pecaHost', 'pecaPortNo']);
   const [host, setHost] = useState(peercast.host);
   const [portNo, setPortNo] = useState(peercast.portNo);
   const { open, onClose } = props;
@@ -34,8 +34,8 @@ const SettingDialog = (props: Props) => {
   const onSaveButtonClick = () => {
     // PeerCastの設定とクッキーに保存
     updatePeerCast(dispatch, host, portNo);
-    setCookie('host', host);
-    setCookie('portNo', portNo);
+    setCookie('pecaHost', host);
+    setCookie('pecaPortNo', portNo);
   };
 
   const onDefaultButtonClick = () => {

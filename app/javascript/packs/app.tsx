@@ -41,11 +41,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const App = () => {
   const dispatch = useDispatch();
-  const [cookies, setCookie] = useCookies(['host', 'portNo']);
+  const [cookies, setCookie] = useCookies(['pecaHost', 'pecaPortNo']);
 
   useEffect(() => {
     // 初期値はクッキーから復帰
-    updatePeerCast(dispatch, cookies.host || PeerCast.defaultHost, cookies.portNo || PeerCast.defaultPortNo);
+    updatePeerCast(dispatch, cookies.pecaHost || PeerCast.defaultHost, cookies.pecaPortNo || PeerCast.defaultPortNo);
 
     // 初回のチャンネル情報を取得
     updateChannels(dispatch);
