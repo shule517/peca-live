@@ -19,29 +19,29 @@ const SettingDialog = (props: Props) => {
   const dispatch = useDispatch();
   const peercast = useSelectorPeerCast();
   const [cookies, setCookie] = useCookies(['pecaHost', 'pecaPortNo']);
-  const [host, setHost] = useState(peercast.host);
-  const [portNo, setPortNo] = useState(peercast.portNo);
+  const [textHost, setTextHost] = useState(peercast.host);
+  const [textPortNo, setTextPortNo] = useState(peercast.portNo);
   const { open, onClose } = props;
 
   useEffect(() => {
     // ダイアログを開いた時は現在の設定を表示する
     if (open) {
-      setHost(peercast.host);
-      setPortNo(peercast.portNo);
+      setTextHost(peercast.host);
+      setTextPortNo(peercast.portNo);
     }
   }, [open]);
 
   const onSaveButtonClick = () => {
     // PeerCastの設定とクッキーに保存
-    updatePeerCast(dispatch, host, portNo);
-    setCookie('pecaHost', host);
-    setCookie('pecaPortNo', portNo);
+    updatePeerCast(dispatch, textHost, textPortNo);
+    setCookie('pecaHost', textHost);
+    setCookie('pecaPortNo', textPortNo);
   };
 
   const onDefaultButtonClick = () => {
     // デフォルト値にテキストボックスを書き換え
-    setHost(PeerCast.defaultHost);
-    setPortNo(PeerCast.defaultPortNo);
+    setTextHost(PeerCast.defaultHost);
+    setTextPortNo(PeerCast.defaultPortNo);
   };
 
   return (
@@ -54,8 +54,8 @@ const SettingDialog = (props: Props) => {
           id="peercast-host"
           label="PeerCastのIP"
           size="small"
-          value={host}
-          onChange={e => setHost(e.target.value)}
+          value={textHost}
+          onChange={e => setTextHost(e.target.value)}
           fullWidth
         />
         <TextField
@@ -63,8 +63,8 @@ const SettingDialog = (props: Props) => {
           id="peercast-port-no"
           label="PeerCastのポート番号"
           size="small"
-          value={portNo}
-          onChange={e => setPortNo(parseInt(e.target.value))}
+          value={textPortNo}
+          onChange={e => setTextPortNo(parseInt(e.target.value))}
           fullWidth
         />
       </DialogContent>
