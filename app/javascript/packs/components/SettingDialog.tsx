@@ -4,8 +4,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
-import React from "react";
-import { updatePeerCast } from "../modules/peercastModule";
+import React, { useState } from "react";
+import { useSelectorPeerCast, updatePeerCast } from "../modules/peercastModule";
 import { useDispatch } from "react-redux";
 
 type Props = {
@@ -15,10 +15,13 @@ type Props = {
 
 const SettingDialog = (props: Props) => {
   const dispatch = useDispatch();
+  const peercast = useSelectorPeerCast();
+  const [host, setHost] = useState(peercast.host);
+  const [portNo, setPortNo] = useState(peercast.portNo);
   const { open, onClose } = props;
 
   const onSaveClick = () => {
-    updatePeerCast(dispatch, "localhost", 7144)
+    updatePeerCast(dispatch, host, portNo)
   };
 
   return (
@@ -31,7 +34,8 @@ const SettingDialog = (props: Props) => {
           id="peercast-host"
           label="PeerCastのIP"
           size="small"
-          value="localhost"
+          value={host}
+          onChange={e => setHost(e.target.value)}
           fullWidth
         />
         <TextField
@@ -39,18 +43,19 @@ const SettingDialog = (props: Props) => {
           id="peercast-port-no"
           label="PeerCastのポート番号"
           size="small"
-          value="7144"
+          value={portNo}
+          onChange={e => setPortNo(parseInt(e.target.value))}
           fullWidth
         />
       </DialogContent>
       <DialogActions>
+        {/*<Button*/}
+        {/*  // onClick={handleCheckPort}*/}
+        {/*  color="primary">*/}
+        {/*  ポートチェック*/}
+        {/*</Button>*/}
         <Button
-          // onClick={handleCheckPort}
-          color="primary">
-          ポートチェック
-        </Button>
-        <Button
-          onClick={onSaveClick}
+          onClick={() => { onClose(); onSaveClick(); }}
           color="primary">
           保存
         </Button>
