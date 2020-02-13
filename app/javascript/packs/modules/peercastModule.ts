@@ -3,7 +3,7 @@ import PeerCast, { PeerCastInterface } from '../types/PeerCast'
 import { useSelector } from "react-redux";
 import { RootState } from "./rootState";
 
-export const peercastInitialState: PeerCastInterface = { host: 'shule.peca.live', portNo: 8144 };
+export const peercastInitialState: PeerCastInterface = { host: PeerCast.defaultHost, portNo: PeerCast.defaultPortNo };
 
 export const peercastModules = createSlice({
   name: "peercast",
