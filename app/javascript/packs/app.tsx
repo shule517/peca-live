@@ -17,6 +17,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 const drawerWidth = 240;
 import { useDispatch } from "react-redux";
 import { updateChannels } from "./modules/channelsModule";
+import { updatePeerCast } from "./modules/peercastModule";
+import { useCookies } from "react-cookie";
+import PeerCast from "./types/PeerCast";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,11 +39,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-
 const App = () => {
   const dispatch = useDispatch();
+  const [cookies, setCookie] = useCookies(['pecaHost', 'pecaPortNo']);
 
   useEffect(() => {
+    // 初期値はクッキーから復帰
+    updatePeerCast(dispatch, cookies.pecaHost || PeerCast.defaultHost, cookies.pecaPortNo || PeerCast.defaultPortNo);
+
     // 初回のチャンネル情報を取得
     updateChannels(dispatch);
 
