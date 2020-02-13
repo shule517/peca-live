@@ -5,6 +5,8 @@ import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import React from "react";
+import { updatePeerCast } from "../modules/peercastModule";
+import { useDispatch } from "react-redux";
 
 type Props = {
   open: boolean,
@@ -12,7 +14,12 @@ type Props = {
 }
 
 const SettingDialog = (props: Props) => {
+  const dispatch = useDispatch();
   const { open, onClose } = props;
+
+  const onSaveClick = () => {
+    updatePeerCast(dispatch, "localhost", 7144)
+  };
 
   return (
     <Dialog aria-labelledby="simple-dialog-title" open={open} onClose={onClose}>
@@ -43,7 +50,7 @@ const SettingDialog = (props: Props) => {
           ポートチェック
         </Button>
         <Button
-          // onClick={handleClose}
+          onClick={onSaveClick}
           color="primary">
           保存
         </Button>
