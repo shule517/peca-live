@@ -41,6 +41,7 @@
     "redux-logger": "^3.0.6",
     "redux-starter-kit": "^2.0.0",
     "reselect": "^4.0.0",
+    "serialize-javascript": "^2.1.1",
     "styled-components": "^4.4.0",
     "ts-loader": "^6.2.0",
     "turbolinks": "^5.2.0",
