@@ -3,7 +3,15 @@ class Api::V1::ChannelsController < ApplicationController
     render json: get_channels
   end
 
+  def ip
+    render json: { remote_ip: remote_ip }
+  end
+
   private
+
+  def remote_ip
+    request.env["HTTP_X_FORWARDED_FOR"] || request.remote_ip
+  end
 
   def get_channels
     Rails.cache.fetch('get_channels', expires_in: 1.minute) do
