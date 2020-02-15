@@ -29,7 +29,7 @@ const ChannelPlayer = (props: Props) => {
     )
   const index = channels.findIndex(item => item === channel)
   const nextChannel = channels[(index + 1) % channels.length]
-  const next_channel_url = nextChannel
+  const nextChannelUrl = nextChannel
     ? `/channels/${nextChannel.streamId}`
     : null
 
@@ -54,7 +54,7 @@ const ChannelPlayer = (props: Props) => {
           size="small"
           color="primary"
           onClick={() => {
-            history.push(next_channel_url)
+            history.push(nextChannelUrl)
           }}
           style={{ marginRight: '5px' }}
         >
