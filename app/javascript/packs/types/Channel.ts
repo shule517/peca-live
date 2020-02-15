@@ -136,7 +136,7 @@ class Channel {
   }
 
   get compactGenre() {
-    return this.genre.replace(/game[　 ]*/gi, '') // ジャンルの「game」には情報量がないので省略。
+    return this.genre.replace(/(game)*[　 ]*/gi, '') // ジャンルの「game」には情報量がないので省略。
   }
 
   get compactDetails() {
@@ -165,8 +165,8 @@ class Channel {
     const details = this.unescapeHTML(this.detailsLabel) || ''
 
     let text = ''
-    if (this.genre.length) {
-      text = this.genre
+    if (this.compactGenre.length) {
+      text = this.compactGenre
 
       if (text.length && details.length) {
         text += ' - '
