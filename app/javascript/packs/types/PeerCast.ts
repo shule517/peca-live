@@ -1,26 +1,25 @@
 export type PeerCastInterface = {
-  host: string,
-  portNo: number,
+  host: string
+  portNo: number
 }
 
 class PeerCast {
-  static defaultHost = 'shule.peca.live';
-  static defaultPortNo = 8144;
+  static defaultHost = 'shule.peca.live'
+  static defaultPortNo = 8144
 
-  constructor(public json: PeerCastInterface) {
-  }
+  constructor(public json: PeerCastInterface) {}
 
   get host() {
-    return this.json.host;
+    return this.json.host
   }
 
   get portNo() {
-    return this.json.portNo;
+    return this.json.portNo
   }
 
   get tip() {
-    return `${this.host}:${this.portNo}`;
+    return `${this.host}:${this.portNo}`
   }
 }
 
-export default PeerCast;
+export default PeerCast
