@@ -4,7 +4,7 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def ip
-    render json: { remote_ip: remote_ip }
+    render json: { ip: request.ip, remote_ip: request.remote_ip, fowarded_for: request.env["HTTP_X_FORWARDED_FOR"], forward_or_remote: request.env["HTTP_X_FORWARDED_FOR"] || request.remote_ip }
   end
 
   private
