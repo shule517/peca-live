@@ -4,18 +4,11 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def check_port
-    ip = request.ip
+    ip = params[:host].presence || request.ip
     port_no = params[:port_no].presence || "7144"
+    result = PeerCast.port_opened?(ip, port_no)
 
-    sock = TCPSocket.open(ip, port_no)
-    pcp_hello_messsage = "pcp\x0a\x04\x00\x00\x00\x01\x00\x00\x00helo\x00\x00\x00\x80"
-    sock.write(pcp_hello_messsage)
-    response = sock.read
-    result = response.start_with?("oleh")
-    sock.close
     render json: { check_ip: ip, check_port: port_no, result: result }
-  rescue StandardError
-    render json: { check_ip: ip, check_port: port_no, result: false }
   end
 
   private
