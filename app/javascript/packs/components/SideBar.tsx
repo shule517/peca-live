@@ -137,7 +137,7 @@ const SideBar = (props: Props) => {
             }
             secondary={
               <ListenerCountStyle>
-                {`${channel.compact_details}`}
+                {`${channel.compactDetails}`}
               </ListenerCountStyle>
             }
             secondaryTypographyProps={{
