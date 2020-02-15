@@ -8,7 +8,7 @@ class Api::V1::ChannelsController < ApplicationController
     port_no = params[:port_no].presence || "7144"
     result = PeerCast.port_opened?(ip, port_no)
 
-    render json: { check_ip: ip, check_port: port_no, result: result }
+    render json: { result: result, check_ip: ip, check_port: port_no, request_ip: request.ip, request_remote_ip: request.remote_ip, forward: request.env["HTTP_X_FORWARDED_FOR"] }
   end
 
   private
