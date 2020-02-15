@@ -135,15 +135,15 @@ class Channel {
     return this.type === 'WMV'
   }
 
-  get compact_genre() {
+  get compactGenre() {
     return this.genre.replace(/game[　 ]*/gi, '') // ジャンルの「game」には情報量がないので省略。
   }
 
-  get compact_details() {
-    return this.compact_genre + this.details_label
+  get compactDetails() {
+    return this.compactGenre + this.detailsLabel
   }
 
-  get details_label() {
+  get detailsLabel() {
     const label = this.details
       .replace(' - <Open>', '')
       .replace('<Open>', '')
@@ -162,7 +162,7 @@ class Channel {
   }
 
   get explanation() {
-    const details = this.unescapeHTML(this.details_label) || ''
+    const details = this.unescapeHTML(this.detailsLabel) || ''
 
     let text = ''
     if (this.genre.length) {
