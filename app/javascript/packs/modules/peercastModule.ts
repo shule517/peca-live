@@ -1,17 +1,21 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import PeerCast, { PeerCastInterface } from '../types/PeerCast'
-import { useSelector } from "react-redux";
-import { RootState } from "./rootState";
+import { useSelector } from 'react-redux'
+import { RootState } from './rootState'
 
-export const peercastInitialState: PeerCastInterface = { host: 'shule.peca.live', portNo: 8144 };
+export const peercastInitialState: PeerCastInterface = {
+  host: 'shule.peca.live',
+  portNo: 8144
+}
 
 export const peercastModules = createSlice({
-  name: "peercast",
+  name: 'peercast',
   initialState: peercastInitialState,
   reducers: {
-    setPeerCast: (state, action: PayloadAction<PeerCastInterface>) => action.payload,
+    setPeerCast: (state, action: PayloadAction<PeerCastInterface>) =>
+      action.payload
   }
-});
+})
 
 // export const updatePeerCast = async (dispatch) => {
 //   // const response = await fetch('/api/v1/peercast', { credentials: 'same-origin' });
@@ -21,4 +25,5 @@ export const peercastModules = createSlice({
 //   dispatch(peercastModules.actions.setPeerCast(peercast));
 // };
 
-export const useSelectorPeerCast = () => useSelector((state: RootState) => new PeerCast(state.peercast));
+export const useSelectorPeerCast = () =>
+  useSelector((state: RootState) => new PeerCast(state.peercast))
