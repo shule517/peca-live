@@ -4,7 +4,7 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def check_port
-    ip = params[:host].presence || request.ip
+    ip = params[:host].presence || forwarded_for.presence || request.ip
     port_no = params[:port_no].presence || "7144"
     result = PeerCast.port_opened?(ip, port_no)
 
@@ -12,6 +12,12 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   private
+
+  def forwarded_for
+    forwarded = request.env['HTTP_X_FORWARDED_FOR']
+    return if forwarded.blank?
+    forwarded.split(",").first
+  end
 
   def get_channels
     Rails.cache.fetch('get_channels', expires_in: 1.minute) do
