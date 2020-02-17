@@ -3,6 +3,13 @@ class Api::V1::ChannelsController < ApplicationController
     render json: get_channels
   end
 
+  def live
+    ip = forwarded_for.presence || request.ip
+    channel = get_channels.find { |channel| channel['tracker'].start_with?(ip) || channel['creator'].start_with?(ip) }
+
+    render json: channel
+  end
+
   def check_port
     ip = params[:host].presence || forwarded_for.presence || request.ip
     port_no = params[:port_no].presence || "7144"

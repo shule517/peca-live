@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :channels do
         collection do
+          get :live
           get :check_port
         end
       end
