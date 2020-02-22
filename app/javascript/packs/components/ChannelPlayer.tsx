@@ -32,6 +32,10 @@ const ChannelPlayer = (props: Props) => {
   const nextChannelUrl = nextChannel
     ? `/channels/${nextChannel.streamId}`
     : null
+  const prevChannel = channels[(index - 1) % channels.length]
+  const prevChannelUrl = prevChannel
+    ? `/channels/${prevChannel.streamId}`
+    : null
 
   window.scrollTo(0, 0)
 
@@ -48,17 +52,17 @@ const ChannelPlayer = (props: Props) => {
     <ChannelItemStyle>
       <Helmet title={`${channel.name} - ぺからいぶ！`} />
 
-      {nextChannel && (
+      {prevChannel && (
         <Button
           variant="outlined"
           size="small"
           color="primary"
           onClick={() => {
-            history.push(nextChannelUrl)
+            history.push(prevChannelUrl)
           }}
           style={{ marginRight: '5px' }}
         >
-          次の配信へ
+          ＜ 前の配信へ
         </Button>
       )}
 
@@ -70,8 +74,23 @@ const ChannelPlayer = (props: Props) => {
           onClick={() => {
             window.location.href = vlcUrl
           }}
+          style={{ marginRight: '5px' }}
         >
           VLCで再生
+        </Button>
+      )}
+
+      {nextChannel && (
+        <Button
+          variant="outlined"
+          size="small"
+          color="primary"
+          onClick={() => {
+            history.push(nextChannelUrl)
+          }}
+          style={{ marginRight: '5px' }}
+        >
+          次の配信へ ＞
         </Button>
       )}
 
