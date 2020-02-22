@@ -32,7 +32,7 @@ const ChannelPlayer = (props: Props) => {
   const nextChannelUrl = nextChannel
     ? `/channels/${nextChannel.streamId}`
     : null
-  const prevChannel = channels[(index - 1) % channels.length]
+  const prevChannel = channels[(index - 1 + channels.length) % channels.length]
   const prevChannelUrl = prevChannel
     ? `/channels/${prevChannel.streamId}`
     : null
