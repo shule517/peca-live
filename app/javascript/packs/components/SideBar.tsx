@@ -83,7 +83,7 @@ const SideBar = (props: Props) => {
     })
     .slice(0, 4)
 
-  const test = (channel, primary, icon, secondary) => {
+  const channelItem = (channel, primary, icon, secondary) => {
     return (
       <ChannelDetailTooltip
         key={channel.streamId}
@@ -182,7 +182,7 @@ const SideBar = (props: Props) => {
         }
       >
         {hotChannels.map(channel => {
-          return test(
+          return channelItem(
             channel,
             channel.name,
             'headphones',
@@ -199,7 +199,7 @@ const SideBar = (props: Props) => {
         }
       >
         {newChannels.map(channel => {
-          return test(
+          return channelItem(
             channel,
             channel.name,
             'clock',
@@ -207,9 +207,34 @@ const SideBar = (props: Props) => {
           )
         })}
       </List>
+
+      <List
+        subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            <Typography variant="body2" color="textSecondary" component="p">
+              ご連絡は
+              <TwitterLink href={'https://twitter.com/shule517'}>
+                @shule517
+              </TwitterLink>
+              まで！
+            </Typography>
+          </ListSubheader>
+        }
+      ></List>
     </div>
   )
 }
+
+const TwitterLink = styled.a`
+  color: rgba(0, 0, 0, 0.54);
+  text-decoration: none;
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  margin-left: 3px;
+  margin-right: 3px;
+`
 
 const ListenerCountStyle = styled.span`
   margin-left: 4px;
