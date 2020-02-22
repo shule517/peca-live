@@ -81,9 +81,7 @@ const Video = (props: Props) => {
 
   return (
     <div>
-      {isHls ? null : (
-        <VideoStyle id={videoElementId} controls width="100%"></VideoStyle>
-      )}
+      {isHls ? null : <VideoStyle id={videoElementId} controls></VideoStyle>}
       {/*{*/}
       {/*  isHlsPlay ? (*/}
       {/*    <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
@@ -99,6 +97,10 @@ const VideoStyle = styled.video`
   background-color: #333333;
   margin-top: 10px;
   max-width: 800px;
+  width: ${window.parent.screen.width < 800
+    ? `${window.parent.screen.width}px`
+    : '800px'};
+  ${window.parent.screen.width > 800 ? 'height: 450px;' : null}
 `
 
 export default Video
