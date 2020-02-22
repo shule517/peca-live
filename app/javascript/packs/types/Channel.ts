@@ -99,11 +99,11 @@ class Channel {
 
   get ypIconUrl() {
     if (this.isSp) {
-      return './images/yp-sp.png'
+      return '/images/yp-sp.png'
     } else if (this.isTp) {
-      return './images/yp-tp.png'
+      return '/images/yp-tp.png'
     } else {
-      return './images/mouneyou.png'
+      return '/images/mouneyou.png'
     }
   }
 
@@ -154,7 +154,7 @@ class Channel {
   }
 
   get compactGenre() {
-    return this.genre.replace(/(game)*[　 ]*/gi, '') // ジャンルの「game」には情報量がないので省略。
+    return this.genre.replace(/(game)*[　 \-]*/gi, '') // ジャンルの「game」には情報量がないので省略。
   }
 
   get compactDetails() {
