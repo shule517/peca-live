@@ -117,7 +117,7 @@ const SideBar = (props: Props) => {
               }}
               variant="dot"
             >
-              <StyledAvator src={'/images/mouneyou.png'} />
+              <StyledAvator src={channel.ypIconUrl} />
             </StyledBadge>
           </ListItemIcon>
 

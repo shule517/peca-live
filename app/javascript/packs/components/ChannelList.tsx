@@ -55,7 +55,7 @@ const ChannelList = (props: Props) => {
                     <Grid item>
                       <StyledAvator
                         alt={channel.name}
-                        src="/images/mouneyou.png"
+                        src={channel.ypIconUrl}
                       />
                       <div style={{ textAlign: 'center', marginTop: '2px' }}>
                         <FontAwesomeIcon

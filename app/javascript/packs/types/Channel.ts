@@ -89,6 +89,24 @@ class Channel {
     return this.json.yellowPage
   }
 
+  get isSp() {
+    return this.yellowPage === 'SP'
+  }
+
+  get isTp() {
+    return this.yellowPage === 'TP'
+  }
+
+  get ypIconUrl() {
+    if (this.isSp) {
+      return './images/yp-sp.png'
+    } else if (this.isTp) {
+      return './images/yp-tp.png'
+    } else {
+      return './images/mouneyou.png'
+    }
+  }
+
   static nullObject(name) {
     return new Channel({
       yellowPage: '',
