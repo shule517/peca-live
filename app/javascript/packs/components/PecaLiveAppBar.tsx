@@ -9,6 +9,8 @@ import MenuIcon from '@material-ui/icons/Menu'
 import Avatar from '@material-ui/core/Avatar'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import SettingDialog from './SettingDialog'
+import Button from '@material-ui/core/Button'
+import LoginDialog from './LoginDialog'
 
 const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
@@ -32,7 +34,8 @@ type Props = {
 const PecaLiveAppBar = (props: Props) => {
   const { onAppButtonClick } = props
   const classes = useStyles({})
-  const [open, setOpen] = useState(false)
+  const [settingDialogOpen, setSettingDialogOpen] = useState(false)
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false)
 
   return (
     <AppBar position="fixed" color="inherit" className={classes.appBar}>
@@ -51,10 +54,21 @@ const PecaLiveAppBar = (props: Props) => {
           <Logo src="/images/pecalive.png" />
         </Link>
 
-        <IconButton onClick={() => setOpen(true)}>
+        <Button color="inherit" onClick={() => setLoginDialogOpen(true)}>
+          Login
+        </Button>
+        <IconButton onClick={() => setSettingDialogOpen(true)}>
           <AccountCircle />
         </IconButton>
-        <SettingDialog open={open} onClose={() => setOpen(false)} />
+
+        <LoginDialog
+          open={loginDialogOpen}
+          onClose={() => setLoginDialogOpen(false)}
+        />
+        <SettingDialog
+          open={settingDialogOpen}
+          onClose={() => setSettingDialogOpen(false)}
+        />
       </Toolbar>
     </AppBar>
   )

@@ -20,6 +20,7 @@ import { updateChannels } from './modules/channelsModule'
 import { updatePeerCast } from './modules/peercastModule'
 import { useCookies } from 'react-cookie'
 import PeerCast from './types/PeerCast'
+import firebase from 'firebase'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,6 +57,19 @@ const App = () => {
 
     // 1分間に1回チャンネル情報を再取得
     setInterval(() => updateChannels(dispatch), 10000)
+
+    firebase.auth().onAuthStateChanged(user => {
+      console.log(
+        `process.env.REACT_APP_API_KEY: ${process.env.REACT_APP_API_KEY}`
+      )
+      console.log(`user: ${user.displayName}`)
+      console.log(`uid: ${user.uid}`)
+      console.log(`photoURL: ${user.photoURL}`)
+      // this.setState({
+      //   loading: false,
+      //   user: user
+      // })
+    })
 
     //fontawesomeを読み込み
     library.add(fab, fas, far)
