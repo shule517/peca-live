@@ -9,6 +9,8 @@ import { useSelectorPeerCast, updatePeerCast } from '../modules/peercastModule'
 import PeerCast from '../types/PeerCast'
 import { useDispatch } from 'react-redux'
 import { useCookies } from 'react-cookie'
+import firebase from 'firebase'
+import { signOutUser } from '../modules/userModule'
 
 type Props = {
   open: boolean
@@ -69,6 +71,16 @@ const SettingDialog = (props: Props) => {
         />
       </DialogContent>
       <DialogActions>
+        <Button
+          onClick={() => {
+            onClose()
+            firebase.auth().signOut()
+            signOutUser(dispatch)
+          }}
+          color="primary"
+        >
+          ログアウト
+        </Button>
         <Button onClick={() => onDefaultButtonClick()} color="primary">
           デフォルトに戻す
         </Button>

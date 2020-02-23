@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     card: {
       maxWidth: 550,
+      width: window.parent.screen.width - 8 * 2,
       margin: `${theme.spacing(1)}px auto`
     },
     media: {
