@@ -98,7 +98,7 @@ const VideoStyle = styled.video`
   margin-top: 10px;
   max-width: 800px;
   width: ${window.parent.screen.width < 800
-    ? `${window.parent.screen.width}px`
+    ? `${window.parent.screen.width - 10 * 2}px`
     : '800px'};
   ${window.parent.screen.width > 800 ? 'height: 450px;' : null}
 `
