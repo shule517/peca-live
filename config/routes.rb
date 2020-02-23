@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      resources :accounts, only: [:create]
       resources :channels do
         collection do
           get :live
