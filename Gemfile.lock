@@ -82,6 +82,7 @@ GEM
     concurrent-ruby (1.1.5)
     crass (1.0.5)
     debug_inspector (0.0.3)
+    diffy (3.3.0)
     dotenv (2.7.5)
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
@@ -155,6 +156,9 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     regexp_parser (1.6.0)
+    ridgepole (0.8.6)
+      activerecord (>= 5.0.1, < 6.1)
+      diffy
     ruby_dep (1.5.0)
     rubyzip (2.0.0)
     sass (3.7.4)
@@ -227,6 +231,7 @@ DEPENDENCIES
   puma (~> 3.12)
   rack-cors
   rails (~> 6.0.0)
+  ridgepole
   sass-rails (~> 5)
   selenium-webdriver
   spring
