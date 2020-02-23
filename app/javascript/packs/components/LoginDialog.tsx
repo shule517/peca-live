@@ -17,6 +17,7 @@ const LoginDialog = (props: Props) => {
       <DialogTitle>ログイン</DialogTitle>
       <DialogContent dividers>
         <SignInScreen />
+        まだログインしても何もないよ！お楽しみに！
       </DialogContent>
     </Dialog>
   )
