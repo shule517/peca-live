@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
@@ -21,6 +21,7 @@ import { updatePeerCast } from './modules/peercastModule'
 import { useCookies } from 'react-cookie'
 import PeerCast from './types/PeerCast'
 import firebase from 'firebase'
+import { updateUser } from './modules/userModule'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,17 +59,9 @@ const App = () => {
     // 1分間に1回チャンネル情報を再取得
     setInterval(() => updateChannels(dispatch), 10000)
 
+    // ログイン情報
     firebase.auth().onAuthStateChanged(user => {
-      console.log(
-        `process.env.REACT_APP_API_KEY: ${process.env.REACT_APP_API_KEY}`
-      )
-      console.log(`user: ${user.displayName}`)
-      console.log(`uid: ${user.uid}`)
-      console.log(`photoURL: ${user.photoURL}`)
-      // this.setState({
-      //   loading: false,
-      //   user: user
-      // })
+      updateUser(dispatch, user.uid, user.displayName, user.photoURL)
     })
 
     //fontawesomeを読み込み

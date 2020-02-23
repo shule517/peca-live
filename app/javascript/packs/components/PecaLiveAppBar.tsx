@@ -11,6 +11,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import SettingDialog from './SettingDialog'
 import Button from '@material-ui/core/Button'
 import LoginDialog from './LoginDialog'
+import { useSelectorUser } from '../modules/userModule'
 
 const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
@@ -24,6 +25,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   logo: {
     flexGrow: 1
+  },
+  avatar: {
+    width: theme.spacing(4),
+    height: theme.spacing(4)
   }
 }))
 
@@ -36,6 +41,7 @@ const PecaLiveAppBar = (props: Props) => {
   const classes = useStyles({})
   const [settingDialogOpen, setSettingDialogOpen] = useState(false)
   const [loginDialogOpen, setLoginDialogOpen] = useState(false)
+  const currentUser = useSelectorUser()
 
   return (
     <AppBar position="fixed" color="inherit" className={classes.appBar}>
@@ -54,11 +60,13 @@ const PecaLiveAppBar = (props: Props) => {
           <Logo src="/images/pecalive.png" />
         </Link>
 
-        <Button color="inherit" onClick={() => setLoginDialogOpen(true)}>
-          Login
-        </Button>
+        {!currentUser.isLogin && (
+          <Button color="inherit" onClick={() => setLoginDialogOpen(true)}>
+            Login
+          </Button>
+        )}
         <IconButton onClick={() => setSettingDialogOpen(true)}>
-          <AccountCircle />
+          <Avatar src={currentUser.photoURL} className={classes.avatar} />
         </IconButton>
 
         <LoginDialog
