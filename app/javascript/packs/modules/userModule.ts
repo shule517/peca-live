@@ -13,7 +13,8 @@ export const userModules = createSlice({
   name: 'user',
   initialState: userInitialState,
   reducers: {
-    updateUser: (state, action: PayloadAction<UserInterface>) => action.payload
+    updateUser: (state, action: PayloadAction<UserInterface>) => action.payload,
+    signOutUser: (state, action: PayloadAction<UserInterface>) => action.payload
   }
 })
 
@@ -23,6 +24,16 @@ export const updateUser = (dispatch, uid, displayName, photoURL) => {
       uid: uid,
       displayName: displayName,
       photoURL: photoURL
+    })
+  )
+}
+
+export const signOutUser = dispatch => {
+  dispatch(
+    userModules.actions.signOutUser({
+      uid: null,
+      displayName: null,
+      photoURL: null
     })
   )
 }
