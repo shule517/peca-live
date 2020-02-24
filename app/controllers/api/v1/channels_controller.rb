@@ -1,13 +1,14 @@
 class Api::V1::ChannelsController < ApplicationController
   def index
-    render json: get_channels
+    channels = get_channels.select { |channel| visible_channel?(channel) }
+    render json: channels
   end
 
   def broadcasting
     ip = forwarded_for.presence || request.ip
-    channel = get_channels.select { |channel| channel['tracker'].start_with?(ip) || channel['creator'].start_with?(ip) }
+    channels = get_channels.select { |channel| channel['tracker'].start_with?(ip) || channel['creator'].start_with?(ip) }
 
-    render json: channel
+    render json: channels.map { |channel| channel['private'] = PrivateChannel.where(name: channel['name']).exists?; channel }
   end
 
   def check_port
@@ -43,6 +44,6 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def ignore_channel?(channel_name)
-    %w(isuZuﾋﾟﾁｭｰﾝch なる).include?(channel_name)
+    %w(isuZuﾋﾟﾁｭｰﾝch なる).include?(channel_name) || PrivateChannel.where(name: channel_name).exists?
   end
 end

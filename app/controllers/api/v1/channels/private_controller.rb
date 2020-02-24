@@ -1,10 +1,12 @@
 class Api::V1::Channels::PrivateController < ApplicationController
-  def create
-    PrivateChannel.find_or_create_by!(name: params[:channel_name])
-  end
-
-  def destroy
+  def show
     channel = PrivateChannel.find_by(name: params[:channel_name])
-    channel&.destroy!
+    if channel.present?
+      channel.destroy!
+    else
+      PrivateChannel.find_or_create_by!(name: params[:channel_name])
+    end
+
+    head :ok
   end
 end
