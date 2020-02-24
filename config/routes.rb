@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
       resources :channels do
         collection do
-          get :live
+          get :broadcasting
           get :check_port
         end
       end
