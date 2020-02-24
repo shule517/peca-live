@@ -65,8 +65,8 @@ const App = () => {
         .getIdToken(true)
         .then(idToken => {
           const token = document.getElementsByName('csrf-token')[0]['content']
-          const railsLogin = async () => {
-            const response = await fetch('api/v1/accounts', {
+          const signinRails = async () => {
+            await fetch('/api/v1/accounts', {
               credentials: 'same-origin',
               method: 'POST',
               headers: {
@@ -75,7 +75,7 @@ const App = () => {
               }
             })
           }
-          railsLogin()
+          signinRails()
         })
         .catch(error => {
           console.log(`Firebase getIdToken failed!: ${error.message}`)
