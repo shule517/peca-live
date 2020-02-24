@@ -3,9 +3,9 @@ class Api::V1::ChannelsController < ApplicationController
     render json: get_channels
   end
 
-  def live
+  def broadcasting
     ip = forwarded_for.presence || request.ip
-    channel = get_channels.find { |channel| channel['tracker'].start_with?(ip) || channel['creator'].start_with?(ip) }
+    channel = get_channels.select { |channel| channel['tracker'].start_with?(ip) || channel['creator'].start_with?(ip) }
 
     render json: channel
   end
@@ -38,7 +38,6 @@ class Api::V1::ChannelsController < ApplicationController
 
   def visible_channel?(channel)
     return false if channel['channelId'] == '00000000000000000000000000000000'
-    # return false unless channel['contentType'] == 'FLV'
     return false if ignore_channel?(channel['name'])
     true
   end
