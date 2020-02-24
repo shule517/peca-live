@@ -18,6 +18,7 @@ Rails.application.routes.draw do
         collection do
           get :broadcasting
           get :check_port
+          resources :private, controller: 'channels/private', param: :channel_name, only: %i(create destroy)
         end
       end
     end

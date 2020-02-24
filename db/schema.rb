@@ -12,6 +12,13 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
+  create_table "private_channels", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_private_channels_on_name", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "uid", null: false
     t.string "name", null: false
