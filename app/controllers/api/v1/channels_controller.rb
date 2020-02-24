@@ -1,6 +1,10 @@
 class Api::V1::ChannelsController < ApplicationController
+  before_action :set_private_channel_names
+
   def index
-    channels = get_channels.select { |channel| visible_channel?(channel) }
+    channels = Rails.cache.fetch('api/v1/channels/index', expires_in: 1.minute) do
+      get_channels.select { |channel| visible_channel?(channel) }
+    end
     render json: channels
   end
 
@@ -21,6 +25,10 @@ class Api::V1::ChannelsController < ApplicationController
 
   private
 
+  def set_private_channel_names
+    @private_channel_names = PrivateChannel.all.pluck(:name)
+  end
+
   def forwarded_for
     forwarded = request.env['HTTP_X_FORWARDED_FOR']
     return if forwarded.blank?
@@ -32,7 +40,6 @@ class Api::V1::ChannelsController < ApplicationController
       peca_tip = "http://#{ENV['PEERCAST_TIP']}"
       api = JsonRpc.new("#{peca_tip}/api/1", ENV['PEERCAST_BASIC_TOKEN'])
       channels = api.update_yp_channels
-      channels = channels.select { |channel| visible_channel?(channel) }
       channels
     end
   end
@@ -44,6 +51,6 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def ignore_channel?(channel_name)
-    %w(isuZuﾋﾟﾁｭｰﾝch なる).include?(channel_name) || PrivateChannel.where(name: channel_name).exists?
+    @private_channel_names.include?(channel_name)
   end
 end
