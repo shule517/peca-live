@@ -12,6 +12,7 @@ import SettingDialog from './SettingDialog'
 import Button from '@material-ui/core/Button'
 import LoginDialog from './LoginDialog'
 import { useSelectorUser } from '../modules/userModule'
+import SettingsIcon from '@material-ui/icons/Settings'
 
 const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
@@ -60,14 +61,23 @@ const PecaLiveAppBar = (props: Props) => {
           <Logo src="/images/pecalive.png" />
         </Link>
 
-        {!currentUser.isLogin && (
-          <Button color="inherit" onClick={() => setLoginDialogOpen(true)}>
-            Login
+        <IconButton onClick={() => setSettingDialogOpen(true)}>
+          <SettingsIcon />
+        </IconButton>
+
+        {currentUser.isLogin ? (
+          <IconButton onClick={() => setLoginDialogOpen(true)}>
+            <Avatar src={currentUser.photoURL} className={classes.avatar} />
+          </IconButton>
+        ) : (
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => setLoginDialogOpen(true)}
+          >
+            ログイン
           </Button>
         )}
-        <IconButton onClick={() => setSettingDialogOpen(true)}>
-          <Avatar src={currentUser.photoURL} className={classes.avatar} />
-        </IconButton>
 
         <LoginDialog
           open={loginDialogOpen}

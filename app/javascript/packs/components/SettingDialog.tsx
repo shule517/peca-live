@@ -71,22 +71,6 @@ const SettingDialog = (props: Props) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={() => {
-            onClose()
-            firebase.auth().signOut()
-            signOutUser(dispatch)
-            const signoutRails = async () => {
-              const response = await fetch('/api/v1/accounts/sign_out', {
-                credentials: 'same-origin'
-              })
-            }
-            signoutRails()
-          }}
-          color="primary"
-        >
-          ログアウト
-        </Button>
         <Button onClick={() => onDefaultButtonClick()} color="primary">
           デフォルトに戻す
         </Button>
