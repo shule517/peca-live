@@ -61,6 +61,26 @@ const App = () => {
 
     // ログイン情報
     firebase.auth().onAuthStateChanged(user => {
+      user
+        .getIdToken(true)
+        .then(idToken => {
+          const token = document.getElementsByName('csrf-token')[0]['content']
+          const signinRails = async () => {
+            await fetch('/api/v1/accounts', {
+              credentials: 'same-origin',
+              method: 'POST',
+              headers: {
+                'X-CSRF-TOKEN': token,
+                Authorization: `Bearer ${idToken}`
+              }
+            })
+          }
+          signinRails()
+        })
+        .catch(error => {
+          console.log(`Firebase getIdToken failed!: ${error.message}`)
+        })
+
       updateUser(dispatch, user.uid, user.displayName, user.photoURL)
     })
 

@@ -76,6 +76,12 @@ const SettingDialog = (props: Props) => {
             onClose()
             firebase.auth().signOut()
             signOutUser(dispatch)
+            const signoutRails = async () => {
+              const response = await fetch('/api/v1/accounts/sign_out', {
+                credentials: 'same-origin'
+              })
+            }
+            signoutRails()
           }}
           color="primary"
         >
