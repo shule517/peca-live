@@ -7,9 +7,10 @@ class Api::V1::AccountsController < ApplicationController
       uid = decoded_token[:uid]
       payload = decoded_token[:decoded_token][:payload]
       name = payload[:name]
-      profile_image_url = payload[:picture]
+      photo_url = payload[:picture]
 
-      pp uid: uid, name: name, profile_image_url: profile_image_url
+      pp uid: uid, name: name, photo_url: photo_url
+      User.create!(uid: uid, name: name, photo_url: photo_url)
     end
   end
 end
