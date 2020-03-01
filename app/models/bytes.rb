@@ -23,7 +23,7 @@ class Bytes
 
   def to_i
     bytes.map.with_index do |byte, index|
-      byte << index * 4 # little endian
+      byte << index * 8 # little endian
     end.sum
   end
 

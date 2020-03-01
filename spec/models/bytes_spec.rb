@@ -46,22 +46,22 @@ describe Bytes do
 
     context '2桁目だけの場合' do
       let(:bytes) { [0, 1, 0, 0].to_bytes }
-      it { is_expected.to eq 16 }
+      it { is_expected.to eq 256 }
     end
 
     context '3桁目だけの場合' do
       let(:bytes) { [0, 0, 1, 0].to_bytes }
-      it { is_expected.to eq 256 }
+      it { is_expected.to eq 65536 }
     end
 
     context '4桁目だけの場合' do
       let(:bytes) { [0, 0, 0, 1].to_bytes }
-      it { is_expected.to eq 4096 }
+      it { is_expected.to eq 16777216 }
     end
 
     context '1〜4桁の場合' do
       let(:bytes) { [1, 1, 1, 1].to_bytes }
-      it { is_expected.to eq 1 + 16 + 256 + 4096 }
+      it { is_expected.to eq 1 + 256 + 65536 + 16777216 }
     end
   end
 
