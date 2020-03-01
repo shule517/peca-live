@@ -10,19 +10,19 @@ class Atom
   end
 
   def size
-    start = 4
-    len = 4
-    array = bytes[start...start+len]
+    array = substring(4, 4)
     bytes_to_i32(array)
   end
 
   def data
-    start = 8
-    len = size
-    bytes[start...start+len]
+    substring(8, size)
   end
 
   private
+
+  def substring(start, length)
+    bytes[start...start+length]
+  end
 
   def bytes_to_i32(bytes)
     bytes.reverse! # little endianを変換
