@@ -13,17 +13,18 @@ class Bytes
     bytes.first(length).to_bytes
   end
 
-  def substring(start, length)
-    bytes[start...start+length].to_bytes
+  def substring(start, length = nil)
+    if length.present?
+      bytes[start...start+length].to_bytes
+    else
+      bytes[start..].to_bytes
+    end
   end
 
   def to_i
-    bytes.reverse! # little endianを変換
-    byte1 = bytes[0] << 12
-    byte2 = bytes[1] << 8
-    byte3 = bytes[2] << 4
-    byte4 = bytes[3]
-    byte1 + byte2 + byte3 + byte4
+    bytes.map.with_index do |byte, index|
+      byte << index * 4 # little endian
+    end.sum
   end
 
   def to_s
@@ -32,5 +33,9 @@ class Bytes
 
   def to_a
     bytes
+  end
+
+  def to_hex
+    bytes.map { |byte| byte.to_s(16).upcase }.join
   end
 end
