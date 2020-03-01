@@ -1,5 +1,6 @@
 class Bytes
   attr_reader :bytes
+  delegate :size, to: :bytes
 
   def initialize(bytes)
     @bytes = bytes

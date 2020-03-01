@@ -21,6 +21,39 @@ describe Atom do
     it { expect(atom.data.to_a).to eq [1, 0, 0, 0] }
   end
 
+  describe '#number_of_bytes_required' do
+    subject { atom.number_of_bytes_required }
+
+    context '子Atomが存在しない場合' do
+      context 'ヘッダーのみの場合' do
+        let(:bytes) do
+          [112, 99, 112, 10, # type(4byte)
+             4,  0,   0,  0] # size(4byte)
+              .to_bytes
+        end
+        it do
+          is_expected.to eq 4
+        end
+      end
+
+      context 'ヘッダー＋データの場合' do
+        let(:bytes) do
+          [112, 99, 112, 10, # type(4byte)
+             4,  0,   0,  0, # size(4byte)
+             1,  0,   0,  0] # data(4byte)
+              .to_bytes
+        end
+
+        it do
+          is_expected.to eq 0
+        end
+      end
+    end
+
+    context '子Atomが存在する場合' do
+    end
+  end
+
   describe 'heloコマンド' do
     let(:bytes) do
       [104, 101, 108, 111, # type: helo

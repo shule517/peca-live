@@ -1,8 +1,25 @@
 class Atom
   attr_reader :bytes
 
+  TYPE_LENGTH = 4
+  SIZE_LENGTH = 4
+  HEADER_LENGTH = TYPE_LENGTH + SIZE_LENGTH
+
   def initialize(bytes)
+    raise unless bytes.is_a?(Bytes)
     @bytes = bytes
+  end
+
+  def number_of_bytes_required
+    if has_children?
+      999999999 # TODO 未実装
+    else
+      (HEADER_LENGTH + size) - bytes.size
+    end
+  end
+
+  def complete?
+    number_of_bytes_required == 0
   end
 
   def type
