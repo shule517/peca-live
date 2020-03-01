@@ -10,11 +10,11 @@ class Bytes
   end
 
   def first(length = 1)
-    Bytes.new(bytes.first(length))
+    bytes.first(length).to_bytes
   end
 
   def substring(start, length)
-    Bytes.new(bytes[start...start+length])
+    bytes[start...start+length].to_bytes
   end
 
   def to_i
