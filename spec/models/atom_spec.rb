@@ -24,6 +24,11 @@ describe Atom do
   describe '#number_of_bytes_required' do
     subject { atom.number_of_bytes_required }
 
+    context '' do
+      let(:bytes) { [].to_bytes }
+      it { is_expected.to eq 8 }
+    end
+
     context '子Atomが存在しない場合' do
       context 'ヘッダーのみの場合' do
         let(:bytes) do
@@ -51,6 +56,176 @@ describe Atom do
     end
 
     context '子Atomが存在する場合' do
+      context 'ヘッダーのみの場合' do
+        let(:bytes) do
+          [104, 101, 108, 111, # type: helo
+             4,   0,   0, 128] # size(4byte)
+              .to_bytes
+        end
+        it do
+          is_expected.to eq 8
+        end
+      end
+
+      context 'ヘッダー+データの場合' do
+        let(:bytes) do
+          [104, 101, 108, 111, # type: helo
+             4,   0,   0, 128, # size: 4 & has_children
+            97, 103, 110, 116, # type: agnt
+            24,   0,   0,   0] # size: 24
+              .to_bytes
+        end
+        it do
+          is_expected.to eq 24
+        end
+      end
+
+      context 'ヘッダー+データの場合' do
+        let(:bytes) do
+          [104, 101, 108, 111, # type: helo
+           4,   0,   0, 128,   # size: 4 & has_children
+           97, 103, 110, 116,  # type: agnt
+           24,   0,   0,   0,  # size: 24
+           80, 101, 101, 114, 67, 97, 115, 116, 83, 116, 97, 116, 105, 111, 110, 47, 50, 46, 57, 46, 50, 46, 48, 0]
+              .to_bytes
+        end
+        it do
+          is_expected.to eq 8
+        end
+      end
+
+      context 'ヘッダー+データの場合' do
+        let(:bytes) do
+          [104, 101, 108, 111, # type: helo
+           4,   0,   0, 128,   # size: 4 & has_children
+           97, 103, 110, 116,  # type: agnt
+           24,   0,   0,   0,  # size: 24
+           80, 101, 101, 114, 67, 97, 115, 116, 83, 116, 97, 116, 105, 111, 110, 47, 50, 46, 57, 46, 50, 46, 48, 0,
+           118, 101, 114, 0, # type: ver\x00
+           4, 0, 0, 0] # size: 4
+              .to_bytes
+        end
+        it do
+          is_expected.to eq 4
+        end
+      end
+
+      context 'ヘッダー+データの場合' do
+        let(:bytes) do
+          [104, 101, 108, 111, # type: helo
+           4,   0,   0, 128,   # size: 4 & has_children
+
+           97, 103, 110, 116,  # type: agnt
+           24,   0,   0,   0,  # size: 24
+           80, 101, 101, 114, 67, 97, 115, 116, 83, 116, 97, 116, 105, 111, 110, 47, 50, 46, 57, 46, 50, 46, 48, 0,
+
+           118, 101, 114, 0, # type: ver\x00
+           4, 0, 0, 0, # size: 4
+           194, 4, 0, 0]
+              .to_bytes
+        end
+        it do
+          is_expected.to eq 8
+        end
+      end
+
+      context 'ヘッダー+データの場合' do
+        let(:bytes) do
+          [104, 101, 108, 111, # type: helo
+           4,   0,   0, 128,   # size: 4 & has_children
+
+           97, 103, 110, 116,  # type: agnt
+           24,   0,   0,   0,  # size: 24
+           80, 101, 101, 114, 67, 97, 115, 116, 83, 116, 97, 116, 105, 111, 110, 47, 50, 46, 57, 46, 50, 46, 48, 0,
+
+           118, 101, 114, 0, # type: ver\x00
+           4, 0, 0, 0, # size: 4
+           194, 4, 0, 0,
+
+           115, 105, 100, 0, # type: sid\x00
+           16, 0, 0, 0] # size: 16
+              .to_bytes
+        end
+        it do
+          is_expected.to eq 16
+        end
+      end
+
+      context 'ヘッダー+データの場合' do
+        let(:bytes) do
+          [104, 101, 108, 111, # type: helo
+           4,   0,   0, 128,   # size: 4 & has_children
+
+           97, 103, 110, 116,  # type: agnt
+           24,   0,   0,   0,  # size: 24
+           80, 101, 101, 114, 67, 97, 115, 116, 83, 116, 97, 116, 105, 111, 110, 47, 50, 46, 57, 46, 50, 46, 48, 0,
+
+           118, 101, 114, 0, # type: ver\x00
+           4, 0, 0, 0, # size: 4
+           194, 4, 0, 0,
+
+           115, 105, 100, 0, # type: sid\x00
+           16, 0, 0, 0, # size: 16
+           185, 158, 181, 225, 33, 131, 76, 251, 147, 47, 21, 102, 31, 180, 15, 234]
+              .to_bytes
+        end
+        it do
+          is_expected.to eq 8
+        end
+      end
+
+      context 'ヘッダー+データの場合' do
+        let(:bytes) do
+          [104, 101, 108, 111, # type: helo
+           4,   0,   0, 128,   # size: 4 & has_children
+
+           97, 103, 110, 116,  # type: agnt
+           24,   0,   0,   0,  # size: 24
+           80, 101, 101, 114, 67, 97, 115, 116, 83, 116, 97, 116, 105, 111, 110, 47, 50, 46, 57, 46, 50, 46, 48, 0,
+
+           118, 101, 114, 0, # type: ver\x00
+           4, 0, 0, 0, # size: 4
+           194, 4, 0, 0,
+
+           115, 105, 100, 0, # type: sid\x00
+           16, 0, 0, 0, # size: 16
+           185, 158, 181, 225, 33, 131, 76, 251, 147, 47, 21, 102, 31, 180, 15, 234,
+
+           98, 99, 105, 100, # type: bcid
+           16, 0, 0, 0] # size: 16
+              .to_bytes
+        end
+        it do
+          is_expected.to eq 16
+        end
+      end
+
+      context 'ヘッダー+データの場合' do
+        let(:bytes) do
+          [104, 101, 108, 111, # type: helo
+           4,   0,   0, 128,   # size: 4 & has_children
+
+           97, 103, 110, 116,  # type: agnt
+           24,   0,   0,   0,  # size: 24
+           80, 101, 101, 114, 67, 97, 115, 116, 83, 116, 97, 116, 105, 111, 110, 47, 50, 46, 57, 46, 50, 46, 48, 0,
+
+           118, 101, 114, 0, # type: ver\x00
+           4, 0, 0, 0, # size: 4
+           194, 4, 0, 0,
+
+           115, 105, 100, 0, # type: sid\x00
+           16, 0, 0, 0, # size: 16
+           185, 158, 181, 225, 33, 131, 76, 251, 147, 47, 21, 102, 31, 180, 15, 234,
+
+           98, 99, 105, 100, # type: bcid
+           16, 0, 0, 0, # size: 16
+           0, 34, 221, 27, 49, 232, 71, 189, 174, 211, 217, 44, 20, 132, 33, 60]
+              .to_bytes
+        end
+        it do
+          is_expected.to eq 8
+        end
+      end
     end
   end
 

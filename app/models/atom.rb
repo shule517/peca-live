@@ -11,15 +11,24 @@ class Atom
   end
 
   def number_of_bytes_required
+    return HEADER_LENGTH if bytes.size == 0
+
     if has_children?
-      999999999 # TODO 未実装
+      current_atom = self.next
+      size.times.each do |index|
+        unless current_atom.complete?
+          return current_atom.number_of_bytes_required
+        end
+        current_atom = current_atom.next
+      end
+      current_atom.number_of_bytes_required
     else
       (HEADER_LENGTH + size) - bytes.size
     end
   end
 
   def complete?
-    number_of_bytes_required == 0
+    number_of_bytes_required <= 0
   end
 
   def type
