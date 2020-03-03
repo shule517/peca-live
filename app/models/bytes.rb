@@ -10,6 +10,10 @@ class Bytes
     bytes[index]
   end
 
+  def +(other)
+    Bytes.new(bytes + other.bytes)
+  end
+
   def first(length = 1)
     bytes.first(length).to_bytes
   end

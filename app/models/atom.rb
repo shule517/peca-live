@@ -1,77 +1,44 @@
 class Atom
-  attr_reader :bytes
+  attr_reader :bytes, :children
 
   TYPE_LENGTH = 4
   SIZE_LENGTH = 4
   HEADER_LENGTH = TYPE_LENGTH + SIZE_LENGTH
 
-  def initialize(bytes)
-    raise unless bytes.is_a?(Bytes)
-    @bytes = bytes
-  end
-
-  def number_of_bytes_required
-    return HEADER_LENGTH if bytes.size == 0
+  def initialize(io)
+    @bytes = io.read(HEADER_LENGTH).bytes.to_bytes
+    @children = []
 
     if has_children?
-      current_atom = self.next
-      size.times.each do |index|
-        unless current_atom.complete?
-          return current_atom.number_of_bytes_required
-        end
-        current_atom = current_atom.next
-      end
-      current_atom.number_of_bytes_required
+      @children = size.times.map { Atom.new(io) }
     else
-      (HEADER_LENGTH + size) - bytes.size
+      @bytes += io.read(size).bytes.to_bytes
     end
   end
 
-  def complete?
-    number_of_bytes_required <= 0
-  end
-
   def type
-    bytes.first(4).to_s
+    bytes.first(TYPE_LENGTH).to_s
   end
 
   def has_children?
     # 先頭1ビットは子供Atomが存在するかどうかを示す
-    (size_range & 0x80000000) != 0
+    (size_raw & 0x80000000) != 0
   end
 
   def size
     # 2ビット目以降は、1ビット目によって意味が変わる
     # 先頭1ビットが1の場合：子供Atomの数
     # 先頭1ビットが0の場合：データの長さ(byte)
-    size_range & 0x7FFFFFF
-  end
-
-  def children
-    return [] unless has_children?
-
-    current_atom = self
-    size.times.map do
-      current_atom = current_atom.next
-    end
+    size_raw & 0x7FFFFFF
   end
 
   def data
     bytes.substring(8, size)
   end
 
-  def next
-    if has_children?
-      Atom.new(bytes.substring(8))
-      # TODO: childrenをスキップしたい
-    else
-      Atom.new(bytes.substring(8 + size))
-    end
-  end
-
   private
 
-  def size_range
-    bytes.substring(4, 4).to_i
+  def size_raw
+    bytes.substring(TYPE_LENGTH, SIZE_LENGTH).to_i
   end
 end
