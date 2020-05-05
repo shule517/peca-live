@@ -37,7 +37,7 @@ const LoginDialog = (props: Props) => {
         ) : (
           <>
             <SignInScreen />
-            まだログインしても何もないよ！お楽しみに！
+            ログインするとお気に入り機能が使えます！
           </>
         )}
       </DialogContent>
