@@ -13,6 +13,6 @@ class User < ApplicationRecord
   has_many :favorites
 
   def favorite!(channel_name)
-    favorites.create!(channel_name: channel_name)
+    favorites.find_or_create_by!(channel_name: channel_name)
   end
 end
