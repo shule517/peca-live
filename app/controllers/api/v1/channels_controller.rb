@@ -5,6 +5,8 @@ class Api::V1::ChannelsController < ApplicationController
     channels = Rails.cache.fetch('api/v1/channels/index', expires_in: 1.minute) do
       get_channels.select { |channel| visible_channel?(channel) }
     end
+    favorites = Array(current_user.favorites)
+    channels.map { |hash| hash[:favorited] = favorites.any? { |favorite| favorite.channel_name == hash['name'] } }
     render json: channels
   end
 
