@@ -49,8 +49,12 @@ const SettingDialog = (props: Props) => {
   const onSaveButtonClick = () => {
     // PeerCastの設定とlocalStorageに保存
     updatePeerCast(dispatch, textHost, textPortNo)
-    localStorage.setItem('pecaHost', textHost)
-    localStorage.setItem('pecaPortNo', textPortNo.toString())
+    if (textHost != PeerCast.defaultHost) {
+      localStorage.setItem('pecaHost', textHost)
+    }
+    if (textPortNo != PeerCast.defaultPortNo) {
+      localStorage.setItem('pecaPortNo', textPortNo.toString())
+    }
   }
 
   const onDefaultButtonClick = () => {
