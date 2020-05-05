@@ -96,86 +96,45 @@ const ChannelPlayer = (props: Props) => {
         </Button>
       )}
 
-      {channel.isFavorited ? (
-        <Button
-          variant="outlined"
-          size="small"
-          color="primary"
-          onClick={() => {
-            const favoriteChannel = async () => {
-              // お気に入り削除を画面に反映
-              updateChannels(dispatch)
-              // TODO: setFavoriteChannel(channels, channel.name, false, dispatch)
-
-              const token = document.getElementsByName('csrf-token')[0][
-                'content'
-              ]
-              const headers = {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRF-TOKEN': token
-              }
-              const body = `channel_name=${channel.name}`
-              await fetch('/api/v1/favorites', {
-                credentials: 'same-origin',
-                method: 'DELETE',
-                headers: headers,
-                body
-              })
+      <Button
+        variant="outlined"
+        size="small"
+        color="primary"
+        onClick={() => {
+          const favoriteChannel = async () => {
+            const token = document.getElementsByName('csrf-token')[0]['content']
+            const headers = {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'X-CSRF-TOKEN': token
             }
-            favoriteChannel()
+            const body = `channel_name=${channel.name}`
 
-            console.log(
-              `${channel.name}をお気に入りから削除！`
-            ) /* ログインしていない場合は、ダイアログを表示する */
-          }}
-        >
+            await fetch('/api/v1/favorites', {
+              credentials: 'same-origin',
+              method: channel.isFavorited ? 'DELETE' : 'POST',
+              headers: headers,
+              body
+            })
+
+            await updateChannels(dispatch) // 画面に反映
+            // TODO: setFavoriteChannel(channels, channel.name, false, dispatch)
+          }
+          favoriteChannel()
+        }}
+      >
+        {channel.isFavorited ? (
           <FontAwesomeIcon
             icon={['fas', 'heart']}
             style={{ marginRight: '5px' }}
           />
-          {/*<FavoriteIcon style={{ marginRight: '5px' }} />*/}
-          お気に入り
-        </Button>
-      ) : (
-        <Button
-          variant="outlined"
-          size="small"
-          color="primary"
-          onClick={() => {
-            const favoriteChannel = async () => {
-              // お気に入り追加を画面に反映
-              updateChannels(dispatch)
-              // TODO: setFavoriteChannel(channels, channel.name, true, dispatch)
-
-              const token = document.getElementsByName('csrf-token')[0][
-                'content'
-              ]
-              const headers = {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRF-TOKEN': token
-              }
-              const body = `channel_name=${channel.name}`
-              await fetch('/api/v1/favorites', {
-                credentials: 'same-origin',
-                method: 'POST',
-                headers: headers,
-                body
-              })
-            }
-            favoriteChannel()
-
-            console.log(
-              `${channel.name}をお気に入りに登録！`
-            ) /* ログインしていない場合は、ダイアログを表示する */
-          }}
-        >
+        ) : (
           <FontAwesomeIcon
             icon={['far', 'heart']}
             style={{ marginRight: '5px' }}
           />
-          お気に入り
-        </Button>
-      )}
+        )}
+        お気に入り
+      </Button>
 
       <div>
         <Video channel={channel} isHls={isHls} local={local} />
