@@ -8,7 +8,6 @@ import React, { useEffect, useState } from 'react'
 import { useSelectorPeerCast, updatePeerCast } from '../modules/peercastModule'
 import PeerCast from '../types/PeerCast'
 import { useDispatch } from 'react-redux'
-import { useCookies } from 'react-cookie'
 import FormLabel from '@material-ui/core/FormLabel'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -23,7 +22,6 @@ type Props = {
 const SettingDialog = (props: Props) => {
   const dispatch = useDispatch()
   const peercast = useSelectorPeerCast()
-  const [cookies, setCookie] = useCookies(['pecaHost', 'pecaPortNo'])
   const [textHost, setTextHost] = useState(peercast.host)
   const [textPortNo, setTextPortNo] = useState(peercast.portNo)
   const [broadcastChannels, setBroadcastChannels] = useState([])
@@ -49,10 +47,10 @@ const SettingDialog = (props: Props) => {
   }, [open, isPrivate])
 
   const onSaveButtonClick = () => {
-    // PeerCastの設定とクッキーに保存
+    // PeerCastの設定とlocalStorageに保存
     updatePeerCast(dispatch, textHost, textPortNo)
-    setCookie('pecaHost', textHost)
-    setCookie('pecaPortNo', textPortNo)
+    localStorage.setItem('pecaHost', textHost)
+    localStorage.setItem('pecaPortNo', textPortNo.toString())
   }
 
   const onDefaultButtonClick = () => {

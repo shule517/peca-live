@@ -18,7 +18,6 @@ const drawerWidth = 240
 import { useDispatch } from 'react-redux'
 import { updateChannels } from './modules/channelsModule'
 import { updatePeerCast } from './modules/peercastModule'
-import { useCookies } from 'react-cookie'
 import PeerCast from './types/PeerCast'
 import firebase from 'firebase'
 import { updateUser } from './modules/userModule'
@@ -43,14 +42,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const App = () => {
   const dispatch = useDispatch()
-  const [cookies, setCookie] = useCookies(['pecaHost', 'pecaPortNo'])
 
   useEffect(() => {
     // 初期値はクッキーから復帰
     updatePeerCast(
       dispatch,
-      cookies.pecaHost || PeerCast.defaultHost,
-      cookies.pecaPortNo || PeerCast.defaultPortNo
+      localStorage.getItem('pecaHost') || PeerCast.defaultHost,
+      localStorage.getItem('pecaPortNo') || PeerCast.defaultPortNo
     )
 
     // 初回のチャンネル情報を取得
