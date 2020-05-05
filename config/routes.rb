@@ -21,6 +21,8 @@ Rails.application.routes.draw do
           resources :private, controller: 'channels/private', param: :channel_name, only: %i(show destroy)
         end
       end
+
+      resources :favorites
     end
   end
 end
