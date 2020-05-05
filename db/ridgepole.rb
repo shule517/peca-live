@@ -10,3 +10,10 @@ create_table :private_channels, force: :cascade do |t|
   t.timestamps
 end
 add_index :private_channels, :name, unique: true
+
+create_table :favorites, force: :cascade do |t|
+  t.string   :user_id, null: false
+  t.string   :channel_name, null: false
+  t.timestamps
+end
+add_index :favorites, :user_id
