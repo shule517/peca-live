@@ -20,7 +20,13 @@ export const updateChannels = async dispatch => {
   })
   const channels = (await response.json()) as Array<ChannelInterface>
   channels.sort((a, b) => {
-    return Number(a.uptime) - Number(b.uptime)
+    if (a.favorited == b.favorited) {
+      // 最近はじまった配信は上に
+      return Number(a.uptime) - Number(b.uptime)
+    } else {
+      // お気に入り配信は上に
+      return Number(b.favorited) - Number(a.favorited)
+    }
   })
 
   dispatch(channelsModules.actions.setChannels(channels))

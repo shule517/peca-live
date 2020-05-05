@@ -17,6 +17,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 const drawerWidth = 240
 import { useDispatch } from 'react-redux'
 import { updateChannels } from './modules/channelsModule'
+import { updateFavorites } from './modules/favoritesModule'
 import { updatePeerCast } from './modules/peercastModule'
 import PeerCast from './types/PeerCast'
 import firebase from 'firebase'
@@ -53,6 +54,7 @@ const App = () => {
 
     // 初回のチャンネル情報を取得
     updateChannels(dispatch)
+    updateFavorites(dispatch)
 
     // 1分間に1回チャンネル情報を再取得
     setInterval(() => updateChannels(dispatch), 10000)

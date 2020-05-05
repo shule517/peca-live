@@ -12,6 +12,8 @@ import CardContent from '@material-ui/core/CardContent'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSelectorChannels } from '../modules/channelsModule'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -79,7 +81,35 @@ const ChannelList = (props: Props) => {
                       </Typography>
                     </Grid>
                     <Grid item xs={2}>
-                      {/*{false ? <FavoriteIcon /> : <FavoriteBorder style={{position: 'absolute', right: '16px', top: '10px'}} />}*/}
+                      <Typography
+                        variant="body2"
+                        color="secondary"
+                        component="p"
+                        style={{
+                          position: 'absolute',
+                          right: '16px',
+                          top: '14px'
+                        }}
+                      >
+                        {channel.isFavorited ? (
+                          <FavoriteIcon
+                            style={{
+                              position: 'absolute',
+                              right: '16px',
+                              top: '10px'
+                            }}
+                          />
+                        ) : (
+                          <FavoriteBorder
+                            color="disabled"
+                            style={{
+                              position: 'absolute',
+                              right: '16px',
+                              top: '10px'
+                            }}
+                          />
+                        )}
+                      </Typography>
                       <Typography
                         variant="body2"
                         color="textSecondary"
