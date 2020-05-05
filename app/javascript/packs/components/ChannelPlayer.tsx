@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Channel from '../types/Channel'
 import { Helmet } from 'react-helmet'
@@ -10,6 +10,8 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { updateChannels, useSelectorChannels } from '../modules/channelsModule'
 import { useSelectorPeerCast } from '../modules/peercastModule'
 import { useDispatch } from 'react-redux'
+import { useSelectorUser } from '../modules/userModule'
+import LoginDialog from './LoginDialog'
 
 type Props = {
   streamId: string
@@ -23,6 +25,9 @@ const ChannelPlayer = (props: Props) => {
 
   const channels = useSelectorChannels()
   const peercast = useSelectorPeerCast()
+  const currentUser = useSelectorUser()
+
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false)
 
   const channel =
     channels.find(channel => channel.streamId === streamId) ||
@@ -119,7 +124,12 @@ const ChannelPlayer = (props: Props) => {
             await updateChannels(dispatch) // 画面に反映
             // TODO: setFavoriteChannel(channels, channel.name, false, dispatch)
           }
-          favoriteChannel()
+          if (currentUser.isLogin) {
+            favoriteChannel()
+          } else {
+            // ログインしていない場合は、ログインを促す
+            setLoginDialogOpen(true)
+          }
         }}
       >
         {channel.isFavorited ? (
@@ -135,6 +145,11 @@ const ChannelPlayer = (props: Props) => {
         )}
         お気に入り
       </Button>
+
+      <LoginDialog
+        open={loginDialogOpen}
+        onClose={() => setLoginDialogOpen(false)}
+      />
 
       <div>
         <Video channel={channel} isHls={isHls} local={local} />
