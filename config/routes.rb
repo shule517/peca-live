@@ -22,7 +22,11 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :favorites
+      resources :favorites do
+        collection do
+          delete :destroy
+        end
+      end
     end
   end
 end
