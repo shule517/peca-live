@@ -7,8 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button'
 import { useHistory } from 'react-router-dom'
 import Tooltip from '@material-ui/core/Tooltip'
-import { useSelectorChannels } from '../modules/channelsModule'
+import { updateChannels, useSelectorChannels } from '../modules/channelsModule'
 import { useSelectorPeerCast } from '../modules/peercastModule'
+import { useDispatch } from 'react-redux'
 
 type Props = {
   streamId: string
@@ -17,6 +18,7 @@ type Props = {
 }
 
 const ChannelPlayer = (props: Props) => {
+  const dispatch = useDispatch()
   const { streamId, isHls, local } = props
 
   const channels = useSelectorChannels()
@@ -102,7 +104,8 @@ const ChannelPlayer = (props: Props) => {
           onClick={() => {
             const favoriteChannel = async () => {
               // お気に入り削除を画面に反映
-              // setFavoriteChannel(channels, channel.name, false, dispatch)
+              updateChannels(dispatch)
+              // TODO: setFavoriteChannel(channels, channel.name, false, dispatch)
 
               const token = document.getElementsByName('csrf-token')[0][
                 'content'
@@ -141,7 +144,8 @@ const ChannelPlayer = (props: Props) => {
           onClick={() => {
             const favoriteChannel = async () => {
               // お気に入り追加を画面に反映
-              // setFavoriteChannel(channels, channel.name, true, dispatch)
+              updateChannels(dispatch)
+              // TODO: setFavoriteChannel(channels, channel.name, true, dispatch)
 
               const token = document.getElementsByName('csrf-token')[0][
                 'content'
