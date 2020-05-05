@@ -17,3 +17,4 @@ create_table :favorites, force: :cascade do |t|
   t.timestamps
 end
 add_index :favorites, :user_id
+add_index :favorites, %i(user_id channel_name), unique: true
