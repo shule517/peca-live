@@ -16,6 +16,7 @@ export type ChannelInterface = {
   trackUrl: string
   uptime: number
   yellowPage: string
+  favorited: boolean
 }
 
 class Channel {
@@ -89,6 +90,10 @@ class Channel {
     return this.json.yellowPage
   }
 
+  get isFavorited() {
+    return this.json.favorited
+  }
+
   get isSp() {
     return this.yellowPage === 'SP'
   }
@@ -125,7 +130,8 @@ class Channel {
       trackUrl: '',
       listeners: -1,
       relays: -1,
-      uptime: 0
+      uptime: 0,
+      favorited: false
     })
   }
 

@@ -15,4 +15,8 @@ class User < ApplicationRecord
   def favorite!(channel_name)
     favorites.find_or_create_by!(channel_name: channel_name)
   end
+
+  def favorited?(channel_name)
+    favorites.where(channel_name: channel_name).exists?
+  end
 end
