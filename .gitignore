@@ -37,3 +37,5 @@ yarn-debug.log*
 .idea/*
 vendor/bundle/*
 .env
+
+/public/channels
