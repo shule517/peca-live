@@ -20,6 +20,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './app'
 
+import firebase from './firebase'
+
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <App />,
