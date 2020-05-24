@@ -1,5 +1,17 @@
-[ぺからいぶ！](http://peca.live/)
+![ぺからいぶ！](http://peca.live/images/pecalive.png)
+
+[http://peca.live/](http://peca.live/)
 =======================================================
+
+## ぺからいぶ！をつくりだした きっかけ
+「限界集落」と呼ばれだして早５年以上が経ちました。<br>
+Youtube Liveや、Twitchなど お手軽にゲーム配信ができるサービスが増えました。<br>
+そして、配信以外にも Youtube、Netflix、amazon prime videoなどの強敵も登場！<br>
+
+僕も気がついたら、Youtubeばっかり見てました。。。<br>
+ぴあきゃすは好きなんだけど、なんとなく離れていってしまう。<br>
+あいつらみたいに「お手軽さ」がないとやっていけない時代になってきたんだと思う。<br>
+![さみしい](https://pbs.twimg.com/media/EYw0426U4AATCW1?format=jpg)
 
 ## 環境設定
 環境変数に設定しておくこと
