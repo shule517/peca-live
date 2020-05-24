@@ -11,7 +11,7 @@ Youtube Liveや、Twitchなど お手軽にゲーム配信ができるサービ�
 僕も気がついたら、Youtubeばっかり見てました。。。<br>
 ぴあきゃすは好きなんだけど、なんとなく離れていってしまう。<br>
 あいつらみたいに「お手軽さ」がないとやっていけない時代になってきたんだと思う。<br>
-![さみしい](https://pbs.twimg.com/media/EYw0426U4AATCW1?format=jpg)
+![さみしい](https://pbs.twimg.com/media/EYw0426U4AATCW1?format=jpg&name=small)
 
 ## 環境設定
 環境変数に設定しておくこと
