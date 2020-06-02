@@ -40,32 +40,33 @@ const Video = (props: Props) => {
       return
     }
 
-    // TODO FLV再生
-    let videoElement: any = document.getElementById(videoElementId)
-    videoElement.hidden = !channel.isFlv
+    // // TODO FLV再生
+    // let videoElement: any = document.getElementById(videoElementId)
+    // videoElement.hidden = !channel.isFlv
+    //
+    // const url = `/channels/${channel.name}.flv`
+    // const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`
 
-    const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`
-
-    if (!player || currentStreamUrl !== url) {
-      if (player) {
-        player.pause()
-        player.unload()
-        player.detachMediaElement()
-        player.destroy()
-      }
-
-      const flvPlayer = FlvJs.createPlayer({
-        type: 'flv',
-        isLive: true,
-        url: url
-      })
-
-      flvPlayer.attachMediaElement(videoElement)
-      flvPlayer.load()
-      flvPlayer.play()
-      setPlayer(flvPlayer)
-      setCurrentStreamUrl(url)
-    }
+    // if (!player || currentStreamUrl !== url) {
+    //   if (player) {
+    //     player.pause()
+    //     player.unload()
+    //     player.detachMediaElement()
+    //     player.destroy()
+    //   }
+    //
+    //   const flvPlayer = FlvJs.createPlayer({
+    //     type: 'flv',
+    //     // isLive: true,
+    //     url: url
+    //   })
+    //
+    //   flvPlayer.attachMediaElement(videoElement)
+    //   flvPlayer.load()
+    //   // flvPlayer.play()
+    //   setPlayer(flvPlayer)
+    //   setCurrentStreamUrl(url)
+    // }
 
     return () => {
       // FLVプレイヤーの終了処理
@@ -80,7 +81,35 @@ const Video = (props: Props) => {
   })
 
   return (
-    <div>
+    <div
+      onMouseOver={() => {
+        // TODO FLV再生
+        const videoElement: any = document.getElementById(videoElementId)
+        videoElement.hidden = !channel.isFlv
+
+        const url = `/channels/${channel.name}.flv`
+        if (!player || currentStreamUrl !== url) {
+          if (player) {
+            player.pause()
+            player.unload()
+            player.detachMediaElement()
+            player.destroy()
+          }
+
+          const flvPlayer = FlvJs.createPlayer({
+            type: 'flv',
+            // isLive: true,
+            url: url
+          })
+
+          flvPlayer.attachMediaElement(videoElement)
+          flvPlayer.load()
+          flvPlayer.play()
+          setPlayer(flvPlayer)
+          setCurrentStreamUrl(url)
+        }
+      }}
+    >
       {isHls ? null : <VideoStyle id={videoElementId} controls></VideoStyle>}
       {/*{*/}
       {/*  isHlsPlay ? (*/}
@@ -97,10 +126,7 @@ const VideoStyle = styled.video`
   background-color: #333333;
   margin-top: 10px;
   max-width: 800px;
-  width: ${window.parent.screen.width < 800
-    ? `${window.parent.screen.width - 10 * 2}px`
-    : '800px'};
-  ${window.parent.screen.width > 800 ? 'height: 450px;' : null}
+  width: 500px;
 `
 
 export default Video

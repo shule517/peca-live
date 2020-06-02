@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSelectorChannels } from '../modules/channelsModule'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
+import Video from './Video'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,7 +50,7 @@ const ChannelList = (props: Props) => {
             <Card
               className={classes.card}
               onClick={() => {
-                history.push(`/channels/${channel.streamId}`)
+                // history.push(`/channels/${channel.streamId}`)
               }}
             >
               <CardActionArea>
@@ -123,6 +124,13 @@ const ChannelList = (props: Props) => {
                         {channel.startingTime}
                       </Typography>
                     </Grid>
+                  </Grid>
+                  <Grid>
+                    <Video
+                      channel={channel}
+                      isHls={false}
+                      local={false}
+                    ></Video>
                   </Grid>
                 </CardContent>
               </CardActionArea>

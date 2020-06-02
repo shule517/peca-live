@@ -1,18 +1,22 @@
 namespace :peercast_station do
   desc "実行処理の説明"
   task get_channels: :environment do
-    peca_tip = 'http://150.95.177.111:7144'
-    api = JsonRpc.new("#{peca_tip}/api/1")
+    peca_tip = 'http://192.168.11.9:8144'
 
-    channels = api.update_yp_channels
-
+    result = `curl http://peca.live/api/v1/channels`
+    channels = JSON.parse(result)
     channels = channels.select { |channel| channel['channelId'] != '00000000000000000000000000000000' && channel['contentType'] == 'FLV' }
 
+    # 動画ファイルが存在しないものを探す
+    channels = channels.select { |channel| !File.exists?("public/channels/#{channel['name']}.flv") }
+    pp channels_size: channels.size
+
+    channels = channels.sort_by { |channel| channel['uptime'] }
     channels.each do |channel|
       channel_id = channel['channelId']
       tip = channel['tracker']
       name = channel['name']
-      dump_command = "rtmpdump -r \"#{peca_tip}/pls/#{channel_id}?tip=#{tip}\" -o \"channels/#{name}.flv\""
+      dump_command = "rtmpdump -r \"#{peca_tip}/pls/#{channel_id}?tip=#{tip}\" -o \"public/channels/#{name}.flv\""
       puts dump_command
 
       pp channel
