@@ -58,9 +58,14 @@ const SettingDialog = (props: Props) => {
   }
 
   const onDefaultButtonClick = () => {
-    // デフォルト値にテキストボックスを書き換え
+    // 設定をデフォルト値に更新する
     setTextHost(PeerCast.defaultHost)
     setTextPortNo(PeerCast.defaultPortNo)
+    updatePeerCast(dispatch, PeerCast.defaultHost, PeerCast.defaultPortNo)
+
+    // localStorageのPeerCastの設定を初期化
+    localStorage.removeItem('pecaHost')
+    localStorage.removeItem('pecaPortNo')
   }
 
   return (
@@ -114,7 +119,10 @@ const SettingDialog = (props: Props) => {
         </StyledFormGroup>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => onDefaultButtonClick()} color="primary">
+        <Button onClick={() => {
+          onClose()
+          onDefaultButtonClick()
+        }} color="primary">
           デフォルトに戻す
         </Button>
         <Button
