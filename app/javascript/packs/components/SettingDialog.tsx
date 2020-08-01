@@ -119,10 +119,13 @@ const SettingDialog = (props: Props) => {
         </StyledFormGroup>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => {
-          onClose()
-          onDefaultButtonClick()
-        }} color="primary">
+        <Button
+          onClick={() => {
+            onClose()
+            onDefaultButtonClick()
+          }}
+          color="primary"
+        >
           デフォルトに戻す
         </Button>
         <Button
