@@ -22,6 +22,7 @@ import Grid from '@material-ui/core/Grid'
 import MenuIcon from '@material-ui/icons/Menu'
 import Divider from '@material-ui/core/Divider'
 import { useSelectorChannels } from '../modules/channelsModule'
+import { Link } from 'react-router-dom'
 
 const StyledBadge = withStyles((theme: Theme) =>
   createStyles({
@@ -100,57 +101,57 @@ const SideBar = (props: Props) => {
         aria-label="listener"
         classes={{ tooltip: classes.noMaxWidth }}
       >
-        <ListItem
-          button
-          key={channel.streamId}
-          onClick={() => {
-            onChannelClick()
-            history.push(`/channels/${channel.streamId}`)
+        <Link
+          to={`/channels/${channel.streamId}`}
+          onClicl={() => {
+            onChannelClick() // SP版の時にサイドバーから動画を開いたらサイドバーを閉じる
           }}
         >
-          <ListItemIcon>
-            <StyledBadge
-              overlap="circle"
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right'
-              }}
-              variant="dot"
-            >
-              <StyledAvator src={channel.ypIconUrl} />
-            </StyledBadge>
-          </ListItemIcon>
+          <ListItem button key={channel.streamId}>
+            <ListItemIcon>
+              <StyledBadge
+                overlap="circle"
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right'
+                }}
+                variant="dot"
+              >
+                <StyledAvator src={channel.ypIconUrl} />
+              </StyledBadge>
+            </ListItemIcon>
 
-          <ListItemText
-            primary={
-              <Grid container>
-                <Grid item xs={8}>
-                  {primary}
+            <ListItemText
+              primary={
+                <Grid container>
+                  <Grid item xs={8}>
+                    {primary}
+                  </Grid>
+                  <Grid item xs={4} style={{ textAlign: 'right' }}>
+                    <Typography variant="caption">
+                      <FontAwesomeIcon icon={icon} />
+                      <ListenerCountStyle>{secondary}</ListenerCountStyle>
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs={4} style={{ textAlign: 'right' }}>
-                  <Typography variant="caption">
-                    <FontAwesomeIcon icon={icon} />
-                    <ListenerCountStyle>{secondary}</ListenerCountStyle>
-                  </Typography>
-                </Grid>
-              </Grid>
-            }
-            secondary={
-              <ListenerCountStyle>
-                {`${channel.compactDetails}`}
-              </ListenerCountStyle>
-            }
-            secondaryTypographyProps={{
-              color: 'textSecondary',
-              variant: 'subtitle2',
-              style: {
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
-                overflow: 'hidden'
               }
-            }}
-          />
-        </ListItem>
+              secondary={
+                <ListenerCountStyle>
+                  {`${channel.compactDetails}`}
+                </ListenerCountStyle>
+              }
+              secondaryTypographyProps={{
+                color: 'textSecondary',
+                variant: 'subtitle2',
+                style: {
+                  whiteSpace: 'nowrap',
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden'
+                }
+              }}
+            />
+          </ListItem>
+        </Link>
       </ChannelDetailTooltip>
     )
   }
