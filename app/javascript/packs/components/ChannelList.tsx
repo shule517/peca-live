@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSelectorChannels } from '../modules/channelsModule'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,7 +39,6 @@ type Props = {}
 const ChannelList = (props: Props) => {
   const channels = useSelectorChannels()
   const classes = useStyles({})
-  const history = useHistory()
 
   return (
     <div className={classes.root}>
@@ -46,87 +46,87 @@ const ChannelList = (props: Props) => {
       {channels.map((channel, index) => {
         return (
           <Fade key={channel.streamId} in={true}>
-            <Card
-              className={classes.card}
-              onClick={() => {
-                history.push(`/channels/${channel.streamId}`)
-              }}
+            <Link
+              to={`/channels/${channel.streamId}`}
+              style={{ textDecoration: 'none' }}
             >
-              <CardActionArea>
-                <CardContent>
-                  <Grid container wrap="nowrap" spacing={2}>
-                    <Grid item>
-                      <StyledAvator
-                        alt={channel.name}
-                        src={channel.ypIconUrl}
-                      />
-                      <div style={{ textAlign: 'center', marginTop: '2px' }}>
-                        <FontAwesomeIcon
-                          icon="headphones"
-                          style={{ marginRight: '5px' }}
+              <Card className={classes.card}>
+                <CardActionArea>
+                  <CardContent>
+                    <Grid container wrap="nowrap" spacing={2}>
+                      <Grid item>
+                        <StyledAvator
+                          alt={channel.name}
+                          src={channel.ypIconUrl}
                         />
-                        {channel.listenerCount}
-                      </div>
-                    </Grid>
-                    <Grid item xs>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {channel.name}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                      >
-                        {channel.explanation}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <Typography
-                        variant="body2"
-                        color="secondary"
-                        component="p"
-                        style={{
-                          position: 'absolute',
-                          right: '16px',
-                          top: '14px'
-                        }}
-                      >
-                        {channel.isFavorited ? (
-                          <FavoriteIcon
-                            style={{
-                              position: 'absolute',
-                              right: '16px',
-                              top: '10px'
-                            }}
+                        <div style={{ textAlign: 'center', marginTop: '2px' }}>
+                          <FontAwesomeIcon
+                            icon="headphones"
+                            style={{ marginRight: '5px' }}
                           />
-                        ) : (
-                          <FavoriteBorder
-                            color="disabled"
-                            style={{
-                              position: 'absolute',
-                              right: '16px',
-                              top: '10px'
-                            }}
-                          />
-                        )}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                        style={{
-                          position: 'absolute',
-                          right: '16px',
-                          bottom: '16px'
-                        }}
-                      >
-                        {channel.startingTime}
-                      </Typography>
+                          {channel.listenerCount}
+                        </div>
+                      </Grid>
+                      <Grid item xs>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {channel.name}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          {channel.explanation}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Typography
+                          variant="body2"
+                          color="secondary"
+                          component="p"
+                          style={{
+                            position: 'absolute',
+                            right: '16px',
+                            top: '14px'
+                          }}
+                        >
+                          {channel.isFavorited ? (
+                            <FavoriteIcon
+                              style={{
+                                position: 'absolute',
+                                right: '16px',
+                                top: '10px'
+                              }}
+                            />
+                          ) : (
+                            <FavoriteBorder
+                              color="disabled"
+                              style={{
+                                position: 'absolute',
+                                right: '16px',
+                                top: '10px'
+                              }}
+                            />
+                          )}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                          style={{
+                            position: 'absolute',
+                            right: '16px',
+                            bottom: '16px'
+                          }}
+                        >
+                          {channel.startingTime}
+                        </Typography>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Link>
           </Fade>
         )
       })}
