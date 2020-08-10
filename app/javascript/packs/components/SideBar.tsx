@@ -69,7 +69,6 @@ type Props = {
 const SideBar = (props: Props) => {
   const { onChannelClick } = props
   const classes = useStyles({})
-  const history = useHistory()
 
   const channels = useSelectorChannels()
   const dup = channels.slice(0, channels.length)
@@ -86,26 +85,27 @@ const SideBar = (props: Props) => {
 
   const channelItem = (channel, primary, icon, secondary) => {
     return (
-      <ChannelDetailTooltip
-        key={channel.streamId}
-        title={
-          <div>
-            <div>{channel.explanation}</div>
-            <div>{`${
-              channel.listenerCount === -1
-                ? ''
-                : `${channel.listenerCount}人が視聴中 - `
-            }${channel.startingTime}`}</div>
-          </div>
-        }
-        aria-label="listener"
-        classes={{ tooltip: classes.noMaxWidth }}
+      <Link
+        to={`/channels/${channel.streamId}`}
+        onClicl={() => {
+          onChannelClick() // SP版の時にサイドバーから動画を開いたらサイドバーを閉じる
+        }}
+        style={{ textDecoration: 'none', color: 'initial' }}
       >
-        <Link
-          to={`/channels/${channel.streamId}`}
-          onClicl={() => {
-            onChannelClick() // SP版の時にサイドバーから動画を開いたらサイドバーを閉じる
-          }}
+        <ChannelDetailTooltip
+          key={channel.streamId}
+          title={
+            <div>
+              <div>{channel.explanation}</div>
+              <div>{`${
+                channel.listenerCount === -1
+                  ? ''
+                  : `${channel.listenerCount}人が視聴中 - `
+              }${channel.startingTime}`}</div>
+            </div>
+          }
+          aria-label="listener"
+          classes={{ tooltip: classes.noMaxWidth }}
         >
           <ListItem button key={channel.streamId}>
             <ListItemIcon>
@@ -151,8 +151,8 @@ const SideBar = (props: Props) => {
               }}
             />
           </ListItem>
-        </Link>
-      </ChannelDetailTooltip>
+        </ChannelDetailTooltip>
+      </Link>
     )
   }
 
