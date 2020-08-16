@@ -35,7 +35,10 @@ class Api::V1::ChannelsController < ApplicationController
 
   def notify_broadcasting(channel)
     auth_key = 'AAAAsPFBcrY:APA91bGKNFqaPRhwd8BroEdWIbeAXMfnu6Aibicl3CUmBKDM29SmCKeIrq_f3Y3RpUUWJEbsWUzvcbwJOij9E_BGBMFEj0dcsoG3ews_dCcRoFikoDg2OJQTk3xuIA2hJoWIWjp6SExC'
-    send_to = 'ffwZioSQj8c:APA91bEsCD2-Svu6TGSEwNFbzh_ev5XDHCZNd9B-EkNUz2HTtN518TlUspcuPIsTTRoLXaQGlPfaBiM-kk2-x4LC2ogaqcdnWjdVtxpyazLlKktJy37ANmuOLBZlQcVBAnAyvgL18p6Y'
+    send_tos = %w(
+      ffwZioSQj8c:APA91bEsCD2-Svu6TGSEwNFbzh_ev5XDHCZNd9B-EkNUz2HTtN518TlUspcuPIsTTRoLXaQGlPfaBiM-kk2-x4LC2ogaqcdnWjdVtxpyazLlKktJy37ANmuOLBZlQcVBAnAyvgL18p6Y
+      e1qBQGfYOc4:APA91bESYfnX-_lw4Uh1pRfrW8iSCLUkLycl0vaM4X7p287UlAadH0WLhHMbPceJsL416EHAvNW1LzsJOY5KM5Nrly515wvmW3GmsO3tZImNXuMQmK22_DHeI2pZ91TyKepErBBXvRnW
+    )
 
     name = channel['name']
     link_url = "http://peca.live/channels/#{channel['channelId']}"
@@ -44,7 +47,9 @@ class Api::V1::ChannelsController < ApplicationController
     channel_detail += ' - ' if channel_detail.present? && description.present?
     channel_detail += description
 
-    `curl -X POST -H "Authorization: key=#{auth_key}" -H "Content-Type: application/json" -d '{ "notification": { "title": "#{name} の 配信がはじまった！", "body": "#{channel_detail}", "icon": "pecalive.png", "click_action": "#{link_url}" }, "to": "'#{send_to}'" }' "https://fcm.googleapis.com/fcm/send"`
+    send_tos.each do |send_to|
+      `curl -X POST -H "Authorization: key=#{auth_key}" -H "Content-Type: application/json" -d '{ "notification": { "title": "#{name} の 配信がはじまった！", "body": "#{channel_detail}", "icon": "pecalive.png", "click_action": "#{link_url}" }, "to": "'#{send_to}'" }' "https://fcm.googleapis.com/fcm/send"`
+    end
   end
 
   def fetch_channels
