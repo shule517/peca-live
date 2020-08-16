@@ -40,8 +40,9 @@ class Api::V1::ChannelsController < ApplicationController
     name = channel['name']
     link_url = "http://peca.live/channels/#{channel['channelId']}"
     channel_detail = channel['genre']
-    channel_detail += ' - ' if channel_detail.present?
-    channel_detail += channel['description'].gsub(' - <Open>', '').gsub('<Open>', '').gsub(' - <Free>', '').gsub('<Free>', '').gsub(' - <2M Over>', '').gsub('<2M Over>', '').gsub(' - <Over>', '').gsub('<Over>', '')
+    description = channel['description'].gsub(' - <Open>', '').gsub('<Open>', '').gsub(' - <Free>', '').gsub('<Free>', '').gsub(' - <2M Over>', '').gsub('<2M Over>', '').gsub(' - <Over>', '').gsub('<Over>', '')
+    channel_detail += ' - ' if channel_detail.present? && description.present?
+    channel_detail += description
 
     `curl -X POST -H "Authorization: key=#{auth_key}" -H "Content-Type: application/json" -d '{ "notification": { "title": "#{name} の 配信がはじまった！", "body": "#{channel_detail}", "icon": "pecalive.png", "click_action": "#{link_url}" }, "to": "'#{send_to}'" }' "https://fcm.googleapis.com/fcm/send"`
   end
