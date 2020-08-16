@@ -2,12 +2,18 @@ class Api::V1::ChannelsController < ApplicationController
   before_action :set_private_channel_names
 
   def index
-    channels = Rails.cache.fetch('api/v1/channels/index', expires_in: 1.minute) do
-      get_channels.select { |channel| visible_channel?(channel) }
-    end
+    channels = fetch_channels
     favorites = Array(current_user&.favorites)
     channels.map { |hash| hash[:favorited] = favorites.any? { |favorite| favorite.channel_name == hash['name'] } }
     render json: channels
+  end
+
+  def notification_broadcasting
+    # 配信開始の通知(10分ごと)
+    channels = fetch_channels
+    target_channels = channels.select { |channel| channel['uptime'] < 10 * 60 }
+    target_channels.each { |channel| notify_broadcasting(channel) }
+    render json: target_channels
   end
 
   def broadcasting
@@ -26,6 +32,25 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   private
+
+  def notify_broadcasting(channel)
+    auth_key = 'AAAAsPFBcrY:APA91bGKNFqaPRhwd8BroEdWIbeAXMfnu6Aibicl3CUmBKDM29SmCKeIrq_f3Y3RpUUWJEbsWUzvcbwJOij9E_BGBMFEj0dcsoG3ews_dCcRoFikoDg2OJQTk3xuIA2hJoWIWjp6SExC'
+    send_to = 'ffwZioSQj8c:APA91bEsCD2-Svu6TGSEwNFbzh_ev5XDHCZNd9B-EkNUz2HTtN518TlUspcuPIsTTRoLXaQGlPfaBiM-kk2-x4LC2ogaqcdnWjdVtxpyazLlKktJy37ANmuOLBZlQcVBAnAyvgL18p6Y'
+
+    name = channel['name']
+    link_url = "http://peca.live/channels/#{channel['channelId']}"
+    channel_detail = channel['genre']
+    channel_detail += ' - ' if channel_detail.present?
+    channel_detail += channel['description'].gsub(' - <Open>', '').gsub('<Open>', '').gsub(' - <Free>', '').gsub('<Free>', '').gsub(' - <2M Over>', '').gsub('<2M Over>', '').gsub(' - <Over>', '').gsub('<Over>', '')
+
+    `curl -X POST -H "Authorization: key=#{auth_key}" -H "Content-Type: application/json" -d '{ "notification": { "title": "#{name} の 配信がはじまった！", "body": "#{channel_detail}", "icon": "pecalive.png", "click_action": "#{link_url}" }, "to": "'#{send_to}'" }' "https://fcm.googleapis.com/fcm/send"`
+  end
+
+  def fetch_channels
+    Rails.cache.fetch('api/v1/channels/index', expires_in: 1.minute) do
+      get_channels.select { |channel| visible_channel?(channel) }
+    end
+  end
 
   def set_private_channel_names
     @private_channel_names = PrivateChannel.all.pluck(:name)
