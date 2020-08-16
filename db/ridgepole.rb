@@ -4,6 +4,7 @@ create_table :users, force: :cascade do |t|
   t.text     :photo_url, null: false
   t.timestamps
 end
+add_index :users, :uid, unique: true
 
 create_table :private_channels, force: :cascade do |t|
   t.string   :name, null: false
