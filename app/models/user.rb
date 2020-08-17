@@ -15,6 +15,7 @@
 #
 class User < ApplicationRecord
   has_many :favorites
+  has_many :devices, class_name: 'UserDevice'
 
   def favorite!(channel_name)
     favorites.find_or_create_by!(channel_name: channel_name)
