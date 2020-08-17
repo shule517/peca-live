@@ -28,12 +28,21 @@ ActiveRecord::Schema.define(version: 0) do
     t.index ["name"], name: "index_private_channels_on_name", unique: true
   end
 
+  create_table "user_devices", force: :cascade do |t|
+    t.string "user_id", null: false
+    t.string "token", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_devices_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "uid", null: false
     t.string "name", null: false
     t.text "photo_url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
 end

@@ -6,6 +6,13 @@ create_table :users, force: :cascade do |t|
 end
 add_index :users, :uid, unique: true
 
+create_table :user_devices, force: :cascade do |t|
+  t.string   :user_id, null: false
+  t.string   :token, null: false
+  t.timestamps
+end
+add_index :user_devices, :user_id
+
 create_table :private_channels, force: :cascade do |t|
   t.string   :name, null: false
   t.timestamps

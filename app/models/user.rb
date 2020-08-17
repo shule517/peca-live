@@ -9,8 +9,13 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_users_on_uid  (uid) UNIQUE
+#
 class User < ApplicationRecord
   has_many :favorites
+  has_many :devices, class_name: 'UserDevice'
 
   def favorite!(channel_name)
     favorites.find_or_create_by!(channel_name: channel_name)
