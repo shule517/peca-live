@@ -14,4 +14,5 @@
 #
 class UserDevice < ApplicationRecord
   belongs_to :user
+  validates :token, uniqueness: { scope: [:user_id] }, presence: true
 end
