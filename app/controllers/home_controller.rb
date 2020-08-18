@@ -3,8 +3,9 @@ class HomeController < ApplicationController
   end
 
   def user_devices
-    redirect_to root_path if current_user.blank? || params[:token].blank?
-    current_user.devices.create(token: params[:token])
+    if current_user.present? && params[:token].present?
+      current_user.devices.create(token: params[:token])
+    end
     redirect_to root_path
   end
 end
