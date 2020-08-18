@@ -35,11 +35,7 @@ class Api::V1::ChannelsController < ApplicationController
 
   def notify_broadcasting(channel)
     auth_key = 'AAAAsPFBcrY:APA91bGKNFqaPRhwd8BroEdWIbeAXMfnu6Aibicl3CUmBKDM29SmCKeIrq_f3Y3RpUUWJEbsWUzvcbwJOij9E_BGBMFEj0dcsoG3ews_dCcRoFikoDg2OJQTk3xuIA2hJoWIWjp6SExC'
-    send_tos = %w(
-      ffwZioSQj8c:APA91bEsCD2-Svu6TGSEwNFbzh_ev5XDHCZNd9B-EkNUz2HTtN518TlUspcuPIsTTRoLXaQGlPfaBiM-kk2-x4LC2ogaqcdnWjdVtxpyazLlKktJy37ANmuOLBZlQcVBAnAyvgL18p6Y
-      e1qBQGfYOc4:APA91bESYfnX-_lw4Uh1pRfrW8iSCLUkLycl0vaM4X7p287UlAadH0WLhHMbPceJsL416EHAvNW1LzsJOY5KM5Nrly515wvmW3GmsO3tZImNXuMQmK22_DHeI2pZ91TyKepErBBXvRnW
-      c9kliCrEj6w:APA91bGipM0Sr_3oDunN_XhjlA75vubMa9DlJUphFIBw2iIPpm81r6YoefdKjwaPsyY-RMTy_vwpa4-aHw5WVJc2iIqxlrCPBOBD7DZ_I_hEbp0evYgvc0i6dRx1Wk8IBwRpBEK0KCJp
-    )
+    send_tos = UserDevice.all.pluck(:token)
 
     name = channel['name']
     link_url = "http://peca.live/channels/#{channel['channelId']}"
@@ -49,7 +45,7 @@ class Api::V1::ChannelsController < ApplicationController
     channel_detail += description
 
     send_tos.each do |send_to|
-      `curl -X POST -H "Authorization: key=#{auth_key}" -H "Content-Type: application/json" -d '{ "data": { "title": "#{name} の 配信がはじまった！", "body": "#{channel_detail}", "icon": "pecalive.png", "badge": "favicon.png" }, "to": "'#{send_to}'" }' "https://fcm.googleapis.com/fcm/send"`
+      `curl -X POST -H "Authorization: key=#{auth_key}" -H "Content-Type: application/json" -d '{ "data": { "title": "#{name} の 配信がはじまった！", "body": "#{channel_detail}", "icon": "pecalive.png", "badge": "favicon.png", "url": "#{link_url}" }, "to": "'#{send_to}'" }' "https://fcm.googleapis.com/fcm/send"`
     end
   end
 
