@@ -28,5 +28,4 @@ $ yarn install
 $ yarn start
 ```
 ## 資料
-PeerCastStation - JSON RPC API メモ
-https://github.com/kumaryu/peercaststation/wiki/JSON-RPC-API-%E3%83%A1%E3%83%A2
+[PeerCastStation - JSON RPC API メモ](https://github.com/kumaryu/peercaststation/wiki/JSON-RPC-API-%E3%83%A1%E3%83%A2)
