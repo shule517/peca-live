@@ -9,10 +9,22 @@ class JsonRpc
     channels = response['result']
   end
 
+  def bump_channel(channel_id)
+    response = command('bumpChannel', channelId: channel_id)
+    response['result']
+  end
+
   private
 
-  def command(method_name)
-    result = `curl -H "Authorization: Basic #{basic_token}" -H "X-Requested-With: XMLHttpRequest" -H "Content-Type: application/json" -X POST -d '{"jsonrpc": "2.0","id": 6412,"method":"#{method_name}"}' #{entry_point}`
+  def command(method_name, params = nil)
+    hash = {
+      jsonrpc: "2.0",
+      id: 6412,
+      method: method_name,
+      params: params,
+    }
+
+    result = `curl -H "Authorization: Basic #{basic_token}" -H "X-Requested-With: XMLHttpRequest" -H "Content-Type: application/json" -X POST -d '#{hash.to_json}' #{entry_point}`
     JSON.parse(result)
   end
 
