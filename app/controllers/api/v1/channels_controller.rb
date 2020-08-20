@@ -12,7 +12,7 @@ class Api::V1::ChannelsController < ApplicationController
     # 配信開始の通知(10分ごと)
     channels = fetch_channels
     target_channels = channels.select { |channel| channel['uptime'] < 10 * 60 }
-    target_channels.each { |channel| notify_broadcasting(channel) }
+    target_channels.each { |channel| NotificationPush.new.notify_broadcasting(channel) }
     render json: target_channels
   end
 
@@ -32,24 +32,6 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   private
-
-  def notify_broadcasting(channel)
-    auth_key = 'AAAAsPFBcrY:APA91bGKNFqaPRhwd8BroEdWIbeAXMfnu6Aibicl3CUmBKDM29SmCKeIrq_f3Y3RpUUWJEbsWUzvcbwJOij9E_BGBMFEj0dcsoG3ews_dCcRoFikoDg2OJQTk3xuIA2hJoWIWjp6SExC'
-    channel_name = channel['name']
-
-    # お気に入り登録してるユーザーにPush通知する
-    send_tos = Favorite.where(channel_name: channel_name).flat_map { |favorite| favorite.user.devices.pluck(:token) }
-
-    link_url = "http://peca.live/channels/#{channel['channelId']}"
-    channel_detail = channel['genre']
-    description = channel['description'].gsub(' - <Open>', '').gsub('<Open>', '').gsub(' - <Free>', '').gsub('<Free>', '').gsub(' - <2M Over>', '').gsub('<2M Over>', '').gsub(' - <Over>', '').gsub('<Over>', '')
-    channel_detail += ' - ' if channel_detail.present? && description.present?
-    channel_detail += description
-
-    send_tos.each do |send_to|
-      `curl -X POST -H "Authorization: key=#{auth_key}" -H "Content-Type: application/json" -d '{ "data": { "title": "#{channel_name} の 配信がはじまった！", "body": "#{channel_detail}", "icon": "pecalive.png", "badge": "favicon.png", "url": "#{link_url}" }, "to": "'#{send_to}'" }' "https://fcm.googleapis.com/fcm/send"`
-    end
-  end
 
   def fetch_channels
     Rails.cache.fetch('api/v1/channels/index', expires_in: 1.minute) do
