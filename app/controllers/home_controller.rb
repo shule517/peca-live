@@ -8,7 +8,7 @@ class HomeController < ApplicationController
 
       # 登録したデバイスにお試しPush通知を送る
       current_user.devices.reload.each do |device|
-        NotificationPush.new.notify(title: 'お気に入り配信を通知します！', body: 'ぺからいぶ！', send_to: device.token)
+        NotificationPush.new.notify(title: 'お気に入り配信を通知します！', body: 'by ぺからいぶ！', send_to: device.token)
       end
     end
 
