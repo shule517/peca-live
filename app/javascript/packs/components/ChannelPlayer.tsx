@@ -181,9 +181,10 @@ const ChannelPlayer = (props: Props) => {
             style={{ marginRight: '5px' }}
           >
             <FontAwesomeIcon
-              icon={['fas', 'play']}
-              style={{ height: '22px' }}
+              icon={['fas', 'play-circle']}
+              style={{ marginRight: '5px', height: '22px' }}
             />
+            VLCで再生
           </Button>
         </Tooltip>
       )}
