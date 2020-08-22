@@ -69,21 +69,10 @@ const ChannelPlayer = (props: Props) => {
           }}
           style={{ marginRight: '5px' }}
         >
-          ＜ 前の配信へ
-        </Button>
-      )}
-
-      {vlcUrl && (
-        <Button
-          variant="outlined"
-          size="small"
-          color="primary"
-          onClick={() => {
-            window.location.href = vlcUrl
-          }}
-          style={{ marginRight: '5px' }}
-        >
-          VLCで再生
+          <FontAwesomeIcon
+            icon={['fas', 'arrow-left']}
+            style={{ height: '22px' }}
+          />
         </Button>
       )}
 
@@ -97,7 +86,10 @@ const ChannelPlayer = (props: Props) => {
           }}
           style={{ marginRight: '5px' }}
         >
-          次の配信へ ＞
+          <FontAwesomeIcon
+            icon={['fas', 'arrow-right']}
+            style={{ height: '22px' }}
+          />
         </Button>
       )}
 
@@ -105,6 +97,7 @@ const ChannelPlayer = (props: Props) => {
         variant="outlined"
         size="small"
         color="primary"
+        style={{ marginRight: '5px' }}
         onClick={() => {
           const favoriteChannel = async () => {
             const token = document.getElementsByName('csrf-token')[0]['content']
@@ -133,18 +126,43 @@ const ChannelPlayer = (props: Props) => {
         }}
       >
         {channel.isFavorited ? (
-          <FontAwesomeIcon
-            icon={['fas', 'heart']}
-            style={{ marginRight: '5px' }}
-          />
+          <FontAwesomeIcon icon={['fas', 'heart']} style={{ height: '22px' }} />
         ) : (
-          <FontAwesomeIcon
-            icon={['far', 'heart']}
-            style={{ marginRight: '5px' }}
-          />
+          <FontAwesomeIcon icon={['far', 'heart']} style={{ height: '22px' }} />
         )}
-        お気に入り
       </Button>
+
+      <Button
+        variant="outlined"
+        size="small"
+        color="primary"
+        onClick={() => {
+          fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
+            credentials: 'same-origin'
+          })
+          location.reload()
+        }}
+        style={{ marginRight: '5px' }}
+      >
+        <FontAwesomeIcon
+          icon={['fas', 'sync-alt']}
+          style={{ height: '22px' }}
+        />
+      </Button>
+
+      {vlcUrl && (
+        <Button
+          variant="outlined"
+          size="small"
+          color="primary"
+          onClick={() => {
+            window.location.href = vlcUrl
+          }}
+          style={{ marginRight: '5px' }}
+        >
+          VLCで再生
+        </Button>
+      )}
 
       <LoginDialog
         open={loginDialogOpen}
