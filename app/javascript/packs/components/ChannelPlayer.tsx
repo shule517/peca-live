@@ -60,108 +60,129 @@ const ChannelPlayer = (props: Props) => {
       <Helmet title={`${channel.name} - ぺからいぶ！`} />
 
       {prevChannel && (
-        <Button
-          variant="outlined"
-          size="small"
-          color="primary"
-          onClick={() => {
-            history.push(prevChannelUrl)
-          }}
-          style={{ marginRight: '5px' }}
-        >
-          <FontAwesomeIcon
-            icon={['fas', 'arrow-left']}
-            style={{ height: '22px' }}
-          />
-        </Button>
+        <Tooltip title="前の配信へ" arrow>
+          <Button
+            variant="outlined"
+            size="small"
+            color="primary"
+            onClick={() => {
+              history.push(prevChannelUrl)
+            }}
+            style={{ marginRight: '5px' }}
+          >
+            <FontAwesomeIcon
+              icon={['fas', 'arrow-left']}
+              style={{ height: '22px' }}
+            />
+          </Button>
+        </Tooltip>
       )}
 
       {nextChannel && (
+        <Tooltip title="次の配信へ" arrow>
+          <Button
+            variant="outlined"
+            size="small"
+            color="primary"
+            onClick={() => {
+              history.push(nextChannelUrl)
+            }}
+            style={{ marginRight: '5px' }}
+          >
+            <FontAwesomeIcon
+              icon={['fas', 'arrow-right']}
+              style={{ height: '22px' }}
+            />
+          </Button>
+        </Tooltip>
+      )}
+
+      <Tooltip
+        title={channel.isFavorited ? 'お気に入りの解除' : 'お気に入りに登録'}
+        arrow
+      >
+        <Button
+          variant="outlined"
+          size="small"
+          color="primary"
+          style={{ marginRight: '5px' }}
+          onClick={() => {
+            const favoriteChannel = async () => {
+              const token = document.getElementsByName('csrf-token')[0][
+                'content'
+              ]
+              const headers = {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-TOKEN': token
+              }
+              const body = `channel_name=${channel.name}`
+
+              await fetch('/api/v1/favorites', {
+                credentials: 'same-origin',
+                method: channel.isFavorited ? 'DELETE' : 'POST',
+                headers: headers,
+                body
+              })
+
+              await updateChannels(dispatch) // 画面に反映
+              // TODO: setFavoriteChannel(channels, channel.name, false, dispatch)
+            }
+            if (currentUser.isLogin) {
+              favoriteChannel()
+            } else {
+              // ログインしていない場合は、ログインを促す
+              setLoginDialogOpen(true)
+            }
+          }}
+        >
+          {channel.isFavorited ? (
+            <FontAwesomeIcon
+              icon={['fas', 'heart']}
+              style={{ height: '22px' }}
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={['far', 'heart']}
+              style={{ height: '22px' }}
+            />
+          )}
+        </Button>
+      </Tooltip>
+
+      <Tooltip title="再接続" arrow>
         <Button
           variant="outlined"
           size="small"
           color="primary"
           onClick={() => {
-            history.push(nextChannelUrl)
+            fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
+              credentials: 'same-origin'
+            })
+            location.reload()
           }}
           style={{ marginRight: '5px' }}
         >
           <FontAwesomeIcon
-            icon={['fas', 'arrow-right']}
+            icon={['fas', 'redo-alt']}
             style={{ height: '22px' }}
           />
         </Button>
-      )}
-
-      <Button
-        variant="outlined"
-        size="small"
-        color="primary"
-        style={{ marginRight: '5px' }}
-        onClick={() => {
-          const favoriteChannel = async () => {
-            const token = document.getElementsByName('csrf-token')[0]['content']
-            const headers = {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'X-CSRF-TOKEN': token
-            }
-            const body = `channel_name=${channel.name}`
-
-            await fetch('/api/v1/favorites', {
-              credentials: 'same-origin',
-              method: channel.isFavorited ? 'DELETE' : 'POST',
-              headers: headers,
-              body
-            })
-
-            await updateChannels(dispatch) // 画面に反映
-            // TODO: setFavoriteChannel(channels, channel.name, false, dispatch)
-          }
-          if (currentUser.isLogin) {
-            favoriteChannel()
-          } else {
-            // ログインしていない場合は、ログインを促す
-            setLoginDialogOpen(true)
-          }
-        }}
-      >
-        {channel.isFavorited ? (
-          <FontAwesomeIcon icon={['fas', 'heart']} style={{ height: '22px' }} />
-        ) : (
-          <FontAwesomeIcon icon={['far', 'heart']} style={{ height: '22px' }} />
-        )}
-      </Button>
-
-      <Button
-        variant="outlined"
-        size="small"
-        color="primary"
-        onClick={() => {
-          fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
-            credentials: 'same-origin'
-          })
-          location.reload()
-        }}
-        style={{ marginRight: '5px' }}
-      >
-        <FontAwesomeIcon
-          icon={['fas', 'sync-alt']}
-          style={{ height: '22px' }}
-        />
-      </Button>
+      </Tooltip>
 
       {vlcUrl && (
-        <Button
-          variant="outlined"
-          size="small"
-          color="primary"
-          onClick={() => {
-            window.location.href = vlcUrl
-          }}
-          style={{ marginRight: '5px' }}
-        >
-          VLCで再生
-        </Button>
+        <Tooltip title="VLCで再生" arrow>
+          <Button
+            variant="outlined"
+            size="small"
+            color="primary"
+            onClick={() => {
+              window.location.href = vlcUrl
+            }}
+            style={{ marginRight: '5px' }}
+          >
+            VLCで再生
+          </Button>
+        </Tooltip>
       )}
 
       <LoginDialog
