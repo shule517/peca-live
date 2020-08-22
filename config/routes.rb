@@ -21,6 +21,7 @@ Rails.application.routes.draw do
           get :notification_broadcasting
           get :broadcasting
           get :check_port
+          get :bump
           resources :private, controller: 'channels/private', param: :channel_name, only: %i(show destroy)
         end
       end

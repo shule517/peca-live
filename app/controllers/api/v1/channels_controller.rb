@@ -31,6 +31,10 @@ class Api::V1::ChannelsController < ApplicationController
     render json: { result: result, check_ip: ip, check_port: port_no, request_ip: request.ip, request_remote_ip: request.remote_ip, forward: request.env["HTTP_X_FORWARDED_FOR"], remote_addr: request.remote_addr, env_remote_addr: request.env['REMOTE_ADDR']}
   end
 
+  def bump
+    json_rpc_api.bump_channel(params[:streamId]) if params[:streamId].present?
+  end
+
   private
 
   def notify_broadcasting(channel)
@@ -69,11 +73,14 @@ class Api::V1::ChannelsController < ApplicationController
 
   def get_channels
     Rails.cache.fetch('get_channels', expires_in: 1.minute) do
-      peca_tip = "http://#{ENV['PEERCAST_TIP']}"
-      api = JsonRpc.new("#{peca_tip}/api/1", ENV['PEERCAST_BASIC_TOKEN'])
-      channels = api.update_yp_channels
+      channels = json_rpc_api.update_yp_channels
       channels
     end
+  end
+
+  def json_rpc_api
+    peca_tip = "http://#{ENV['PEERCAST_TIP']}"
+    JsonRpc.new("#{peca_tip}/api/1", ENV['PEERCAST_BASIC_TOKEN'])
   end
 
   def visible_channel?(channel)
