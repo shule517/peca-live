@@ -21,8 +21,8 @@ class JsonRpc
       jsonrpc: "2.0",
       id: 6412,
       method: method_name,
-      params: params,
     }
+    hash[:params] = params if params.present?
 
     result = `curl -H "Authorization: Basic #{basic_token}" -H "X-Requested-With: XMLHttpRequest" -H "Content-Type: application/json" -X POST -d '#{hash.to_json}' #{entry_point}`
     JSON.parse(result)
