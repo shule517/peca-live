@@ -12,11 +12,36 @@ import { useSelectorPeerCast } from '../modules/peercastModule'
 import { useDispatch } from 'react-redux'
 import { useSelectorUser } from '../modules/userModule'
 import LoginDialog from './LoginDialog'
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 type Props = {
   streamId: string
   isHls: boolean
   local: boolean
+}
+
+type IconButtonProps = {
+  title: string
+  icon: IconProp
+  onClick: () => void
+}
+
+const IconButton = (props: IconButtonProps) => {
+  const { title, icon, onClick } = props
+
+  return (
+    <Tooltip title={title} arrow>
+      <Button
+        variant="outlined"
+        size="small"
+        color="primary"
+        onClick={() => onClick()}
+        style={{ marginRight: '5px' }}
+      >
+        <FontAwesomeIcon icon={icon} style={{ height: '22px' }} />
+      </Button>
+    </Tooltip>
+  )
 }
 
 const ChannelPlayer = (props: Props) => {
@@ -59,42 +84,24 @@ const ChannelPlayer = (props: Props) => {
     <ChannelItemStyle>
       <Helmet title={`${channel.name} - ぺからいぶ！`} />
 
-      {prevChannel && (
-        <Tooltip title="前の配信へ" arrow>
-          <Button
-            variant="outlined"
-            size="small"
-            color="primary"
-            onClick={() => {
-              history.push(prevChannelUrl)
-            }}
-            style={{ marginRight: '5px' }}
-          >
-            <FontAwesomeIcon
-              icon={['fas', 'arrow-left']}
-              style={{ height: '22px' }}
-            />
-          </Button>
-        </Tooltip>
+      {prevChannelUrl && (
+        <IconButton
+          title="前の配信へ"
+          icon={['fas', 'arrow-left']}
+          onClick={() => {
+            history.push(prevChannelUrl)
+          }}
+        />
       )}
 
-      {nextChannel && (
-        <Tooltip title="次の配信へ" arrow>
-          <Button
-            variant="outlined"
-            size="small"
-            color="primary"
-            onClick={() => {
-              history.push(nextChannelUrl)
-            }}
-            style={{ marginRight: '5px' }}
-          >
-            <FontAwesomeIcon
-              icon={['fas', 'arrow-right']}
-              style={{ height: '22px' }}
-            />
-          </Button>
-        </Tooltip>
+      {nextChannelUrl && (
+        <IconButton
+          title="次の配信へ"
+          icon={['fas', 'arrow-right']}
+          onClick={() => {
+            history.push(nextChannelUrl)
+          }}
+        />
       )}
 
       <Tooltip
@@ -149,44 +156,25 @@ const ChannelPlayer = (props: Props) => {
         </Button>
       </Tooltip>
 
-      <Tooltip title="再接続" arrow>
-        <Button
-          variant="outlined"
-          size="small"
-          color="primary"
-          onClick={() => {
-            fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
-              credentials: 'same-origin'
-            })
-            location.reload()
-          }}
-          style={{ marginRight: '5px' }}
-        >
-          <FontAwesomeIcon
-            icon={['fas', 'redo-alt']}
-            style={{ height: '22px' }}
-          />
-        </Button>
-      </Tooltip>
+      <IconButton
+        title="再接続"
+        icon={['fas', 'redo-alt']}
+        onClick={() => {
+          fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
+            credentials: 'same-origin'
+          })
+          location.reload()
+        }}
+      />
 
       {vlcUrl && (
-        <Tooltip title="VLCで再生" arrow>
-          <Button
-            variant="outlined"
-            size="small"
-            color="primary"
-            onClick={() => {
-              window.location.href = vlcUrl
-            }}
-            style={{ marginRight: '5px' }}
-          >
-            <FontAwesomeIcon
-              icon={['fas', 'play-circle']}
-              style={{ marginRight: '5px', height: '22px' }}
-            />
-            VLCで再生
-          </Button>
-        </Tooltip>
+        <IconButton
+          title="VLCで再生"
+          icon={['fas', 'play-circle']}
+          onClick={() => {
+            window.location.href = vlcUrl
+          }}
+        />
       )}
 
       <LoginDialog
