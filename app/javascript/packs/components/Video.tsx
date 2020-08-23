@@ -95,10 +95,9 @@ const Video = (props: Props) => {
 
 const VideoStyle = styled.video`
   background-color: #333333;
-  margin-top: 10px;
   max-width: 800px;
   width: ${window.parent.screen.width < 800
-    ? `${window.parent.screen.width - 10 * 2}px`
+    ? `${window.parent.screen.width}px`
     : '800px'};
   ${window.parent.screen.width > 800 ? 'height: 450px;' : null}
 `

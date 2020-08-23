@@ -40,7 +40,6 @@ const SettingDialog = (props: Props) => {
         credentials: 'same-origin'
       })
       const channels = await response.json()
-      console.log(`channels.length: ${channels.length}`)
       setBroadcastChannels(channels)
     }
     fetchLiveChannel()
