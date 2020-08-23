@@ -81,136 +81,142 @@ const ChannelPlayer = (props: Props) => {
   }
 
   return (
-    <ChannelItemStyle>
+    <>
       <Helmet title={`${channel.name} - ぺからいぶ！`} />
-
-      {prevChannelUrl && (
-        <IconButton
-          title="前の配信へ"
-          icon={['fas', 'arrow-left']}
-          onClick={() => {
-            history.push(prevChannelUrl)
-          }}
-        />
-      )}
-
-      {nextChannelUrl && (
-        <IconButton
-          title="次の配信へ"
-          icon={['fas', 'arrow-right']}
-          onClick={() => {
-            history.push(nextChannelUrl)
-          }}
-        />
-      )}
-
-      <Tooltip
-        title={channel.isFavorited ? 'お気に入りの解除' : 'お気に入りに登録'}
-        arrow
-      >
-        <Button
-          variant="outlined"
-          size="small"
-          color="primary"
-          style={{ marginRight: '5px' }}
-          onClick={() => {
-            const favoriteChannel = async () => {
-              const token = document.getElementsByName('csrf-token')[0][
-                'content'
-              ]
-              const headers = {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRF-TOKEN': token
-              }
-              const body = `channel_name=${channel.name}`
-
-              await fetch('/api/v1/favorites', {
-                credentials: 'same-origin',
-                method: channel.isFavorited ? 'DELETE' : 'POST',
-                headers: headers,
-                body
-              })
-
-              await updateChannels(dispatch) // 画面に反映
-              // TODO: setFavoriteChannel(channels, channel.name, false, dispatch)
-            }
-            if (currentUser.isLogin) {
-              favoriteChannel()
-            } else {
-              // ログインしていない場合は、ログインを促す
-              setLoginDialogOpen(true)
-            }
-          }}
-        >
-          {channel.isFavorited ? (
-            <FontAwesomeIcon
-              icon={['fas', 'heart']}
-              style={{ height: '22px' }}
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={['far', 'heart']}
-              style={{ height: '22px' }}
+      <Video channel={channel} isHls={isHls} local={local} />
+      <ChannelItemStyle>
+        <ButtonPanelStyle>
+          {prevChannelUrl && (
+            <IconButton
+              title="前の配信へ"
+              icon={['fas', 'arrow-left']}
+              onClick={() => {
+                history.push(prevChannelUrl)
+              }}
             />
           )}
-        </Button>
-      </Tooltip>
 
-      <IconButton
-        title="再接続"
-        icon={['fas', 'redo-alt']}
-        onClick={() => {
-          fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
-            credentials: 'same-origin'
-          })
-          location.reload()
-        }}
-      />
+          {nextChannelUrl && (
+            <IconButton
+              title="次の配信へ"
+              icon={['fas', 'arrow-right']}
+              onClick={() => {
+                history.push(nextChannelUrl)
+              }}
+            />
+          )}
 
-      {vlcUrl && (
-        <IconButton
-          title="VLCで再生"
-          icon={['fas', 'play-circle']}
-          onClick={() => {
-            window.location.href = vlcUrl
-          }}
-        />
-      )}
+          <Tooltip
+            title={
+              channel.isFavorited ? 'お気に入りの解除' : 'お気に入りに登録'
+            }
+            arrow
+          >
+            <Button
+              variant="outlined"
+              size="small"
+              color="primary"
+              style={{ marginRight: '5px' }}
+              onClick={() => {
+                const favoriteChannel = async () => {
+                  const token = document.getElementsByName('csrf-token')[0][
+                    'content'
+                  ]
+                  const headers = {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRF-TOKEN': token
+                  }
+                  const body = `channel_name=${channel.name}`
 
-      <LoginDialog
-        open={loginDialogOpen}
-        onClose={() => setLoginDialogOpen(false)}
-      />
+                  await fetch('/api/v1/favorites', {
+                    credentials: 'same-origin',
+                    method: channel.isFavorited ? 'DELETE' : 'POST',
+                    headers: headers,
+                    body
+                  })
 
-      <div>
-        <Video channel={channel} isHls={isHls} local={local} />
-      </div>
-      <ChannelDetail>
-        <Title>{channel.explanation}</Title>
-        <ListenerStyle>
-          <Tooltip title="リスナー数" aria-label="listener">
-            <span>
-              <FontAwesomeIcon icon="headphones" />
-              <ListenerCountStyle title="リスナー数">
-                {channel.listenerCount}
-              </ListenerCountStyle>
-            </span>
+                  await updateChannels(dispatch) // 画面に反映
+                  // TODO: setFavoriteChannel(channels, channel.name, false, dispatch)
+                }
+                if (currentUser.isLogin) {
+                  favoriteChannel()
+                } else {
+                  // ログインしていない場合は、ログインを促す
+                  setLoginDialogOpen(true)
+                }
+              }}
+            >
+              {channel.isFavorited ? (
+                <FontAwesomeIcon
+                  icon={['fas', 'heart']}
+                  style={{ height: '22px' }}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={['far', 'heart']}
+                  style={{ height: '22px' }}
+                />
+              )}
+            </Button>
           </Tooltip>
-        </ListenerStyle>
-        <Details>
-          {channel.name}
-          <div>
-            <a href={channel.contactUrl}>{channel.contactUrl}</a>
-          </div>
-          {channel.isWmv && '※WMV配信のためVLCで再生してください。'}
-        </Details>
-      </ChannelDetail>
-    </ChannelItemStyle>
+
+          <IconButton
+            title="再接続"
+            icon={['fas', 'redo-alt']}
+            onClick={() => {
+              fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
+                credentials: 'same-origin'
+              })
+              location.reload()
+            }}
+          />
+
+          {vlcUrl && (
+            <IconButton
+              title="VLCで再生"
+              icon={['fas', 'play-circle']}
+              onClick={() => {
+                window.location.href = vlcUrl
+              }}
+            />
+          )}
+        </ButtonPanelStyle>
+
+        <LoginDialog
+          open={loginDialogOpen}
+          onClose={() => setLoginDialogOpen(false)}
+        />
+
+        <ChannelDetail>
+          <Title>{channel.explanation}</Title>
+          <ListenerStyle>
+            <Tooltip title="リスナー数" aria-label="listener">
+              <span>
+                <FontAwesomeIcon icon="headphones" />
+                <ListenerCountStyle title="リスナー数">
+                  {channel.listenerCount}
+                </ListenerCountStyle>
+              </span>
+            </Tooltip>
+          </ListenerStyle>
+          <Details>
+            {channel.name}
+            <div>
+              <a href={channel.contactUrl}>{channel.contactUrl}</a>
+            </div>
+            {channel.isWmv && '※WMV配信のためVLCで再生してください。'}
+          </Details>
+        </ChannelDetail>
+      </ChannelItemStyle>
+    </>
   )
 }
 
+const ButtonPanelStyle = styled.div`
+  padding-bottom: 2px;
+`
+
 const ChannelDetail = styled.div`
-  padding: 0px 5px;
 `
 
 const Title = styled.div`
@@ -243,7 +249,7 @@ const Details = styled.div`
 
 const ChannelItemStyle = styled.div`
   float: left;
-  padding: 10px;
+  padding: 3px 10px;
 `
 
 const ListenerStyle = styled.div`
