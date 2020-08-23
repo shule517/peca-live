@@ -110,7 +110,10 @@ const App = () => {
               classes={{ paper: classes.drawerPaper }}
               ModalProps={{ keepMounted: true /* スマホの性能改善 */ }}
             >
-              <SideBar onChannelClick={() => setIsSiderbarOpen(false)} />
+              <SideBar
+                key={'sidebar-mobile'}
+                onChannelClick={() => setIsSiderbarOpen(false)}
+              />
             </Drawer>
           ) : (
             <Drawer
@@ -121,7 +124,10 @@ const App = () => {
               className={classes.drawer}
               classes={{ paper: classes.drawerPaper }}
             >
-              <SideBar onChannelClick={() => setIsSiderbarOpen(false)} />
+              <SideBar
+                key={'sidebar-pc'}
+                onChannelClick={() => setIsSiderbarOpen(false)}
+              />
             </Drawer>
           )}
 
