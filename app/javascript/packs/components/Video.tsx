@@ -17,6 +17,8 @@ const Video = (props: Props) => {
   const peercast = useSelectorPeerCast()
   const [player, setPlayer] = useState<FlvJs.Player>(null)
   const [currentStreamUrl, setCurrentStreamUrl] = useState<string>(null)
+  const [movieWidth, setMovieWidth] = useState<number>(1280)
+  const [movieHeight, setMovieHeight] = useState<number>(720)
 
   const videoElementId = `videoElement-${channel.streamId}`
   let flvPlayer: any = null
@@ -59,6 +61,10 @@ const Video = (props: Props) => {
         isLive: true,
         url: url
       })
+      flvPlayer.on('media_info', (arg) => {
+        setMovieWidth(flvPlayer.mediaInfo.width)
+        setMovieHeight(flvPlayer.mediaInfo.height)
+      })
 
       flvPlayer.attachMediaElement(videoElement)
       flvPlayer.load()
@@ -79,9 +85,14 @@ const Video = (props: Props) => {
     }
   })
 
+  const width =
+    window.parent.screen.width < 800 ? window.parent.screen.width : 800
+  const aspectRate = movieHeight / movieWidth
+  const height = width * aspectRate
+
   return (
     <div>
-      {isHls ? null : <VideoStyle id={videoElementId} controls></VideoStyle>}
+      {isHls ? null : <VideoStyle id={videoElementId} controls style={{ width: width, height: height }}></VideoStyle>}
       {/*{*/}
       {/*  isHlsPlay ? (*/}
       {/*    <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
@@ -96,10 +107,6 @@ const Video = (props: Props) => {
 const VideoStyle = styled.video`
   background-color: #333333;
   max-width: 800px;
-  width: ${window.parent.screen.width < 800
-    ? `${window.parent.screen.width}px`
-    : '800px'};
-  ${window.parent.screen.width > 800 ? 'height: 450px;' : null}
 `
 
 export default Video
