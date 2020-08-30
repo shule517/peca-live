@@ -2,10 +2,17 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
-import { library } from '@fortawesome/fontawesome-svg-core' //fontawesomeのコアファイル
-import { fab } from '@fortawesome/free-brands-svg-icons' //fontawesomeのbrandアイコンのインポート
-import { fas } from '@fortawesome/free-solid-svg-icons' //fontawesomeのsolidアイコンのインポート
-import { far } from '@fortawesome/free-regular-svg-icons' //fontawesomeのregularアイコンのインポート
+
+// fontawesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faHeadphones as fasHeadphones } from '@fortawesome/free-solid-svg-icons/faHeadphones'
+import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
+import { faArrowLeft as fasArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft'
+import { faArrowRight as fasArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight'
+import { faRedoAlt as fasRedoAlt } from '@fortawesome/free-solid-svg-icons/faRedoAlt'
+import { faPlayCircle as fasPlayCircle} from '@fortawesome/free-solid-svg-icons/faPlayCircle'
+
 import { isIOS, isMobile } from 'react-device-detect'
 import ChannelList from './components/ChannelList'
 import ChannelPlayer from './components/ChannelPlayer'
@@ -85,7 +92,15 @@ const App = () => {
     })
 
     //fontawesomeを読み込み
-    library.add(fab, fas, far)
+    library.add(
+      fasHeadphones,
+      fasHeart,
+      farHeart,
+      fasArrowLeft,
+      fasArrowRight,
+      fasRedoAlt,
+      fasPlayCircle
+    )
   }, [])
 
   const classes = useStyles({})
