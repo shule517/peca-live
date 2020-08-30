@@ -11,8 +11,14 @@ class Api::V1::ChannelsController < ApplicationController
   def notification_broadcasting
     # 配信開始の通知(10分ごと)
     channels = fetch_channels
-    target_channels = channels.select { |channel| channel['uptime'] < 10 * 60 }
-    target_channels.each { |channel| notify_broadcasting(channel) }
+    target_channels = channels.select { |channel| channel['uptime'] < 30 * 60 }
+    target_channels.each do |channel|
+      # 30分以内に開始した配信を対象に、一度も送ってなければPush通知を送信
+      # これでダブり。漏れがなくなるはず！
+      Rails.cache.fetch("notification_broadcasting/#{channel['channelId']}", expires_in: 30.minute) do
+        notify_broadcasting(channel)
+      end
+    end
     render json: target_channels
   end
 
