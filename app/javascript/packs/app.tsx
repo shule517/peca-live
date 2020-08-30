@@ -11,7 +11,8 @@ import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons/faHeart
 import { faArrowLeft as fasArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft'
 import { faArrowRight as fasArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight'
 import { faRedoAlt as fasRedoAlt } from '@fortawesome/free-solid-svg-icons/faRedoAlt'
-import { faPlayCircle as fasPlayCircle} from '@fortawesome/free-solid-svg-icons/faPlayCircle'
+import { faPlayCircle as fasPlayCircle } from '@fortawesome/free-solid-svg-icons/faPlayCircle'
+import { faClock as fasClock } from '@fortawesome/free-solid-svg-icons/faClock'
 
 import { isIOS, isMobile } from 'react-device-detect'
 import ChannelList from './components/ChannelList'
@@ -99,7 +100,8 @@ const App = () => {
       fasArrowLeft,
       fasArrowRight,
       fasRedoAlt,
-      fasPlayCircle
+      fasPlayCircle,
+      fasClock
     )
   }, [])
 
