@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import SignInScreen from './SignInScreen'
 import { signOutUser, useSelectorUser } from '../modules/userModule'
 import Button from '@material-ui/core/Button'
-import firebase from 'firebase'
+import firebase from '../firebase'
 import { useDispatch } from 'react-redux'
 
 type Props = {

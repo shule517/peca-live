@@ -28,7 +28,7 @@ import { updateChannels } from './modules/channelsModule'
 import { updateFavorites } from './modules/favoritesModule'
 import { updatePeerCast } from './modules/peercastModule'
 import PeerCast from './types/PeerCast'
-import firebase from 'firebase'
+import firebase from './firebase'
 import { updateUser } from './modules/userModule'
 
 const useStyles = makeStyles((theme: Theme) =>
