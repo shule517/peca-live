@@ -160,7 +160,7 @@ const SideBar = (props: Props) => {
     <div>
       {isMobile ? (
         <>
-          <List>
+          <List key={'list-mobile'}>
             <ListItem button key={'pecalive'} onClick={() => onChannelClick()}>
               <ListItemIcon>
                 <MenuIcon />
@@ -176,6 +176,7 @@ const SideBar = (props: Props) => {
         </>
       )}
       <List
+        key={'list-listener-order'}
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
             リスナーが多い
@@ -193,6 +194,7 @@ const SideBar = (props: Props) => {
       </List>
       {isMobile && <Divider />}
       <List
+        key={'list-uptime-order'}
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
             最近はじまった
@@ -210,6 +212,7 @@ const SideBar = (props: Props) => {
       </List>
 
       <List
+        key={'list-contact'}
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
             <Typography variant="body2" color="textSecondary" component="p">
