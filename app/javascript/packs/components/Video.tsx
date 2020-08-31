@@ -25,6 +25,7 @@ const Video = (props: Props) => {
 
   const peercastTip = peercast.tip
   const isHlsPlay = isHls && channel.streamId.length
+  const hlsStreamUrl = `http://${peercastTip}/hls/${channel.streamId}`
 
   useEffect(() => {
     if (channel.streamId.length <= 0) {
@@ -33,8 +34,8 @@ const Video = (props: Props) => {
 
     // TODO HLS再生
     if (isHlsPlay) {
-      // console.log('hls play:' + streamUrl);
-      // var player = videojs(videoElementId);
+      console.log('hls play:' + hlsStreamUrl)
+      videojs(videoElementId)
       return
     }
 
@@ -43,7 +44,7 @@ const Video = (props: Props) => {
     }
 
     // TODO FLV再生
-    let videoElement: any = document.getElementById(videoElementId)
+    const videoElement: any = document.getElementById(videoElementId)
     videoElement.hidden = !channel.isFlv
 
     const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`
@@ -61,7 +62,7 @@ const Video = (props: Props) => {
         isLive: true,
         url: url
       })
-      flvPlayer.on('media_info', (arg) => {
+      flvPlayer.on('media_info', arg => {
         setMovieWidth(flvPlayer.mediaInfo.width)
         setMovieHeight(flvPlayer.mediaInfo.height)
       })
@@ -92,14 +93,24 @@ const Video = (props: Props) => {
 
   return (
     <div>
-      {isHls ? null : <VideoStyle id={videoElementId} controls style={{ width: width, height: height }}></VideoStyle>}
-      {/*{*/}
-      {/*  isHlsPlay ? (*/}
-      {/*    <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
-      {/*      <source src={streamUrl} type="application/x-mpegURL" />*/}
-      {/*    </video>*/}
-      {/*  ) : null*/}
-      {/*}*/}
+      {isHls ? null : (
+        <VideoStyle
+          id={videoElementId}
+          controls
+          style={{ width: width, height: height }}
+        ></VideoStyle>
+      )}
+      {isHlsPlay ? (
+        <video
+          id={videoElementId}
+          width={width}
+          height={height}
+          className="video-js vjs-default-skin"
+          controls
+        >
+          <source src={hlsStreamUrl} type="application/x-mpegURL" />
+        </video>
+      ) : null}
     </div>
   )
 }
