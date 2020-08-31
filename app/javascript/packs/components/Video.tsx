@@ -103,8 +103,8 @@ const Video = (props: Props) => {
       {isHlsPlay ? (
         <video
           id={videoElementId}
-          width={1280}
-          height={720}
+          width={width}
+          height={height}
           className="video-js vjs-default-skin"
           controls
         >
