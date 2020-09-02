@@ -83,9 +83,10 @@ const SideBar = (props: Props) => {
     })
     .slice(0, 4)
 
-  const channelItem = (channel, primary, icon, secondary) => {
+  const channelItem = (key, channel, primary, icon, secondary) => {
     return (
       <Link
+        key={`Link-${key}-${channel.streamId}`}
         to={`/channels/${channel.streamId}`}
         onClick={() => {
           onChannelClick() // SP版の時にサイドバーから動画を開いたらサイドバーを閉じる
@@ -93,7 +94,6 @@ const SideBar = (props: Props) => {
         style={{ textDecoration: 'none', color: 'initial' }}
       >
         <ChannelDetailTooltip
-          key={channel.streamId}
           title={
             <div>
               <div>{channel.explanation}</div>
@@ -107,7 +107,7 @@ const SideBar = (props: Props) => {
           aria-label="listener"
           classes={{ tooltip: classes.noMaxWidth }}
         >
-          <ListItem button key={channel.streamId}>
+          <ListItem button>
             <ListItemIcon>
               <StyledBadge
                 overlap="circle"
@@ -160,7 +160,7 @@ const SideBar = (props: Props) => {
     <div>
       {isMobile ? (
         <>
-          <List key={'list-mobile'}>
+          <List>
             <ListItem button key={'pecalive'} onClick={() => onChannelClick()}>
               <ListItemIcon>
                 <MenuIcon />
@@ -176,7 +176,6 @@ const SideBar = (props: Props) => {
         </>
       )}
       <List
-        key={'list-listener-order'}
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
             リスナーが多い
@@ -185,6 +184,7 @@ const SideBar = (props: Props) => {
       >
         {hotChannels.map(channel => {
           return channelItem(
+            'listener-order',
             channel,
             channel.name,
             'headphones',
@@ -194,7 +194,6 @@ const SideBar = (props: Props) => {
       </List>
       {isMobile && <Divider />}
       <List
-        key={'list-uptime-order'}
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
             最近はじまった
@@ -203,6 +202,7 @@ const SideBar = (props: Props) => {
       >
         {newChannels.map(channel => {
           return channelItem(
+            'uptime-order',
             channel,
             channel.name,
             'clock',
@@ -212,7 +212,6 @@ const SideBar = (props: Props) => {
       </List>
 
       <List
-        key={'list-contact'}
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
             <Typography variant="body2" color="textSecondary" component="p">
