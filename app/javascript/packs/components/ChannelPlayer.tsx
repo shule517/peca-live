@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Channel from '../types/Channel'
 import { Helmet } from 'react-helmet'
 import Video from './Video'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button'
 import { useHistory } from 'react-router-dom'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -18,6 +17,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
+import HeadsetIcon from '@material-ui/icons/Headset'
 
 type Props = {
   streamId: string
@@ -196,12 +196,12 @@ const ChannelPlayer = (props: Props) => {
           <Title>{channel.explanation}</Title>
           <ListenerStyle>
             <Tooltip title="リスナー数" aria-label="listener">
-              <span>
-                <FontAwesomeIcon icon="headphones" />
+              <>
+                <HeadsetIcon style={{ height: '14px' }} />
                 <ListenerCountStyle title="リスナー数">
                   {channel.listenerCount}
                 </ListenerCountStyle>
-              </span>
+              </>
             </Tooltip>
           </ListenerStyle>
           <Details>

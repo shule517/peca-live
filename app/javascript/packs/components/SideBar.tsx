@@ -13,16 +13,16 @@ import {
 import Badge from '@material-ui/core/Badge'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Avatar from '@material-ui/core/Avatar'
-import { useHistory } from 'react-router-dom'
 import Tooltip from '@material-ui/core/Tooltip'
 import { isMobile } from 'react-device-detect'
 import Typography from '@material-ui/core/Typography'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Grid from '@material-ui/core/Grid'
 import MenuIcon from '@material-ui/icons/Menu'
 import Divider from '@material-ui/core/Divider'
 import { useSelectorChannels } from '../modules/channelsModule'
 import { Link } from 'react-router-dom'
+import HeadsetIcon from '@material-ui/icons/Headset'
+import AccessTimeIcon from '@material-ui/icons/AccessTime'
 
 const StyledBadge = withStyles((theme: Theme) =>
   createStyles({
@@ -129,7 +129,7 @@ const SideBar = (props: Props) => {
                   </Grid>
                   <Grid item xs={4} style={{ textAlign: 'right' }}>
                     <Typography variant="caption">
-                      <FontAwesomeIcon icon={icon} />
+                      {icon}
                       <ListenerCountStyle>{secondary}</ListenerCountStyle>
                     </Typography>
                   </Grid>
@@ -187,7 +187,7 @@ const SideBar = (props: Props) => {
             'listener-order',
             channel,
             channel.name,
-            'headphones',
+            <HeadsetIcon style={{ marginBottom: '-3px', fontSize: 14 }} />,
             channel.listenerCount
           )
         })}
@@ -205,7 +205,7 @@ const SideBar = (props: Props) => {
             'uptime-order',
             channel,
             channel.name,
-            'clock',
+            <AccessTimeIcon style={{ marginBottom: '-3px', fontSize: 14 }} />,
             channel.startingTime.replace('前', '')
           )
         })}

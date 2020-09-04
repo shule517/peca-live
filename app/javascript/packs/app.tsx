@@ -3,11 +3,6 @@ import { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 
-// fontawesome
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHeadphones as fasHeadphones } from '@fortawesome/free-solid-svg-icons/faHeadphones'
-import { faClock as fasClock } from '@fortawesome/free-solid-svg-icons/faClock'
-
 import { isIOS, isMobile } from 'react-device-detect'
 import ChannelList from './components/ChannelList'
 import ChannelPlayer from './components/ChannelPlayer'
@@ -85,12 +80,6 @@ const App = () => {
 
       updateUser(dispatch, user.uid, user.displayName, user.photoURL)
     })
-
-    //fontawesomeを読み込み
-    library.add(
-      fasHeadphones,
-      fasClock
-    )
   }, [])
 
   const classes = useStyles({})
