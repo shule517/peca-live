@@ -12,7 +12,12 @@ import { useSelectorPeerCast } from '../modules/peercastModule'
 import { useDispatch } from 'react-redux'
 import { useSelectorUser } from '../modules/userModule'
 import LoginDialog from './LoginDialog'
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import RefreshIcon from '@material-ui/icons/Refresh'
+import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 
 type Props = {
   streamId: string
@@ -22,12 +27,12 @@ type Props = {
 
 type IconButtonProps = {
   title: string
-  icon: IconProp
   onClick: () => void
+  children: React.ReactNode
 }
 
 const IconButton = (props: IconButtonProps) => {
-  const { title, icon, onClick } = props
+  const { title, onClick, children } = props
 
   return (
     <Tooltip title={title} arrow>
@@ -38,7 +43,7 @@ const IconButton = (props: IconButtonProps) => {
         onClick={() => onClick()}
         style={{ marginRight: '5px' }}
       >
-        <FontAwesomeIcon icon={icon} style={{ height: '22px' }} />
+        {children}
       </Button>
     </Tooltip>
   )
@@ -89,21 +94,23 @@ const ChannelPlayer = (props: Props) => {
           {prevChannelUrl && (
             <IconButton
               title="前の配信へ"
-              icon={['fas', 'arrow-left']}
               onClick={() => {
                 history.push(prevChannelUrl)
               }}
-            />
+            >
+              <ArrowBackIcon style={{ height: '18px', margin: '2px' }} />
+            </IconButton>
           )}
 
           {nextChannelUrl && (
             <IconButton
               title="次の配信へ"
-              icon={['fas', 'arrow-right']}
               onClick={() => {
                 history.push(nextChannelUrl)
               }}
-            />
+            >
+              <ArrowForwardIcon style={{ height: '18px', margin: '2px' }} />
+            </IconButton>
           )}
 
           <Tooltip
@@ -147,14 +154,10 @@ const ChannelPlayer = (props: Props) => {
               }}
             >
               {channel.isFavorited ? (
-                <FontAwesomeIcon
-                  icon={['fas', 'heart']}
-                  style={{ height: '22px' }}
-                />
+                <FavoriteIcon style={{ height: '22px', padding: '2px' }} />
               ) : (
-                <FontAwesomeIcon
-                  icon={['far', 'heart']}
-                  style={{ height: '22px' }}
+                <FavoriteBorderIcon
+                  style={{ height: '22px', padding: '2px' }}
                 />
               )}
             </Button>
@@ -162,23 +165,25 @@ const ChannelPlayer = (props: Props) => {
 
           <IconButton
             title="再接続"
-            icon={['fas', 'redo-alt']}
             onClick={() => {
               fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
                 credentials: 'same-origin'
               })
               location.reload()
             }}
-          />
+          >
+            <RefreshIcon style={{ height: '18px', margin: '2px' }} />
+          </IconButton>
 
           {vlcUrl && (
             <IconButton
               title="VLCで再生"
-              icon={['fas', 'play-circle']}
               onClick={() => {
                 window.location.href = vlcUrl
               }}
-            />
+            >
+              <PlayArrowIcon style={{ height: '18px', margin: '2px' }} />
+            </IconButton>
           )}
         </ButtonPanelStyle>
 
