@@ -3,17 +3,6 @@ import { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 
-// fontawesome
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHeadphones as fasHeadphones } from '@fortawesome/free-solid-svg-icons/faHeadphones'
-import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons/faHeart'
-import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons/faHeart'
-import { faArrowLeft as fasArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft'
-import { faArrowRight as fasArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight'
-import { faRedoAlt as fasRedoAlt } from '@fortawesome/free-solid-svg-icons/faRedoAlt'
-import { faPlayCircle as fasPlayCircle } from '@fortawesome/free-solid-svg-icons/faPlayCircle'
-import { faClock as fasClock } from '@fortawesome/free-solid-svg-icons/faClock'
-
 import { isIOS, isMobile } from 'react-device-detect'
 import ChannelList from './components/ChannelList'
 import ChannelPlayer from './components/ChannelPlayer'
@@ -91,18 +80,6 @@ const App = () => {
 
       updateUser(dispatch, user.uid, user.displayName, user.photoURL)
     })
-
-    //fontawesomeを読み込み
-    library.add(
-      fasHeadphones,
-      fasHeart,
-      farHeart,
-      fasArrowLeft,
-      fasArrowRight,
-      fasRedoAlt,
-      fasPlayCircle,
-      fasClock
-    )
   }, [])
 
   const classes = useStyles({})

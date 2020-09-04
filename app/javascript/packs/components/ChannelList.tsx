@@ -10,11 +10,11 @@ import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardContent from '@material-ui/core/CardContent'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSelectorChannels } from '../modules/channelsModule'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
 import { Link } from 'react-router-dom'
+import HeadsetIcon from '@material-ui/icons/Headset'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,10 +59,19 @@ const ChannelList = (props: Props) => {
                           alt={channel.name}
                           src={channel.ypIconUrl}
                         />
-                        <div style={{ textAlign: 'center', marginTop: '2px' }}>
-                          <FontAwesomeIcon
-                            icon="headphones"
-                            style={{ marginRight: '5px' }}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            left: '21px',
+                            bottom: '16px'
+                          }}
+                        >
+                          <HeadsetIcon
+                            style={{
+                              fontSize: '14px',
+                              marginRight: '5px',
+                              marginBottom: '-2px'
+                            }}
                           />
                           {channel.listenerCount}
                         </div>
