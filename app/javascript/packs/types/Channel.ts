@@ -211,6 +211,20 @@ class Channel {
       .replace(/&quot;/g, '"')
       .replace(/&#039;/g, "'")
   }
+
+  flvStreamUrl(peercastTip: string) {
+    return `http://${peercastTip}/stream/${this.streamId}.flv?tip=${this.tip}`
+  }
+
+  vlcStreamUrl(peercastTip: string) {
+    if (this.isFlv) {
+      return `rtmp://${peercastTip}/stream/${this.streamId}.flv?tip=${this.tip}`
+    } else if (this.isWmv) {
+      return `mms://${peercastTip}/stream/${this.streamId}.wmv?tip=${this.tip}`
+    } else {
+      return null
+    }
+  }
 }
 
 export default Channel

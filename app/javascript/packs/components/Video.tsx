@@ -45,7 +45,7 @@ const Video = (props: Props) => {
     ) as HTMLMediaElement
     videoElement.hidden = !channel.isFlv
 
-    const flvStreamUrl = `http://${peercast.tip}/stream/${channel.streamId}.flv?tip=${channel.tip}`
+    const flvStreamUrl = channel.flvStreamUrl(peercast.tip)
 
     // 初回再生 or 配信を切り替えた場合
     if (!player || currentStreamUrl !== flvStreamUrl) {
