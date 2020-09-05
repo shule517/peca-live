@@ -223,7 +223,7 @@ const SideBar = (props: Props) => {
             </Typography>
           </ListSubheader>
         }
-      ></List>
+      />
     </div>
   )
 }

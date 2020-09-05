@@ -98,10 +98,4 @@ const Logo = styled.img`
   padding-bottom: 3px;
 `
 
-const StyledAvator = styled(Avatar)`
-  border: solid 1px rgba(0, 0, 0, 0.04);
-  width: 32px;
-  height: 32px;
-`
-
 export default PecaLiveAppBar

@@ -21,9 +21,6 @@ const Video = (props: Props) => {
   const [movieHeight, setMovieHeight] = useState<number>(720)
 
   const videoElementId = `videoElement-${channel.streamId}`
-  let flvPlayer: any = null
-
-  const peercastTip = peercast.tip
   const isHlsPlay = isHls && channel.streamId.length
 
   useEffect(() => {
@@ -43,12 +40,15 @@ const Video = (props: Props) => {
     }
 
     // TODO FLV再生
-    let videoElement: any = document.getElementById(videoElementId)
+    const videoElement: HTMLMediaElement = document.getElementById(
+      videoElementId
+    ) as HTMLMediaElement
     videoElement.hidden = !channel.isFlv
 
-    const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`
+    const flvStreamUrl = `http://${peercast.tip}/stream/${channel.streamId}.flv?tip=${channel.tip}`
 
-    if (!player || currentStreamUrl !== url) {
+    // 初回再生 or 配信を切り替えた場合
+    if (!player || currentStreamUrl !== flvStreamUrl) {
       if (player) {
         player.pause()
         player.unload()
@@ -59,9 +59,9 @@ const Video = (props: Props) => {
       const flvPlayer = FlvJs.createPlayer({
         type: 'flv',
         isLive: true,
-        url: url
+        url: flvStreamUrl
       })
-      flvPlayer.on('media_info', (arg) => {
+      flvPlayer.on('media_info', arg => {
         setMovieWidth(flvPlayer.mediaInfo.width)
         setMovieHeight(flvPlayer.mediaInfo.height)
       })
@@ -70,18 +70,7 @@ const Video = (props: Props) => {
       flvPlayer.load()
       flvPlayer.play()
       setPlayer(flvPlayer)
-      setCurrentStreamUrl(url)
-    }
-
-    return () => {
-      // FLVプレイヤーの終了処理
-      if (flvPlayer) {
-        flvPlayer.pause()
-        flvPlayer.unload()
-        flvPlayer.detachMediaElement()
-        flvPlayer.destroy()
-        flvPlayer = null
-      }
+      setCurrentStreamUrl(flvStreamUrl)
     }
   })
 
@@ -92,7 +81,13 @@ const Video = (props: Props) => {
 
   return (
     <div>
-      {isHls ? null : <VideoStyle id={videoElementId} controls style={{ width: width, height: height }}></VideoStyle>}
+      {isHls ? null : (
+        <VideoStyle
+          id={videoElementId}
+          controls
+          style={{ width: width, height: height }}
+        />
+      )}
       {/*{*/}
       {/*  isHlsPlay ? (*/}
       {/*    <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
