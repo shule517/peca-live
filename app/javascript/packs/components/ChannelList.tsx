@@ -143,20 +143,6 @@ const ChannelList = (props: Props) => {
   )
 }
 
-const ChannelStyle = styled.div`
-  /* padding: 50px; */
-`
-
-const Thumbnail = styled.img`
-  width: 347.5px;
-  height: 195.47px;
-`
-
-const ChannelItemStyle = styled.div`
-  float: left;
-  padding: 10px;
-`
-
 const StyledAvator = styled(Avatar)`
   border: solid 1px rgba(0, 0, 0, 0.04);
 `

@@ -156,9 +156,7 @@ const ChannelPlayer = (props: Props) => {
               {channel.isFavorited ? (
                 <FavoriteIcon style={{ height: '18px', margin: '2px' }} />
               ) : (
-                <FavoriteBorderIcon
-                  style={{ height: '18px', margin: '2px' }}
-                />
+                <FavoriteBorderIcon style={{ height: '18px', margin: '2px' }} />
               )}
             </Button>
           </Tooltip>
