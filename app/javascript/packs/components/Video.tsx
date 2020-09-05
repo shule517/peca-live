@@ -21,8 +21,6 @@ const Video = (props: Props) => {
   const [movieHeight, setMovieHeight] = useState<number>(720)
 
   const videoElementId = `videoElement-${channel.streamId}`
-  let flvPlayer: any = null
-
   const peercastTip = peercast.tip
   const isHlsPlay = isHls && channel.streamId.length
 
@@ -43,7 +41,9 @@ const Video = (props: Props) => {
     }
 
     // TODO FLV再生
-    let videoElement: any = document.getElementById(videoElementId)
+    const videoElement: HTMLMediaElement = document.getElementById(
+      videoElementId
+    ) as HTMLMediaElement
     videoElement.hidden = !channel.isFlv
 
     const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`
@@ -61,7 +61,7 @@ const Video = (props: Props) => {
         isLive: true,
         url: url
       })
-      flvPlayer.on('media_info', (arg) => {
+      flvPlayer.on('media_info', arg => {
         setMovieWidth(flvPlayer.mediaInfo.width)
         setMovieHeight(flvPlayer.mediaInfo.height)
       })
@@ -72,17 +72,6 @@ const Video = (props: Props) => {
       setPlayer(flvPlayer)
       setCurrentStreamUrl(url)
     }
-
-    return () => {
-      // FLVプレイヤーの終了処理
-      if (flvPlayer) {
-        flvPlayer.pause()
-        flvPlayer.unload()
-        flvPlayer.detachMediaElement()
-        flvPlayer.destroy()
-        flvPlayer = null
-      }
-    }
   })
 
   const width =
@@ -92,7 +81,13 @@ const Video = (props: Props) => {
 
   return (
     <div>
-      {isHls ? null : <VideoStyle id={videoElementId} controls style={{ width: width, height: height }}></VideoStyle>}
+      {isHls ? null : (
+        <VideoStyle
+          id={videoElementId}
+          controls
+          style={{ width: width, height: height }}
+        />
+      )}
       {/*{*/}
       {/*  isHlsPlay ? (*/}
       {/*    <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
