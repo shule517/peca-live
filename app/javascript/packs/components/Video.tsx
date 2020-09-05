@@ -21,7 +21,6 @@ const Video = (props: Props) => {
   const [movieHeight, setMovieHeight] = useState<number>(720)
 
   const videoElementId = `videoElement-${channel.streamId}`
-  const peercastTip = peercast.tip
   const isHlsPlay = isHls && channel.streamId.length
 
   useEffect(() => {
@@ -46,9 +45,10 @@ const Video = (props: Props) => {
     ) as HTMLMediaElement
     videoElement.hidden = !channel.isFlv
 
-    const url = `http://${peercastTip}/stream/${channel.streamId}.flv?tip=${channel.tip}`
+    const flvStreamUrl = `http://${peercast.tip}/stream/${channel.streamId}.flv?tip=${channel.tip}`
 
-    if (!player || currentStreamUrl !== url) {
+    // 初回再生 or 配信を切り替えた場合
+    if (!player || currentStreamUrl !== flvStreamUrl) {
       if (player) {
         player.pause()
         player.unload()
@@ -59,7 +59,7 @@ const Video = (props: Props) => {
       const flvPlayer = FlvJs.createPlayer({
         type: 'flv',
         isLive: true,
-        url: url
+        url: flvStreamUrl
       })
       flvPlayer.on('media_info', arg => {
         setMovieWidth(flvPlayer.mediaInfo.width)
@@ -70,7 +70,7 @@ const Video = (props: Props) => {
       flvPlayer.load()
       flvPlayer.play()
       setPlayer(flvPlayer)
-      setCurrentStreamUrl(url)
+      setCurrentStreamUrl(flvStreamUrl)
     }
   })
 
