@@ -78,13 +78,6 @@ const ChannelPlayer = (props: Props) => {
 
   const history = useHistory()
 
-  let vlcUrl = null
-  if (channel.isFlv) {
-    vlcUrl = `rtmp://${peercast.tip}/stream/${channel.streamId}.flv?tip=${channel.tip}`
-  } else if (channel.isWmv) {
-    vlcUrl = `mms://${peercast.tip}/stream/${channel.streamId}.wmv?tip=${channel.tip}`
-  }
-
   return (
     <>
       <Helmet title={`${channel.name} - ぺからいぶ！`} />
@@ -173,11 +166,11 @@ const ChannelPlayer = (props: Props) => {
             <RefreshIcon style={{ height: '18px', margin: '2px' }} />
           </IconButton>
 
-          {vlcUrl && (
+          {channel.vlcStreamUrl(peercast.tip) && (
             <IconButton
               title="VLCで再生"
               onClick={() => {
-                window.location.href = vlcUrl
+                window.location.href = channel.vlcStreamUrl(peercast.tip)
               }}
             >
               <PlayArrowIcon style={{ height: '18px', margin: '2px' }} />
