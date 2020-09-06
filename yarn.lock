@@ -9328,6 +9328,11 @@ verror@1.10.0:
     videojs-vtt.js "^0.14.1"
     xhr "2.4.0"
 
+videojs-flvjs-es6@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/videojs-flvjs-es6/-/videojs-flvjs-es6-1.0.1.tgz#eb629c5ef0d1c5aafa89bc4a7714e5091a9a872e"
+  integrity sha512-wAI5ff2tZVW+uftTLyPmS38F4SHmMlxqBFOgXEBqMs2X0N4uIVQK0iCCv5XACXH+oc+mP70D23mJmT8KsoHx0g==
+
 videojs-font@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/videojs-font/-/videojs-font-3.2.0.tgz#212c9d3f4e4ec3fa7345167d64316add35e92232"
