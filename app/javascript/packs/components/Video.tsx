@@ -197,7 +197,13 @@ const Video = (props: Props) => {
           </Tooltip>
 
           <Tooltip title="ミニプレイヤー" placement="top" arrow>
-            <IconButton color="primary" component="span">
+            <IconButton
+              color="primary"
+              component="span"
+              onClick={() => {
+                (video as any).requestPictureInPicture()
+              }}
+            >
               <PictureInPictureAltIcon style={{ color: 'white' }} />
             </IconButton>
           </Tooltip>
