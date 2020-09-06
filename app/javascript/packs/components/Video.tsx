@@ -46,14 +46,19 @@ const Video = (props: Props) => {
   const peercast = useSelectorPeerCast()
   const [player, setPlayer] = useState<FlvJs.Player>(null)
   const [currentStreamUrl, setCurrentStreamUrl] = useState<string>(null)
-  const [movieWidth, setMovieWidth] = useState<number>(1280)
-  const [movieHeight, setMovieHeight] = useState<number>(720)
+  const [videoWidth, setVideoWidth] = useState<number>(1280)
+  const [videoHeight, setVideoHeight] = useState<number>(720)
   const [muted, setMuted] = useState<boolean>(false)
   const [video, setVideo] = useState<HTMLMediaElement>(null)
-  const [visibleControll, setVisibleControll] = useState<boolean>(true)
+  const [visibleControll, setVisibleControll] = useState<boolean>(false)
   const [readyState, setReadyState] = useState<number>(0)
   const videoElementId = `videoElement-${channel.streamId}`
   const isHlsPlay = isHls && channel.streamId.length
+
+  const width =
+    window.parent.screen.width < 800 ? window.parent.screen.width : 800
+  const aspectRate = videoHeight / videoWidth
+  const height = width * aspectRate
 
   useEffect(() => {
     if (channel.streamId.length <= 0) {
@@ -95,8 +100,8 @@ const Video = (props: Props) => {
         url: flvStreamUrl
       })
       flvPlayer.on('media_info', arg => {
-        setMovieWidth(flvPlayer.mediaInfo.width)
-        setMovieHeight(flvPlayer.mediaInfo.height)
+        setVideoWidth(flvPlayer.mediaInfo.width)
+        setVideoHeight(flvPlayer.mediaInfo.height)
       })
 
       flvPlayer.attachMediaElement(videoElement)
@@ -117,17 +122,12 @@ const Video = (props: Props) => {
     }
   })
 
-  const width =
-    window.parent.screen.width < 800 ? window.parent.screen.width : 800
-  const aspectRate = movieHeight / movieWidth
-  const height = width * aspectRate
-
   return (
     <div style={{ position: 'relative' }}>
       {isHls ? null : (
         <VideoStyle
           id={videoElementId}
-          controls
+          // controls 動画プレイヤーのコントローラは非表示
           style={{ width: width, height: height }}
           onMouseEnter={() => {
             setVisibleControll(true)
@@ -137,9 +137,24 @@ const Video = (props: Props) => {
           }}
           onClick={() => {
             setVisibleControll(!visibleControll)
+            if (!visibleControll) {
+              // タップして3秒後に消す
+              setTimeout(() => {
+                setVisibleControll(false)
+              }, 3000)
+            }
           }}
         />
       )}
+
+      <Progress
+        style={{
+          left: width / 2 - 40,
+          top: height / 2 - 40
+        }}
+      >
+        {readyState < 4 && <CircularProgress color="secondary" size={80} />}
+      </Progress>
 
       {visibleControll && (
         <VideoControl
@@ -151,7 +166,6 @@ const Video = (props: Props) => {
             setVisibleControll(false)
           }}
         >
-          {readyState < 4 && <CircularProgress color="secondary" />}
           <FooterControl>
             <Tooltip title="再生" placement="top" arrow>
               <IconButton
@@ -294,10 +308,9 @@ const VideoControl = styled.div`
   color: white;
 `
 
-const PlayButtonControl = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const Progress = styled.div`
+  position: absolute;
+  margin: auto;
 `
 
 const FooterControl = styled.div`
