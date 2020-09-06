@@ -26,10 +26,20 @@ type Props = {
   channel: Channel
   isHls: boolean
   local: boolean
+  onClickPreviousChannel: () => void
+  onClickNextChannel: () => void
+  onClickReload: () => void
 }
 
 const Video = (props: Props) => {
-  const { channel, isHls, local } = props
+  const {
+    channel,
+    isHls,
+    local,
+    onClickPreviousChannel,
+    onClickNextChannel,
+    onClickReload
+  } = props
 
   const peercast = useSelectorPeerCast()
   const [player, setPlayer] = useState<FlvJs.Player>(null)
@@ -179,19 +189,32 @@ const Video = (props: Props) => {
           </Tooltip>
 
           <Tooltip title="前の配信へ" placement="top" arrow>
-            <IconButton color="primary" component="span">
+            <IconButton
+              color="primary"
+              component="span"
+              onClick={() => onClickPreviousChannel()}
+              disabled={true}
+            >
               <ArrowBackIcon style={{ color: 'white' }} />
             </IconButton>
           </Tooltip>
 
           <Tooltip title="次の配信へ" placement="top" arrow>
-            <IconButton color="primary" component="span">
+            <IconButton
+              color="primary"
+              component="span"
+              onClick={() => onClickNextChannel()}
+            >
               <ArrowForwardIcon style={{ color: 'white' }} />
             </IconButton>
           </Tooltip>
 
           <Tooltip title="再接続" placement="top" arrow>
-            <IconButton color="primary" component="span">
+            <IconButton
+              color="primary"
+              component="span"
+              onClick={() => onClickReload()}
+            >
               <RefreshIcon style={{ color: 'white' }} />
             </IconButton>
           </Tooltip>
@@ -201,7 +224,7 @@ const Video = (props: Props) => {
               color="primary"
               component="span"
               onClick={() => {
-                (video as any).requestPictureInPicture()
+                ;(video as any).requestPictureInPicture()
               }}
             >
               <PictureInPictureAltIcon style={{ color: 'white' }} />
