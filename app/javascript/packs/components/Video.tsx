@@ -48,6 +48,7 @@ const Video = (props: Props) => {
   const [movieHeight, setMovieHeight] = useState<number>(720)
   const [muted, setMuted] = useState<boolean>(false)
   const [video, setVideo] = useState<HTMLMediaElement>(null)
+  const [visibleControll, setVisibleControll] = useState<boolean>(false)
 
   const videoElementId = `videoElement-${channel.streamId}`
   const isHlsPlay = isHls && channel.streamId.length
@@ -116,133 +117,124 @@ const Video = (props: Props) => {
           id={videoElementId}
           controls
           style={{ width: width, height: height }}
+          onMouseEnter={() => {
+            setVisibleControll(true)
+          }}
+          onMouseLeave={() => {
+            setVisibleControll(false)
+          }}
         />
       )}
 
-      <VideoControl style={{ width: width }}>
-        {/*<PlayButtonControl style={{ width: width, height: height }}>*/}
-        {/*  <ArrowBackIcon style={{ fontSize: 80 }} />*/}
-        {/*  <PlayArrowIcon style={{ fontSize: 150, margin: '0 80px' }} />*/}
-        {/*  <ArrowForwardIcon style={{ fontSize: 80 }} />*/}
-        {/*</PlayButtonControl>*/}
+      {visibleControll && (
+        <VideoControl
+          style={{ width: width }}
+          onMouseEnter={() => {
+            setVisibleControll(true)
+          }}
+          onMouseLeave={() => {
+            setVisibleControll(false)
+          }}
+        >
+          <FooterControl>
+            <Tooltip title="再生" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => {
+                  player.play()
+                }}
+              >
+                <PlayArrowIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
 
-        {/*<Typography id="continuous-slider" gutterBottom>*/}
-        {/*  Volume*/}
-        {/*</Typography>*/}
-        {/*<Grid container spacing={2}>*/}
-        {/*  <Grid item>*/}
-        {/*    <VolumeDown />*/}
-        {/*  </Grid>*/}
-        {/*  <Grid item xs>*/}
-        {/*    <Slider*/}
-        {/*      value={80}*/}
-        {/*      onChange={(event, newValue) => {}}*/}
-        {/*      aria-labelledby="continuous-slider"*/}
-        {/*    />*/}
-        {/*  </Grid>*/}
-        {/*  <Grid item>*/}
-        {/*    <VolumeUp />*/}
-        {/*  </Grid>*/}
-        {/*</Grid>*/}
+            {player ? (
+              muted ? (
+                <Tooltip title="ミュートを解除" placement="top" arrow>
+                  <IconButton
+                    color="primary"
+                    component="span"
+                    onClick={() => {
+                      player.muted = false
+                      setMuted(player.muted)
+                    }}
+                  >
+                    <VolumeOffIcon style={{ color: 'white' }} />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="ミュート" placement="top" arrow>
+                  <IconButton
+                    color="primary"
+                    component="span"
+                    onClick={() => {
+                      player.muted = true
+                      setMuted(player.muted)
+                    }}
+                  >
+                    <VolumeUpIcon style={{ color: 'white' }} />
+                  </IconButton>
+                </Tooltip>
+              )
+            ) : null}
 
-        <FooterControl>
-          {player ? (
-            muted ? (
-              <Tooltip title="ミュートを解除" placement="top" arrow>
-                <IconButton
-                  color="primary"
-                  component="span"
-                  onClick={() => {
-                    player.muted = false
-                    setMuted(player.muted)
-                  }}
-                >
-                  <VolumeOffIcon style={{ color: 'white' }} />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              <Tooltip title="ミュート" placement="top" arrow>
-                <IconButton
-                  color="primary"
-                  component="span"
-                  onClick={() => {
-                    player.muted = true
-                    setMuted(player.muted)
-                  }}
-                >
-                  <VolumeUpIcon style={{ color: 'white' }} />
-                </IconButton>
-              </Tooltip>
-            )
-          ) : null}
+            <Tooltip title="前の配信へ" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => onClickPreviousChannel()}
+              >
+                <ArrowBackIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
 
-          <Tooltip title="再生" placement="top" arrow>
-            <IconButton
-              color="primary"
-              component="span"
-              onClick={() => {
-                player.play()
-              }}
-            >
-              <PlayArrowIcon style={{ color: 'white' }} />
-            </IconButton>
-          </Tooltip>
+            <Tooltip title="次の配信へ" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => onClickNextChannel()}
+              >
+                <ArrowForwardIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
 
-          <Tooltip title="前の配信へ" placement="top" arrow>
-            <IconButton
-              color="primary"
-              component="span"
-              onClick={() => onClickPreviousChannel()}
-            >
-              <ArrowBackIcon style={{ color: 'white' }} />
-            </IconButton>
-          </Tooltip>
+            <Tooltip title="再接続" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => onClickReload()}
+              >
+                <RefreshIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
 
-          <Tooltip title="次の配信へ" placement="top" arrow>
-            <IconButton
-              color="primary"
-              component="span"
-              onClick={() => onClickNextChannel()}
-            >
-              <ArrowForwardIcon style={{ color: 'white' }} />
-            </IconButton>
-          </Tooltip>
+            <Tooltip title="ミニプレイヤー" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => {
+                  ;(video as any).requestPictureInPicture()
+                }}
+              >
+                <PictureInPictureAltIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
 
-          <Tooltip title="再接続" placement="top" arrow>
-            <IconButton
-              color="primary"
-              component="span"
-              onClick={() => onClickReload()}
-            >
-              <RefreshIcon style={{ color: 'white' }} />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="ミニプレイヤー" placement="top" arrow>
-            <IconButton
-              color="primary"
-              component="span"
-              onClick={() => {
-                ;(video as any).requestPictureInPicture()
-              }}
-            >
-              <PictureInPictureAltIcon style={{ color: 'white' }} />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="フルスクリーン" placement="top" arrow>
-            <IconButton
-              color="primary"
-              component="span"
-              onClick={() => {
-                video.requestFullscreen()
-              }}
-            >
-              <FullscreenIcon style={{ color: 'white' }} />
-            </IconButton>
-          </Tooltip>
-        </FooterControl>
-      </VideoControl>
+            <Tooltip title="フルスクリーン" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => {
+                  video.requestFullscreen()
+                }}
+              >
+                <FullscreenIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+          </FooterControl>
+        </VideoControl>
+      )}
 
       {/*{*/}
       {/*  isHlsPlay ? (*/}
@@ -281,7 +273,7 @@ const VideoControl = styled.div`
   );
   position: absolute;
   right: 0;
-  bottom: 0;
+  bottom: 6px;
   height: 60px;
   color: white;
 `
