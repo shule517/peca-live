@@ -193,7 +193,6 @@ const Video = (props: Props) => {
               color="primary"
               component="span"
               onClick={() => onClickPreviousChannel()}
-              disabled={true}
             >
               <ArrowBackIcon style={{ color: 'white' }} />
             </IconButton>
