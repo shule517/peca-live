@@ -81,7 +81,23 @@ const ChannelPlayer = (props: Props) => {
   return (
     <>
       <Helmet title={`${channel.name} - ぺからいぶ！`} />
-      <Video channel={channel} isHls={isHls} local={local} />
+      <Video
+        channel={channel}
+        isHls={isHls}
+        local={local}
+        onClickPreviousChannel={() => {
+          prevChannelUrl && history.push(prevChannelUrl)
+        }}
+        onClickNextChannel={() => {
+          nextChannelUrl && history.push(nextChannelUrl)
+        }}
+        onClickReload={() => {
+          fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
+            credentials: 'same-origin'
+          })
+          location.reload()
+        }}
+      />
       <ChannelItemStyle>
         <ButtonPanelStyle>
           {prevChannelUrl && (
@@ -212,8 +228,7 @@ const ButtonPanelStyle = styled.div`
   padding-bottom: 2px;
 `
 
-const ChannelDetail = styled.div`
-`
+const ChannelDetail = styled.div``
 
 const Title = styled.div`
   overflow: hidden;
