@@ -37,6 +37,7 @@ const Video = (props: Props) => {
   const [movieWidth, setMovieWidth] = useState<number>(1280)
   const [movieHeight, setMovieHeight] = useState<number>(720)
   const [muted, setMuted] = useState<boolean>(false)
+  const [video, setVideo] = useState<HTMLMediaElement>(null)
 
   const videoElementId = `videoElement-${channel.streamId}`
   const isHlsPlay = isHls && channel.streamId.length
@@ -61,6 +62,7 @@ const Video = (props: Props) => {
     const videoElement: HTMLMediaElement = document.getElementById(
       videoElementId
     ) as HTMLMediaElement
+    setVideo(videoElement)
     videoElement.hidden = !channel.isFlv
 
     const flvStreamUrl = channel.flvStreamUrl(peercast.tip)
@@ -201,7 +203,13 @@ const Video = (props: Props) => {
           </Tooltip>
 
           <Tooltip title="フルスクリーン" placement="top" arrow>
-            <IconButton color="primary" component="span">
+            <IconButton
+              color="primary"
+              component="span"
+              onClick={() => {
+                video.requestFullscreen()
+              }}
+            >
               <FullscreenIcon style={{ color: 'white' }} />
             </IconButton>
           </Tooltip>
