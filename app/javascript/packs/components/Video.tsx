@@ -137,39 +137,42 @@ const Video = (props: Props) => {
           {player ? (
             muted ? (
               <Tooltip title="ミュートを解除" placement="top" arrow>
-                <IconButton color="primary" component="span">
-                  <VolumeOffIcon
-                    style={{ color: 'white' }}
-                    onClick={() => {
-                      player.muted = false
-                      setMuted(player.muted)
-                    }}
-                  />
+                <IconButton
+                  color="primary"
+                  component="span"
+                  onClick={() => {
+                    player.muted = false
+                    setMuted(player.muted)
+                  }}
+                >
+                  <VolumeOffIcon style={{ color: 'white' }} />
                 </IconButton>
               </Tooltip>
             ) : (
               <Tooltip title="ミュート" placement="top" arrow>
-                <IconButton color="primary" component="span">
-                  <VolumeUpIcon
-                    style={{ color: 'white' }}
-                    onClick={() => {
-                      player.muted = true
-                      setMuted(player.muted)
-                    }}
-                  />
+                <IconButton
+                  color="primary"
+                  component="span"
+                  onClick={() => {
+                    player.muted = true
+                    setMuted(player.muted)
+                  }}
+                >
+                  <VolumeUpIcon style={{ color: 'white' }} />
                 </IconButton>
               </Tooltip>
             )
           ) : null}
 
           <Tooltip title="再生" placement="top" arrow>
-            <IconButton color="primary" component="span">
-              <PlayArrowIcon
-                style={{ color: 'white' }}
-                onClick={() => {
-                  player.play()
-                }}
-              />
+            <IconButton
+              color="primary"
+              component="span"
+              onClick={() => {
+                player.play()
+              }}
+            >
+              <PlayArrowIcon style={{ color: 'white' }} />
             </IconButton>
           </Tooltip>
 
