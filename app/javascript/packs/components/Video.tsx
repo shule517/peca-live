@@ -57,12 +57,7 @@ const Video = (props: Props) => {
         console.log('初回 再生! flvStreamUrl: ' + flvStreamUrl)
         const videojsPlayer = videojs(
           videoElementId,
-          {
-            autoplay: true,
-            controlBar: {
-              volumePanel: { inline: false }
-            }
-          },
+          { autoplay: true },
           // 再生準備完了
           () => {
             videojsPlayer.play().then(() => {
