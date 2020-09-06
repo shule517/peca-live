@@ -21,6 +21,8 @@ import { VolumeDown, VolumeUp } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
 import VolumeUpIcon from '@material-ui/icons/VolumeUp'
 import VolumeOffIcon from '@material-ui/icons/VolumeOff'
+import { isMobile } from 'react-device-detect'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 type Props = {
   channel: Channel
@@ -48,8 +50,8 @@ const Video = (props: Props) => {
   const [movieHeight, setMovieHeight] = useState<number>(720)
   const [muted, setMuted] = useState<boolean>(false)
   const [video, setVideo] = useState<HTMLMediaElement>(null)
-  const [visibleControll, setVisibleControll] = useState<boolean>(false)
-
+  const [visibleControll, setVisibleControll] = useState<boolean>(true)
+  const [readyState, setReadyState] = useState<number>(0)
   const videoElementId = `videoElement-${channel.streamId}`
   const isHlsPlay = isHls && channel.streamId.length
 
@@ -100,6 +102,16 @@ const Video = (props: Props) => {
       flvPlayer.attachMediaElement(videoElement)
       flvPlayer.load()
       flvPlayer.play()
+
+      // 再生ステートを初期化
+      setReadyState(0)
+      videoElement.onplaying = event => {
+        setReadyState(videoElement.readyState)
+      }
+      videoElement.onwaiting = event => {
+        setReadyState(videoElement.readyState)
+      }
+
       setPlayer(flvPlayer)
       setCurrentStreamUrl(flvStreamUrl)
     }
@@ -123,6 +135,9 @@ const Video = (props: Props) => {
           onMouseLeave={() => {
             setVisibleControll(false)
           }}
+          onClick={() => {
+            setVisibleControll(!visibleControll)
+          }}
         />
       )}
 
@@ -136,6 +151,7 @@ const Video = (props: Props) => {
             setVisibleControll(false)
           }}
         >
+          {readyState < 4 && <CircularProgress color="secondary" />}
           <FooterControl>
             <Tooltip title="再生" placement="top" arrow>
               <IconButton
@@ -149,7 +165,7 @@ const Video = (props: Props) => {
               </IconButton>
             </Tooltip>
 
-            {player ? (
+            {player && !isMobile ? ( // PCだけで表示
               muted ? (
                 <Tooltip title="ミュートを解除" placement="top" arrow>
                   <IconButton
