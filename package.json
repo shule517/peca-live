@@ -43,7 +43,8 @@
     "ts-loader": "^6.2.0",
     "turbolinks": "^5.2.0",
     "typescript": "^3.6.4",
-    "video.js": "^7.6.5"
+    "video.js": "^7.6.5",
+    "videojs-flvjs-es6": "^1.0.1"
   },
   "version": "0.1.0",
   "devDependencies": {

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import FlvJs from 'flv.js'
 import videojs from 'video.js'
 import Channel from '../types/Channel'
 import styled from 'styled-components'
 import { useSelectorPeerCast } from '../modules/peercastModule'
+import 'videojs-flvjs-es6'
 
 type Props = {
   channel: Channel
@@ -15,13 +15,16 @@ const Video = (props: Props) => {
   const { channel, isHls, local } = props
 
   const peercast = useSelectorPeerCast()
-  const [player, setPlayer] = useState<FlvJs.Player>(null)
+  const [player, setPlayer] = useState<videojs.Player>(null)
   const [currentStreamUrl, setCurrentStreamUrl] = useState<string>(null)
   const [movieWidth, setMovieWidth] = useState<number>(1280)
   const [movieHeight, setMovieHeight] = useState<number>(720)
 
-  const videoElementId = `videoElement-${channel.streamId}`
+  const videoElementId = `videoElement-flvjs`
   const isHlsPlay = isHls && channel.streamId.length
+  const videoElement: HTMLMediaElement = document.getElementById(
+    videoElementId
+  ) as HTMLMediaElement
 
   useEffect(() => {
     if (channel.streamId.length <= 0) {
@@ -40,37 +43,45 @@ const Video = (props: Props) => {
     }
 
     // TODO FLV再生
-    const videoElement: HTMLMediaElement = document.getElementById(
-      videoElementId
-    ) as HTMLMediaElement
-    videoElement.hidden = !channel.isFlv
+    // videoElement.hidden = !channel.isFlv
 
     const flvStreamUrl = channel.flvStreamUrl(peercast.tip)
 
     // 初回再生 or 配信を切り替えた場合
     if (!player || currentStreamUrl !== flvStreamUrl) {
-      if (player) {
-        player.pause()
-        player.unload()
-        player.detachMediaElement()
-        player.destroy()
+      if (!videoElement) {
+        return
       }
 
-      const flvPlayer = FlvJs.createPlayer({
-        type: 'flv',
-        isLive: true,
-        url: flvStreamUrl
-      })
-      flvPlayer.on('media_info', arg => {
-        setMovieWidth(flvPlayer.mediaInfo.width)
-        setMovieHeight(flvPlayer.mediaInfo.height)
-      })
+      if (!player) {
+        console.log('初回 再生! flvStreamUrl: ' + flvStreamUrl)
+        const videojsPlayer = videojs(
+          videoElementId,
+          { autoplay: true },
+          // 再生準備完了
+          () => {
+            videojsPlayer.play().then(() => {
+              setMovieWidth(videojsPlayer.videoWidth())
+              setMovieHeight(videojsPlayer.videoHeight())
+            })
+          }
+        )
 
-      flvPlayer.attachMediaElement(videoElement)
-      flvPlayer.load()
-      flvPlayer.play()
-      setPlayer(flvPlayer)
-      setCurrentStreamUrl(flvStreamUrl)
+        setPlayer(videojsPlayer)
+        setCurrentStreamUrl(flvStreamUrl)
+
+        videojsPlayer.src({ type: 'video/x-flv', src: flvStreamUrl })
+      } else {
+        player.reset()
+
+        player.src({ type: 'video/x-flv', src: flvStreamUrl })
+        player.load()
+        player.play().then(() => {
+          setMovieWidth(player.videoWidth())
+          setMovieHeight(player.videoHeight())
+        })
+        setCurrentStreamUrl(flvStreamUrl)
+      }
     }
   })
 
@@ -80,22 +91,12 @@ const Video = (props: Props) => {
   const height = width * aspectRate
 
   return (
-    <div>
-      {isHls ? null : (
-        <VideoStyle
-          id={videoElementId}
-          controls
-          style={{ width: width, height: height }}
-        />
-      )}
-      {/*{*/}
-      {/*  isHlsPlay ? (*/}
-      {/*    <video id={videoElementId} width={1280} height={720} className="video-js vjs-default-skin" controls >*/}
-      {/*      <source src={streamUrl} type="application/x-mpegURL" />*/}
-      {/*    </video>*/}
-      {/*  ) : null*/}
-      {/*}*/}
-    </div>
+    <VideoStyle
+      id={videoElementId}
+      className="video-js vjs-default-skin vjs-big-play-centered"
+      controls
+      style={{ width: width, height: height }}
+    />
   )
 }
 
