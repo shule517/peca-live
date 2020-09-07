@@ -21,7 +21,7 @@ import { VolumeDown, VolumeUp } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
 import VolumeUpIcon from '@material-ui/icons/VolumeUp'
 import VolumeOffIcon from '@material-ui/icons/VolumeOff'
-import { isMobile } from 'react-device-detect'
+import { isMobile, isIOS } from 'react-device-detect'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 type Props = {
@@ -40,7 +40,7 @@ const Video = (props: Props) => {
     local,
     onClickPreviousChannel,
     onClickNextChannel,
-    onClickReload
+    onClickReload,
   } = props
 
   const peercast = useSelectorPeerCast()
@@ -97,7 +97,7 @@ const Video = (props: Props) => {
       const flvPlayer = FlvJs.createPlayer({
         type: 'flv',
         isLive: true,
-        url: flvStreamUrl
+        url: flvStreamUrl,
       })
       flvPlayer.on('media_info', (arg) => {
         setVideoWidth(flvPlayer.mediaInfo.width)
@@ -122,6 +122,22 @@ const Video = (props: Props) => {
     }
   })
 
+  const videoStyleOnClick = () => {
+    if (isIOS) {
+      // iOSの場合は タップしたらVLCで再生
+      window.location.href = channel.vlcStreamUrl(peercast.tip)
+      return
+    }
+
+    setVisibleControll(!visibleControll)
+    // if (!visibleControll) {
+    //   // タップして3秒後に消す
+    //   setTimeout(() => {
+    //     setVisibleControll(false)
+    //   }, 3000)
+    // }
+  }
+
   return (
     <div style={{ position: 'relative' }}>
       <VideoStyle
@@ -134,24 +150,35 @@ const Video = (props: Props) => {
         onMouseLeave={() => {
           setVisibleControll(false)
         }}
-        onClick={() => {
-          setVisibleControll(!visibleControll)
-          if (!visibleControll) {
-            // タップして3秒後に消す
-            setTimeout(() => {
-              setVisibleControll(false)
-            }, 3000)
-          }
-        }}
+        onClick={() => videoStyleOnClick()}
       />
 
       <Progress
         style={{
           left: width / 2 - 40,
-          top: height / 2 - 40
+          top: height / 2 - 40,
         }}
       >
-        {readyState < 4 && <CircularProgress color="secondary" size={80} />}
+        {isIOS ? (
+          <PlayArrowIcon
+            color="secondary"
+            onClick={() => videoStyleOnClick()}
+            style={{
+              color: 'gray',
+              fontSize: 70,
+              left: width / 2 - 40,
+              top: height / 2 - 40,
+            }}
+          />
+        ) : (
+          readyState < 4 && (
+            <CircularProgress
+              size={80}
+              style={{ color: 'gray' }}
+              onClick={() => videoStyleOnClick()}
+            />
+          )
+        )}
       </Progress>
 
       {visibleControll && (
