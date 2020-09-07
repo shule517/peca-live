@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import FlvJs from 'flv.js'
-import videojs from 'video.js'
+// import videojs from 'video.js'
 import Channel from '../types/Channel'
 import styled from 'styled-components'
 import { useSelectorPeerCast } from '../modules/peercastModule'
