@@ -20,7 +20,7 @@ import PeerCast from './types/PeerCast'
 import firebase from './firebase'
 import { updateUser } from './modules/userModule'
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       display: 'flex'
