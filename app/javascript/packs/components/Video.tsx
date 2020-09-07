@@ -229,7 +229,7 @@ const Video = (props: Props) => {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title="再接続" placement="top" arrow>
+            <Tooltip title="再接続(Bump)" placement="top" arrow>
               <IconButton
                 color="primary"
                 component="span"
