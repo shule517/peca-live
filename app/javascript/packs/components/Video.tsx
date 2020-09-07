@@ -99,7 +99,7 @@ const Video = (props: Props) => {
         isLive: true,
         url: flvStreamUrl
       })
-      flvPlayer.on('media_info', arg => {
+      flvPlayer.on('media_info', (arg) => {
         setVideoWidth(flvPlayer.mediaInfo.width)
         setVideoHeight(flvPlayer.mediaInfo.height)
       })
@@ -110,10 +110,10 @@ const Video = (props: Props) => {
 
       // 再生ステートを初期化
       setReadyState(0)
-      videoElement.onplaying = event => {
+      videoElement.onplaying = (event) => {
         setReadyState(videoElement.readyState)
       }
-      videoElement.onwaiting = event => {
+      videoElement.onwaiting = (event) => {
         setReadyState(videoElement.readyState)
       }
 
@@ -124,28 +124,26 @@ const Video = (props: Props) => {
 
   return (
     <div style={{ position: 'relative' }}>
-      {isHls ? null : (
-        <VideoStyle
-          id={videoElementId}
-          // controls 動画プレイヤーのコントローラは非表示
-          style={{ width: width, height: height }}
-          onMouseEnter={() => {
-            setVisibleControll(true)
-          }}
-          onMouseLeave={() => {
-            setVisibleControll(false)
-          }}
-          onClick={() => {
-            setVisibleControll(!visibleControll)
-            if (!visibleControll) {
-              // タップして3秒後に消す
-              setTimeout(() => {
-                setVisibleControll(false)
-              }, 3000)
-            }
-          }}
-        />
-      )}
+      <VideoStyle
+        id={videoElementId}
+        // controls 動画プレイヤーのコントローラは非表示
+        style={{ width: width, height: height }}
+        onMouseEnter={() => {
+          setVisibleControll(true)
+        }}
+        onMouseLeave={() => {
+          setVisibleControll(false)
+        }}
+        onClick={() => {
+          setVisibleControll(!visibleControll)
+          if (!visibleControll) {
+            // タップして3秒後に消す
+            setTimeout(() => {
+              setVisibleControll(false)
+            }, 3000)
+          }
+        }}
+      />
 
       <Progress
         style={{
