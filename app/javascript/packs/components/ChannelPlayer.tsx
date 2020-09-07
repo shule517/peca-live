@@ -182,7 +182,7 @@ const ChannelPlayer = (props: Props) => {
             <RefreshIcon style={{ height: '18px', margin: '2px' }} />
           </IconButton>
 
-          {channel.vlcStreamUrl(peercast.tip) && (
+          {false && channel.vlcStreamUrl(peercast.tip) && (
             <IconButton
               title="VLCで再生"
               onClick={() => {
@@ -234,7 +234,7 @@ const Title = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 347px;
+  width: ${window.parent.screen.width - 20}px;
 
   font-size: 14px;
   font-weight: 600;
@@ -250,7 +250,6 @@ const Details = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 347px;
   font-size: 12px;
   font-weight: 400;
   line-height: 18px;

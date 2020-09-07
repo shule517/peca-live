@@ -126,16 +126,15 @@ const Video = (props: Props) => {
     if (isIOS) {
       // iOSの場合は タップしたらVLCで再生
       window.location.href = channel.vlcStreamUrl(peercast.tip)
-      return
+    } else {
+      setVisibleControll(!visibleControll)
+      // if (!visibleControll) {
+      //   // タップして3秒後に消す
+      //   setTimeout(() => {
+      //     setVisibleControll(false)
+      //   }, 3000)
+      // }
     }
-
-    setVisibleControll(!visibleControll)
-    // if (!visibleControll) {
-    //   // タップして3秒後に消す
-    //   setTimeout(() => {
-    //     setVisibleControll(false)
-    //   }, 3000)
-    // }
   }
 
   return (
@@ -145,10 +144,10 @@ const Video = (props: Props) => {
         // controls 動画プレイヤーのコントローラは非表示
         style={{ width: width, height: height }}
         onMouseEnter={() => {
-          setVisibleControll(true)
+          !isIOS && setVisibleControll(true)
         }}
         onMouseLeave={() => {
-          setVisibleControll(false)
+          !isIOS && setVisibleControll(false)
         }}
         onClick={() => videoStyleOnClick()}
       />
@@ -185,13 +184,33 @@ const Video = (props: Props) => {
         <VideoControl
           style={{ width: width }}
           onMouseEnter={() => {
-            setVisibleControll(true)
+            !isIOS && setVisibleControll(true)
           }}
           onMouseLeave={() => {
-            setVisibleControll(false)
+            !isIOS && setVisibleControll(false)
           }}
         >
-          <FooterControl>
+          <FooterLeftControl>
+            <Tooltip title="前の配信へ" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => onClickPreviousChannel()}
+              >
+                <ArrowBackIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="次の配信へ" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => onClickNextChannel()}
+              >
+                <ArrowForwardIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+
             <Tooltip title="再生" placement="top" arrow>
               <IconButton
                 color="primary"
@@ -204,6 +223,18 @@ const Video = (props: Props) => {
               </IconButton>
             </Tooltip>
 
+            <Tooltip title="再接続(Bump)" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => onClickReload()}
+              >
+                <RefreshIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+          </FooterLeftControl>
+
+          <FooterRightControl>
             {player && !isMobile ? ( // PCだけで表示
               muted ? (
                 <Tooltip title="ミュートを解除" placement="top" arrow>
@@ -234,36 +265,6 @@ const Video = (props: Props) => {
               )
             ) : null}
 
-            <Tooltip title="前の配信へ" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => onClickPreviousChannel()}
-              >
-                <ArrowBackIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="次の配信へ" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => onClickNextChannel()}
-              >
-                <ArrowForwardIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="再接続(Bump)" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => onClickReload()}
-              >
-                <RefreshIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
-
             <Tooltip title="ミニプレイヤー" placement="top" arrow>
               <IconButton
                 color="primary"
@@ -287,7 +288,7 @@ const Video = (props: Props) => {
                 <FullscreenIcon style={{ color: 'white' }} />
               </IconButton>
             </Tooltip>
-          </FooterControl>
+          </FooterRightControl>
         </VideoControl>
       )}
 
@@ -338,7 +339,13 @@ const Progress = styled.div`
   margin: auto;
 `
 
-const FooterControl = styled.div`
+const FooterLeftControl = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+`
+
+const FooterRightControl = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
