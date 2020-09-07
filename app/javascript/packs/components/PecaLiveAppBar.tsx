@@ -7,14 +7,13 @@ import { makeStyles, Theme } from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Avatar from '@material-ui/core/Avatar'
-import AccountCircle from '@material-ui/icons/AccountCircle'
 import SettingDialog from './SettingDialog'
 import Button from '@material-ui/core/Button'
 import LoginDialog from './LoginDialog'
 import { useSelectorUser } from '../modules/userModule'
 import SettingsIcon from '@material-ui/icons/Settings'
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme) => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1
   },

@@ -7,8 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import {
   withStyles,
   createStyles,
-  makeStyles,
-  Theme
+  makeStyles
 } from '@material-ui/core/styles'
 import Badge from '@material-ui/core/Badge'
 import ListSubheader from '@material-ui/core/ListSubheader'
@@ -24,7 +23,7 @@ import { Link } from 'react-router-dom'
 import HeadsetIcon from '@material-ui/icons/Headset'
 import AccessTimeIcon from '@material-ui/icons/AccessTime'
 
-const StyledBadge = withStyles((theme: Theme) =>
+const StyledBadge = withStyles((theme) =>
   createStyles({
     badge: {
       backgroundColor: '#FD196E',
@@ -55,7 +54,7 @@ const StyledBadge = withStyles((theme: Theme) =>
   })
 )(Badge)
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme) => ({
   noMaxWidth: {
     maxWidth: 'none'
   },

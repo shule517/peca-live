@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
-import { useHistory } from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
@@ -16,7 +15,7 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
 import { Link } from 'react-router-dom'
 import HeadsetIcon from '@material-ui/icons/Headset'
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       flexGrow: 1,

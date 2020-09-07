@@ -171,7 +171,7 @@ const ChannelPlayer = (props: Props) => {
           </Tooltip>
 
           <IconButton
-            title="再接続"
+            title="再接続(Bump)"
             onClick={() => {
               fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
                 credentials: 'same-origin'

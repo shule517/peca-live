@@ -3,8 +3,6 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Channel from '../types/Channel'
 
-declare var flvjs: any
-
 type Props = {
   channel: Channel
 }
