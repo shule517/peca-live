@@ -328,7 +328,7 @@ const VideoControl = styled.div`
     rgba(0, 0, 0, 0.9)
   );
   position: absolute;
-  right: 0;
+  left: 0;
   bottom: 6px;
   height: 60px;
   color: white;
