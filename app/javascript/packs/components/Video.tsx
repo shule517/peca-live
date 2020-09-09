@@ -23,6 +23,8 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp'
 import VolumeOffIcon from '@material-ui/icons/VolumeOff'
 import { isMobile, isIOS } from 'react-device-detect'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import SkipNextIcon from '@material-ui/icons/SkipNext'
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious'
 
 type Props = {
   channel: Channel
@@ -144,10 +146,10 @@ const Video = (props: Props) => {
         // controls 動画プレイヤーのコントローラは非表示
         style={{ width: width, height: height }}
         onMouseEnter={() => {
-          !isIOS && setVisibleControll(true)
+          setVisibleControll(true)
         }}
         onMouseLeave={() => {
-          !isIOS && setVisibleControll(false)
+          setVisibleControll(false)
         }}
         onClick={() => videoStyleOnClick()}
       />
@@ -197,17 +199,7 @@ const Video = (props: Props) => {
                 component="span"
                 onClick={() => onClickPreviousChannel()}
               >
-                <ArrowBackIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="次の配信へ" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => onClickNextChannel()}
-              >
-                <ArrowForwardIcon style={{ color: 'white' }} />
+                <SkipPreviousIcon style={{ color: 'white' }} />
               </IconButton>
             </Tooltip>
 
@@ -220,6 +212,16 @@ const Video = (props: Props) => {
                 }}
               >
                 <PlayArrowIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="次の配信へ" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => onClickNextChannel()}
+              >
+                <SkipNextIcon style={{ color: 'white' }} />
               </IconButton>
             </Tooltip>
 
