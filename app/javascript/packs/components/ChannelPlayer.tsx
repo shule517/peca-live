@@ -234,8 +234,6 @@ const Title = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: ${window.parent.screen.width - 20}px;
-
   font-size: 14px;
   font-weight: 600;
   line-height: 16.8px;
