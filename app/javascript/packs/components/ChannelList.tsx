@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) =>
     card: {
       maxWidth: 550,
       width: window.parent.screen.width - 8 * 2,
-      margin: `${theme.spacing(1)}px auto`
+      margin: `${theme.spacing(1)}px auto`,
     },
     media: {
       height: 140
@@ -51,7 +51,7 @@ const ChannelList = (props: Props) => {
             >
               <Card className={classes.card}>
                 <CardActionArea>
-                  <CardContent>
+                  <CardContent style={{ minHeight: '92px' }}>
                     <Grid container wrap="nowrap" spacing={2}>
                       <Grid item>
                         <StyledAvator
