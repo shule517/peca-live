@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import FlvJs from 'flv.js'
-import videojs from 'video.js'
+// import videojs from 'video.js'
 import Channel from '../types/Channel'
 import styled from 'styled-components'
 import { useSelectorPeerCast } from '../modules/peercastModule'
@@ -21,8 +21,10 @@ import { VolumeDown, VolumeUp } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
 import VolumeUpIcon from '@material-ui/icons/VolumeUp'
 import VolumeOffIcon from '@material-ui/icons/VolumeOff'
-import { isMobile } from 'react-device-detect'
+import { isMobile, isIOS } from 'react-device-detect'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import SkipNextIcon from '@material-ui/icons/SkipNext'
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious'
 
 type Props = {
   channel: Channel
@@ -40,7 +42,7 @@ const Video = (props: Props) => {
     local,
     onClickPreviousChannel,
     onClickNextChannel,
-    onClickReload
+    onClickReload,
   } = props
 
   const peercast = useSelectorPeerCast()
@@ -97,9 +99,9 @@ const Video = (props: Props) => {
       const flvPlayer = FlvJs.createPlayer({
         type: 'flv',
         isLive: true,
-        url: flvStreamUrl
+        url: flvStreamUrl,
       })
-      flvPlayer.on('media_info', arg => {
+      flvPlayer.on('media_info', (arg) => {
         setVideoWidth(flvPlayer.mediaInfo.width)
         setVideoHeight(flvPlayer.mediaInfo.height)
       })
@@ -110,10 +112,10 @@ const Video = (props: Props) => {
 
       // 再生ステートを初期化
       setReadyState(0)
-      videoElement.onplaying = event => {
+      videoElement.onplaying = (event) => {
         setReadyState(videoElement.readyState)
       }
-      videoElement.onwaiting = event => {
+      videoElement.onwaiting = (event) => {
         setReadyState(videoElement.readyState)
       }
 
@@ -122,51 +124,85 @@ const Video = (props: Props) => {
     }
   })
 
+  const videoStyleOnClick = () => {
+    if (isIOS) {
+      // iOSの場合は タップしたらVLCで再生
+      window.location.href = channel.vlcStreamUrl(peercast.tip)
+    } else {
+      setVisibleControll(!visibleControll)
+      // if (!visibleControll) {
+      //   // タップして3秒後に消す
+      //   setTimeout(() => {
+      //     setVisibleControll(false)
+      //   }, 3000)
+      // }
+    }
+  }
+
   return (
     <div style={{ position: 'relative' }}>
-      {isHls ? null : (
-        <VideoStyle
-          id={videoElementId}
-          // controls 動画プレイヤーのコントローラは非表示
-          style={{ width: width, height: height }}
-          onMouseEnter={() => {
-            setVisibleControll(true)
-          }}
-          onMouseLeave={() => {
-            setVisibleControll(false)
-          }}
-          onClick={() => {
-            setVisibleControll(!visibleControll)
-            if (!visibleControll) {
-              // タップして3秒後に消す
-              setTimeout(() => {
-                setVisibleControll(false)
-              }, 3000)
-            }
-          }}
-        />
-      )}
+      <VideoStyle
+        id={videoElementId}
+        // controls 動画プレイヤーのコントローラは非表示
+        style={{ width: width, height: height }}
+        onMouseEnter={() => {
+          setVisibleControll(true)
+        }}
+        onMouseLeave={() => {
+          setVisibleControll(false)
+        }}
+        onClick={() => videoStyleOnClick()}
+      />
 
       <Progress
         style={{
           left: width / 2 - 40,
-          top: height / 2 - 40
+          top: height / 2 - 40,
         }}
       >
-        {readyState < 4 && <CircularProgress color="secondary" size={80} />}
+        {isIOS ? (
+          <PlayArrowIcon
+            color="secondary"
+            onClick={() => videoStyleOnClick()}
+            style={{
+              color: 'lightgray',
+              fontSize: 70,
+              left: width / 2 - 40,
+              top: height / 2 - 40,
+            }}
+          />
+        ) : (
+          readyState < 4 && (
+            <CircularProgress
+              size={80}
+              style={{ color: 'lightgray' }}
+              onClick={() => videoStyleOnClick()}
+            />
+          )
+        )}
       </Progress>
 
       {visibleControll && (
         <VideoControl
           style={{ width: width }}
           onMouseEnter={() => {
-            setVisibleControll(true)
+            !isIOS && setVisibleControll(true)
           }}
           onMouseLeave={() => {
-            setVisibleControll(false)
+            !isIOS && setVisibleControll(false)
           }}
         >
-          <FooterControl>
+          <FooterLeftControl>
+            <Tooltip title="前の配信へ" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => onClickPreviousChannel()}
+              >
+                <SkipPreviousIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+
             <Tooltip title="再生" placement="top" arrow>
               <IconButton
                 color="primary"
@@ -179,6 +215,28 @@ const Video = (props: Props) => {
               </IconButton>
             </Tooltip>
 
+            <Tooltip title="次の配信へ" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => onClickNextChannel()}
+              >
+                <SkipNextIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="再接続(Bump)" placement="top" arrow>
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => onClickReload()}
+              >
+                <RefreshIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+          </FooterLeftControl>
+
+          <FooterRightControl>
             {player && !isMobile ? ( // PCだけで表示
               muted ? (
                 <Tooltip title="ミュートを解除" placement="top" arrow>
@@ -209,36 +267,6 @@ const Video = (props: Props) => {
               )
             ) : null}
 
-            <Tooltip title="前の配信へ" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => onClickPreviousChannel()}
-              >
-                <ArrowBackIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="次の配信へ" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => onClickNextChannel()}
-              >
-                <ArrowForwardIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="再接続" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => onClickReload()}
-              >
-                <RefreshIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
-
             <Tooltip title="ミニプレイヤー" placement="top" arrow>
               <IconButton
                 color="primary"
@@ -262,7 +290,7 @@ const Video = (props: Props) => {
                 <FullscreenIcon style={{ color: 'white' }} />
               </IconButton>
             </Tooltip>
-          </FooterControl>
+          </FooterRightControl>
         </VideoControl>
       )}
 
@@ -302,7 +330,7 @@ const VideoControl = styled.div`
     rgba(0, 0, 0, 0.9)
   );
   position: absolute;
-  right: 0;
+  left: 0;
   bottom: 6px;
   height: 60px;
   color: white;
@@ -313,7 +341,13 @@ const Progress = styled.div`
   margin: auto;
 `
 
-const FooterControl = styled.div`
+const FooterLeftControl = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+`
+
+const FooterRightControl = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
