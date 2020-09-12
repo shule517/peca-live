@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
       # httpsからのアクセスをhtttpへredirect（PeerCastとHTTP通信ができないため）
       # herokuapp.comからアクセスされたら、peca.liveへredirect
       url = request.url.gsub('https://', 'http://').gsub('peca-live.herokuapp.com', 'peca.live')
-      redirect_to url
+      redirect_to url, status: :moved_permanently # 永続的なリダイレクト
     end
   end
 end
