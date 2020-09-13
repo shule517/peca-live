@@ -19,6 +19,7 @@ import { updatePeerCast } from './modules/peercastModule'
 import PeerCast from './types/PeerCast'
 import firebase from './firebase'
 import { updateUser } from './modules/userModule'
+import About from './components/About'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -129,7 +130,8 @@ const App = () => {
             <div className={classes.toolbar} />
             <main>
               <Switch>
-                <Route exact path="/" render={props => <ChannelList />} />
+                <Route exact path="/about" render={(props) => <About />} />
+                <Route exact path="/" render={(props) => <ChannelList />} />
                 <Route
                   path="/channels/:streamId"
                   render={props => {
