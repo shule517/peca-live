@@ -61,6 +61,10 @@ const Video = (props: Props) => {
     window.parent.screen.width < 800 ? window.parent.screen.width : 800
   const aspectRate = videoHeight / videoWidth
   const height = width * aspectRate
+  // PictureInPictureの有効確認
+  const enablePictureInPicture =
+    (document as any).pictureInPictureEnabled &&
+    (video && !(video as any).disablePictureInPicture)
 
   useEffect(() => {
     if (channel.streamId.length <= 0) {
@@ -267,17 +271,19 @@ const Video = (props: Props) => {
               )
             ) : null}
 
-            <Tooltip title="ミニプレイヤー" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => {
-                  ;(video as any).requestPictureInPicture()
-                }}
-              >
-                <PictureInPictureAltIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
+            {enablePictureInPicture && (
+              <Tooltip title="ミニプレイヤー" placement="top" arrow>
+                <IconButton
+                  color="primary"
+                  component="span"
+                  onClick={() => {
+                    ;(video as any).requestPictureInPicture()
+                  }}
+                >
+                  <PictureInPictureAltIcon style={{ color: 'white' }} />
+                </IconButton>
+              </Tooltip>
+            )}
 
             <Tooltip title="フルスクリーン" placement="top" arrow>
               <IconButton
