@@ -18,6 +18,8 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 import HeadsetIcon from '@material-ui/icons/Headset'
+import AccessTimeIcon from '@material-ui/icons/AccessTime'
+import Typography from '@material-ui/core/Typography'
 
 type Props = {
   streamId: string
@@ -170,17 +172,19 @@ const ChannelPlayer = (props: Props) => {
             </Button>
           </Tooltip>
 
-          <IconButton
-            title="再接続(Bump)"
-            onClick={() => {
-              fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
-                credentials: 'same-origin'
-              })
-              location.reload()
-            }}
-          >
-            <RefreshIcon style={{ height: '18px', margin: '2px' }} />
-          </IconButton>
+          {false && (
+            <IconButton
+              title="再接続(Bump)"
+              onClick={() => {
+                fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
+                  credentials: 'same-origin'
+                })
+                location.reload()
+              }}
+            >
+              <RefreshIcon style={{ height: '18px', margin: '2px' }} />
+            </IconButton>
+          )}
 
           {false && channel.vlcStreamUrl(peercast.tip) && (
             <IconButton
@@ -200,7 +204,19 @@ const ChannelPlayer = (props: Props) => {
         />
 
         <ChannelDetail>
-          <Title>{channel.explanation}</Title>
+          <Typography gutterBottom variant="h5" component="h2">
+            {channel.name}
+          </Typography>
+
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            component="p"
+            style={{ marginBottom: '20px' }}
+          >
+            {channel.explanation}
+          </Typography>
+
           <ListenerStyle>
             <Tooltip title="リスナー数" aria-label="listener">
               <>
@@ -211,13 +227,23 @@ const ChannelPlayer = (props: Props) => {
               </>
             </Tooltip>
           </ListenerStyle>
-          <Details>
-            {channel.name}
-            <div>
-              <a href={channel.contactUrl}>{channel.contactUrl}</a>
-            </div>
-            {channel.isWmv && '※WMV配信のためVLCで再生してください。'}
-          </Details>
+
+          <ListenerStyle>
+            <Tooltip title="配信時間" aria-label="listener">
+              <>
+                <AccessTimeIcon style={{ height: '14px' }} />
+                <ListenerCountStyle title="配信時間">
+                  {channel.startingTime}
+                </ListenerCountStyle>
+              </>
+            </Tooltip>
+          </ListenerStyle>
+
+          <div style={{ marginTop: '10px' }}>
+            <a href={channel.contactUrl}>{channel.contactUrl}</a>
+          </div>
+
+          {channel.isWmv && '※WMV配信のためVLCで再生してください。'}
         </ChannelDetail>
       </ChannelItemStyle>
     </>
@@ -228,41 +254,16 @@ const ButtonPanelStyle = styled.div`
   padding-bottom: 2px;
 `
 
-const ChannelDetail = styled.div``
-
-const Title = styled.div`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 16.8px;
-  color: rgb(25, 23, 28);
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  margin-top: 5px;
-  margin-bottom: 2px;
-  float: left;
-`
-
-const Details = styled.div`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 18px;
-  color: rgb(50, 47, 55);
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+const ChannelDetail = styled.div`
+  margin: 10px 5px 5px 5px;
 `
 
 const ChannelItemStyle = styled.div`
-  float: left;
   padding: 3px 10px;
 `
 
 const ListenerStyle = styled.div`
-  display: block;
-  text-align: right;
+  margin: 5px;
 `
 
 const ListenerCountStyle = styled.span`
