@@ -87,7 +87,6 @@ const Video = (props: Props) => {
       videoElementId
     ) as HTMLMediaElement
     setVideo(videoElement)
-    videoElement.hidden = !channel.isFlv
 
     const flvStreamUrl = channel.flvStreamUrl(peercast.tip)
 
@@ -129,7 +128,7 @@ const Video = (props: Props) => {
   })
 
   const videoStyleOnClick = () => {
-    if (isIOS) {
+    if (isIOS || !channel.isFlv) {
       // iOSの場合は タップしたらVLCで再生
       window.location.href = channel.vlcStreamUrl(peercast.tip)
     } else {
@@ -164,7 +163,7 @@ const Video = (props: Props) => {
           top: height / 2 - 40,
         }}
       >
-        {isIOS ? (
+        {isIOS || !channel.isFlv ? (
           <PlayArrowIcon
             color="secondary"
             onClick={() => videoStyleOnClick()}
