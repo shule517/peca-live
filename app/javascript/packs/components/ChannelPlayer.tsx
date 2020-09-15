@@ -240,7 +240,9 @@ const ChannelPlayer = (props: Props) => {
           </ListenerStyle>
 
           <div style={{ marginTop: '10px' }}>
-            <a href={channel.contactUrl}>{channel.contactUrl}</a>
+            <a href={channel.contactUrl}>
+              <span style={{ wordBreak: 'break-all' }}>{channel.contactUrl}</span>
+            </a>
           </div>
 
           {channel.isWmv && '※WMV配信のためVLCで再生してください。'}

@@ -23,18 +23,18 @@ import { updateUser } from './modules/userModule'
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      display: 'flex'
+      display: 'flex',
     },
     drawer: {
       [theme.breakpoints.up('sm')]: {
         width: isMobile ? window.parent.screen.width * 0.8 : drawerWidth,
-        flexShrink: 0
-      }
+        flexShrink: 0,
+      },
     },
     drawerPaper: {
-      width: isMobile ? window.parent.screen.width * 0.8 : drawerWidth
+      width: isMobile ? window.parent.screen.width * 0.8 : drawerWidth,
     },
-    toolbar: theme.mixins.toolbar
+    toolbar: theme.mixins.toolbar,
   })
 )
 
@@ -57,10 +57,10 @@ const App = () => {
     setInterval(() => updateChannels(dispatch), 10000)
 
     // ログイン情報
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       user
         .getIdToken(true)
-        .then(idToken => {
+        .then((idToken) => {
           const token = document.getElementsByName('csrf-token')[0]['content']
           const signinRails = async () => {
             await fetch('/api/v1/accounts', {
@@ -68,13 +68,13 @@ const App = () => {
               method: 'POST',
               headers: {
                 'X-CSRF-TOKEN': token,
-                Authorization: `Bearer ${idToken}`
-              }
+                Authorization: `Bearer ${idToken}`,
+              },
             })
           }
           signinRails()
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(`Firebase getIdToken failed!: ${error.message}`)
         })
 
@@ -129,22 +129,29 @@ const App = () => {
             <div className={classes.toolbar} />
             <main>
               <Switch>
-                <Route exact path="/" render={props => <ChannelList />} />
+                <Route exact path="/" render={(props) => <ChannelList />} />
                 <Route
                   path="/channels/:streamId"
-                  render={props => {
+                  render={(props) => {
                     return (
-                      <ChannelPlayer
-                        streamId={props.match.params.streamId}
-                        isHls={isIOS}
-                        local={false}
-                      />
+                      <div
+                        style={{
+                          width: window.innerWidth,
+                          height: window.innerHeight,
+                        }}
+                      >
+                        <ChannelPlayer
+                          streamId={props.match.params.streamId}
+                          isHls={isIOS}
+                          local={false}
+                        />
+                      </div>
                     )
                   }}
                 />
                 <Route
                   path="/hls/:streamId"
-                  render={props => {
+                  render={(props) => {
                     return (
                       <ChannelPlayer
                         streamId={props.match.params.streamId}
@@ -156,7 +163,7 @@ const App = () => {
                 />
                 <Route
                   path="/local/:streamId"
-                  render={props => {
+                  render={(props) => {
                     return (
                       <ChannelPlayer
                         streamId={props.match.params.streamId}
