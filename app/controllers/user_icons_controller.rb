@@ -2,10 +2,8 @@ require 'open-uri'
 
 class UserIconsController < ApplicationController
   def show
-    Rails.cache.fetch("user_icons/#{params[:jpnkn_id]}", expires_in: 1.day) do
-      response = fetch_icon
-      send_data response.body, type: response.content_type, disposition: 'inline'
-    end
+    response = fetch_icon
+    send_data response.body, type: response.content_type, disposition: 'inline'
   end
 
   private
