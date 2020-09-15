@@ -106,14 +106,12 @@ class Channel {
     const regexRoot = /^https?:\/\/bbs.jpnkn.com\/([0-9a-zA-Z_]+)\/?$/
     const matchesRoot = this.contactUrl.match(regexRoot)
     if (matchesRoot && matchesRoot.length > 1) {
-      console.log(`${this.name} - ${matchesRoot[1]}`)
       return matchesRoot[1]
     }
 
     const regexThread = /^https?:\/\/bbs\.jpnkn\.com\/test\/read\.cgi\/([0-9a-zA-Z_]+)\/[0-9]+\/?$/
     const matchesThread = this.contactUrl.match(regexThread)
     if (matchesThread && matchesThread.length > 1) {
-      console.log(`${this.name} - ${matchesThread[1]}`)
       return matchesThread[1]
     }
 
