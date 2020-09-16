@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button'
 import LoginDialog from './LoginDialog'
 import { useSelectorUser } from '../modules/userModule'
 import SettingsIcon from '@material-ui/icons/Settings'
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -59,6 +60,20 @@ const PecaLiveAppBar = (props: Props) => {
         <Link to="/" className={classes.logo}>
           <Logo src="/images/pecalive.png" />
         </Link>
+
+        <IconButton
+          onClick={() => {
+            if (currentUser.isLogin) {
+              // WebPush通知の設定をする
+              window.location.href = 'https://peca-live.netlify.app/'
+            } else {
+              // ログインしていない場合は、ログインを促す
+              setLoginDialogOpen(true)
+            }
+          }}
+        >
+          <NotificationsActiveIcon />
+        </IconButton>
 
         <IconButton onClick={() => setSettingDialogOpen(true)}>
           <SettingsIcon />
