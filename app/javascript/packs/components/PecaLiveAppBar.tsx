@@ -13,24 +13,25 @@ import LoginDialog from './LoginDialog'
 import { useSelectorUser } from '../modules/userModule'
 import SettingsIcon from '@material-ui/icons/Settings'
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
+import { isMobile } from 'react-device-detect'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    zIndex: theme.zIndex.drawer + 1
+    zIndex: theme.zIndex.drawer + 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
-      display: 'none'
-    }
+      display: 'none',
+    },
   },
   logo: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   avatar: {
     width: theme.spacing(4),
-    height: theme.spacing(4)
-  }
+    height: theme.spacing(4),
+  },
 }))
 
 type Props = {
@@ -79,19 +80,20 @@ const PecaLiveAppBar = (props: Props) => {
           <SettingsIcon />
         </IconButton>
 
-        {currentUser.isLogin ? (
-          <IconButton onClick={() => setLoginDialogOpen(true)}>
-            <Avatar src={currentUser.photoURL} className={classes.avatar} />
-          </IconButton>
-        ) : (
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => setLoginDialogOpen(true)}
-          >
-            ログイン
-          </Button>
-        )}
+        {!isMobile &&
+          (currentUser.isLogin ? (
+            <IconButton onClick={() => setLoginDialogOpen(true)}>
+              <Avatar src={currentUser.photoURL} className={classes.avatar} />
+            </IconButton>
+          ) : (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => setLoginDialogOpen(true)}
+            >
+              ログイン
+            </Button>
+          ))}
 
         <LoginDialog
           open={loginDialogOpen}
