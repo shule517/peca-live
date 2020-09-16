@@ -2,10 +2,8 @@ require 'open-uri'
 
 class UserIconsController < ApplicationController
   def show
-    Rails.cache.fetch("user_icons/#{params[:jpnkn_id]}", expires_in: 1.day) do
-      response = fetch_icon
-      send_data response.body, type: response.content_type, disposition: 'inline'
-    end
+    response = fetch_icon
+    send_data response.body, type: response.content_type, disposition: 'inline'
   end
 
   private
@@ -21,12 +19,14 @@ class UserIconsController < ApplicationController
   end
 
   def extract_twitter_id
-    url = "http://bbs.jpnkn.com/#{params[:jpnkn_id]}/"
-    response = Net::HTTP.get(URI.parse(url))
-    matches = /https:\/\/twitter\.com\/([0-9a-zA-Z_]+)\//.match(response)
+    Rails.cache.fetch("extract_twitter_id/#{params[:jpnkn_id]}", expires_in: 1.day) do
+      url = "http://bbs.jpnkn.com/#{params[:jpnkn_id]}/"
+      response = Net::HTTP.get(URI.parse(url))
+      matches = /https:\/\/twitter\.com\/([0-9a-zA-Z_]+)\//.match(response)
 
-    if matches.present?
-      matches[1]
+      if matches.present?
+        matches[1]
+      end
     end
   end
 
