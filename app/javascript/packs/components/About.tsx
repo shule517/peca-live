@@ -50,39 +50,34 @@ const About = (props: Props) => {
             tabIndex={-1}
             style={{ maxWidth: '400px', width: '100%' }}
           >
-            <CenterDiv style={{ margin: '20px 0 35px 0' }}>
+            <CenterDiv style={{ margin: '20px 0 15px 0' }}>
               <Logo src="/images/pecalive.png" />
             </CenterDiv>
 
             <CenterDiv
               style={{
-                fontSize: '25px',
+                color: '#757c80',
+                fontSize: '12px',
+                fontWeight: 'bold',
               }}
             >
-              パソコンでも、スマホでも、もっと気軽にピアキャスライフを！
+              パソコンでも、スマホでも。
+            </CenterDiv>
+            <CenterDiv
+              style={{
+                color: '#757c80',
+                fontSize: '12px',
+                fontWeight: 'bold',
+              }}
+            >
+              もっと気軽にピアキャスライフを！
             </CenterDiv>
 
-            <hr style={{ margin: '35px 0' }} />
+            <CenterDiv>
+              <img src="/images/device/anywhere.png" />
+            </CenterDiv>
 
-            <div style={{ marginBottom: '5px' }}>
-              <img
-                src="/images/device/windows.png"
-                style={{ width: '30px', height: '30px', margin: '0 4px' }}
-              />
-              <img
-                src="/images/device/mac.png"
-                style={{ width: '30px', height: '30px', margin: '0 4px' }}
-              />
-              <img
-                src="/images/device/iphone.png"
-                style={{ width: '30px', height: '30px', margin: '0 4px', padding: '2px 0' }}
-              />
-              <img
-                src="/images/device/android.png"
-                style={{ width: '30px', height: '30px', margin: '0 2px 0 2px' }}
-              />
-              から簡単にPeerCastを見ることができます。
-            </div>
+            どこからでも簡単にPeerCastを見ることがきでます！
 
             <hr style={{ margin: '35px 0' }} />
 
@@ -144,7 +139,6 @@ const CenterDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
 `
 
 const Logo = styled.img`
