@@ -34,8 +34,6 @@ const About = (props: Props) => {
 
   return (
     <div>
-      <Button onClick={handleClickOpen('paper')}>scroll=paper</Button>
-      <Button onClick={handleClickOpen('body')}>scroll=body</Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -56,7 +54,7 @@ const About = (props: Props) => {
 
             <CenterDiv
               style={{
-                color: '#757c80',
+                color: 'slategray',
                 fontSize: '12px',
                 fontWeight: 'bold',
               }}
@@ -65,23 +63,48 @@ const About = (props: Props) => {
             </CenterDiv>
             <CenterDiv
               style={{
-                color: '#757c80',
+                color: 'slategray',
                 fontSize: '12px',
                 fontWeight: 'bold',
+                marginBottom: '50px',
               }}
             >
               もっと気軽にピアキャスライフを！
             </CenterDiv>
 
-            <CenterDiv>
-              <img src="/images/device/anywhere.png" />
+            <CenterDiv style={{ marginBottom: '5px' }}>
+              <img
+                src="/images/device/anywhere.png"
+                style={{ width: '100%' }}
+              />
             </CenterDiv>
 
-            どこからでも簡単にPeerCastを見ることがきでます！
+            <CenterDiv>
+              どこからでも簡単にPeerCastを見ることがきでます！
+            </CenterDiv>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            閉じる
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-            <hr style={{ margin: '35px 0' }} />
-
-            <h3>ぺからいぶ！を作り出した きっかけ</h3>
+      <Dialog
+        open={false}
+        onClose={handleClose}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <DialogTitle id="scroll-dialog-title">ぺからいぶ！を作り出した きっかけ</DialogTitle>
+        <DialogContent dividers={scroll === 'paper'}>
+          <DialogContentText
+            id="scroll-dialog-description"
+            ref={descriptionElementRef}
+            tabIndex={-1}
+            style={{ maxWidth: '400px', width: '100%' }}
+          >
             <CenterDiv>
               <img
                 src="/images/pecalive-about.jpg"
