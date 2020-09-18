@@ -61,6 +61,10 @@ const Video = (props: Props) => {
     window.parent.screen.width < 800 ? window.parent.screen.width : 800
   const aspectRate = videoHeight / videoWidth
   const height = width * aspectRate
+  // PictureInPictureの有効確認
+  const enablePictureInPicture =
+    (document as any).pictureInPictureEnabled &&
+    (video && !(video as any).disablePictureInPicture)
 
   useEffect(() => {
     if (channel.streamId.length <= 0) {
@@ -83,7 +87,6 @@ const Video = (props: Props) => {
       videoElementId
     ) as HTMLMediaElement
     setVideo(videoElement)
-    videoElement.hidden = !channel.isFlv
 
     const flvStreamUrl = channel.flvStreamUrl(peercast.tip)
 
@@ -125,7 +128,7 @@ const Video = (props: Props) => {
   })
 
   const videoStyleOnClick = () => {
-    if (isIOS) {
+    if (isIOS || !channel.isFlv) {
       // iOSの場合は タップしたらVLCで再生
       window.location.href = channel.vlcStreamUrl(peercast.tip)
     } else {
@@ -160,7 +163,7 @@ const Video = (props: Props) => {
           top: height / 2 - 40,
         }}
       >
-        {isIOS ? (
+        {isIOS || !channel.isFlv ? (
           <PlayArrowIcon
             color="secondary"
             onClick={() => videoStyleOnClick()}
@@ -267,17 +270,19 @@ const Video = (props: Props) => {
               )
             ) : null}
 
-            <Tooltip title="ミニプレイヤー" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => {
-                  ;(video as any).requestPictureInPicture()
-                }}
-              >
-                <PictureInPictureAltIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
+            {enablePictureInPicture && (
+              <Tooltip title="ミニプレイヤー" placement="top" arrow>
+                <IconButton
+                  color="primary"
+                  component="span"
+                  onClick={() => {
+                    ;(video as any).requestPictureInPicture()
+                  }}
+                >
+                  <PictureInPictureAltIcon style={{ color: 'white' }} />
+                </IconButton>
+              </Tooltip>
+            )}
 
             <Tooltip title="フルスクリーン" placement="top" arrow>
               <IconButton

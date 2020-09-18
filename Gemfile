@@ -32,6 +32,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'rack-cors'
 gem 'ridgepole'
 gem 'jwt'
+gem 'httpclient' # twitterアイコン取得用
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

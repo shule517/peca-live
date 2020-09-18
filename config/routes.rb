@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'asuka', to: 'home#index'
   get 'about', to: 'home#index'
   get 'user_devices', to: 'home#user_devices'
+  get 'user_icons/:jpnkn_id', to: 'user_icons#show'
 
   namespace :api do
     namespace :v1 do

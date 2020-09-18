@@ -102,8 +102,27 @@ class Channel {
     return this.yellowPage === 'TP'
   }
 
+  get jpnknId() {
+    const regexRoot = /^https?:\/\/bbs.jpnkn.com\/([0-9a-zA-Z_]+)\/?$/
+    const matchesRoot = this.contactUrl.match(regexRoot)
+    if (matchesRoot && matchesRoot.length > 1) {
+      return matchesRoot[1]
+    }
+
+    const regexThread = /^https?:\/\/bbs\.jpnkn\.com\/test\/read\.cgi\/([0-9a-zA-Z_]+)\/[0-9]+\/?$/
+    const matchesThread = this.contactUrl.match(regexThread)
+    if (matchesThread && matchesThread.length > 1) {
+      return matchesThread[1]
+    }
+
+    return null
+  }
+
   get ypIconUrl() {
-    if (this.isSp) {
+    const jpnknId = this.jpnknId
+    if (jpnknId) {
+      return `/user_icons/${jpnknId}`
+    } else if (this.isSp) {
       return '/images/yp-sp.png'
     } else if (this.isTp) {
       return '/images/yp-tp.png'
