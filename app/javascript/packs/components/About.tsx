@@ -6,6 +6,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
+import Typography from '@material-ui/core/Typography'
 
 type Props = {}
 
@@ -82,9 +83,7 @@ const About = (props: Props) => {
               />
             </CenterDiv>
 
-            <CenterDiv>
-              どこからでもPeerCastを見よう！
-            </CenterDiv>
+            <CenterDiv>どこからでもPeerCastを見よう！</CenterDiv>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -100,7 +99,9 @@ const About = (props: Props) => {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">ぺからいぶ！を作り出した きっかけ</DialogTitle>
+        <DialogTitle id="scroll-dialog-title">
+          ぺからいぶ！を作り出した きっかけ
+        </DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText
             id="scroll-dialog-description"
@@ -115,24 +116,36 @@ const About = (props: Props) => {
               />
             </CenterDiv>
 
-            <h3>限界集落と呼ばれて早５年…</h3>
+            <Title>限界集落と呼ばれて早５年…</Title>
             <div style={{ marginBottom: '5px' }}>
-              <span>「限界集落」と呼ばれだして早５年以上が経ちました。</span>
-              <span>その間に、お手軽な動画配信サービスが登場しました。</span>
+              <Typography variant="body2" color="textSecondary" component="p">
+                <span>「限界集落」と呼ばれだして早５年以上が経ちました。</span>
+                <span>その間に、お手軽な動画配信サービスが登場しました。</span>
+              </Typography>
             </div>
 
             <div style={{ margin: '30px 0' }} />
 
-            <h3>お手軽さが必要な時代になった！</h3>
+            <Title>お手軽さが必要な時代になった！</Title>
             <div style={{ marginBottom: '30px' }}>
-              <span>ピアキャスは好きなんだけど、なんとなく離れていってしまう。。。</span>
-              <span>あいつらみたいに「お手軽さ」が必要な時代になってきたんだと思う。</span>
+              <Typography variant="body2" color="textSecondary" component="p">
+                <span>
+                  ピアキャスは好きなんだけど、なんとなく離れていってしまう。。。
+                </span>
+                <span>
+                  あいつらみたいに「お手軽さ」が必要な時代になってきたんだと思う。
+                </span>
+              </Typography>
             </div>
 
-            <div style={{ marginBottom: '15px' }}>
-              <span>「</span>
-              <Logo src="/images/pecalive.png" style={{ height: '20px', margin: '0 6px' }} />
-              <span>」で、みんなのピアキャスライフをサポートしていきたい！</span>
+            <Title>みんなのピアキャスライフをサポートしていきたい！</Title>
+            <div style={{ marginBottom: '5px' }}>
+              <Typography variant="body2" color="textSecondary" component="p">
+                <span>
+                  このままだと本当にコミュニティとしてのPeerCastは死ぬんだなと思いました。
+                </span>
+                <span>この場所を守るためにも、サポートをしていきたい。</span>
+              </Typography>
             </div>
 
             <CenterDiv>
@@ -165,6 +178,10 @@ const CenterDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`
+
+const Title = styled.h4`
+  margin-bottom: 10px;
 `
 
 const Logo = styled.img`
