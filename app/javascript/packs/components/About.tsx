@@ -49,13 +49,16 @@ const About = (props: Props) => {
             style={{ maxWidth: '400px', width: '100%' }}
           >
             <CenterDiv style={{ margin: '20px 0 15px 0' }}>
-              <Logo src="/images/pecalive.png" />
+              <Logo
+                src="/images/pecalive.png"
+                style={{ height: '45px', marginRight: '8x' }}
+              />
             </CenterDiv>
 
             <CenterDiv
               style={{
                 color: 'slategray',
-                fontSize: '12px',
+                fontSize: '13px',
                 fontWeight: 'bold',
               }}
             >
@@ -64,7 +67,7 @@ const About = (props: Props) => {
             <CenterDiv
               style={{
                 color: 'slategray',
-                fontSize: '12px',
+                fontSize: '13px',
                 fontWeight: 'bold',
                 marginBottom: '50px',
               }}
@@ -75,12 +78,12 @@ const About = (props: Props) => {
             <CenterDiv style={{ marginBottom: '5px' }}>
               <img
                 src="/images/device/anywhere.png"
-                style={{ width: '100%' }}
+                style={{ width: '100%', maxWidth: '350px' }}
               />
             </CenterDiv>
 
             <CenterDiv>
-              どこからでも簡単にPeerCastを見ることがきでます！
+              どこからでもPeerCastを見よう！
             </CenterDiv>
           </DialogContentText>
         </DialogContent>
