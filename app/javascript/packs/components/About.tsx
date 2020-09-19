@@ -11,7 +11,7 @@ import { useEffect, useState, useRef } from 'react'
 
 type Props = {}
 
-const CurrentAboutVersion = '1' // 「ぺからいぶ！とは」のバージョン。変更すると初回だけダイアログを表示する
+const CurrentAboutVersion = '2' // 「ぺからいぶ！とは」のバージョン。変更すると初回だけダイアログを表示する
 
 const About = (props: Props) => {
   const [open, setOpen] = useState(
