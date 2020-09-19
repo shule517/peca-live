@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 
@@ -83,7 +82,7 @@ const App = () => {
   }, [])
 
   const classes = useStyles({})
-  const [isSidebarOpen, setIsSiderbarOpen] = React.useState(false)
+  const [isSidebarOpen, setIsSiderbarOpen] = useState(false)
   const handleDrawerToggle = () => {
     setIsSiderbarOpen(!isSidebarOpen)
   }

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'hls/*path', to: 'home#index'
   get 'local/*path', to: 'home#index'
   get 'asuka', to: 'home#index'
+  get 'about', to: 'home#index'
   get 'user_devices', to: 'home#user_devices'
   get 'user_icons/:jpnkn_id', to: 'user_icons#show'
 
