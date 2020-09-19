@@ -14,7 +14,6 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
 import { Link } from 'react-router-dom'
 import HeadsetIcon from '@material-ui/icons/Headset'
-import About from './About'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -43,7 +42,6 @@ const ChannelList = (props: Props) => {
   return (
     <div className={classes.root}>
       <Helmet title="ぺからいぶ！" />
-      <About />
       {channels.map((channel, index) => {
         return (
           <Fade key={channel.streamId} in={true}>

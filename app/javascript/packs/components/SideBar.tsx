@@ -22,6 +22,7 @@ import { useSelectorChannels } from '../modules/channelsModule'
 import { Link } from 'react-router-dom'
 import HeadsetIcon from '@material-ui/icons/Headset'
 import AccessTimeIcon from '@material-ui/icons/AccessTime'
+import About from './About'
 
 const StyledBadge = withStyles((theme) =>
   createStyles({
@@ -157,6 +158,7 @@ const SideBar = (props: Props) => {
 
   return (
     <div>
+      <About />
       {isMobile ? (
         <>
           <List>
@@ -219,6 +221,16 @@ const SideBar = (props: Props) => {
                 @shule517
               </TwitterLink>
               まで！
+            </Typography>
+          </ListSubheader>
+        }
+      />
+
+      <List
+        subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            <Typography variant="body2" color="textSecondary" component="p" onClick={() => { console.log('!!!!!!!!!!!!')}}>
+              <TwitterLink>ぺからいぶ！とは</TwitterLink>
             </Typography>
           </ListSubheader>
         }
