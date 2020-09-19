@@ -50,7 +50,7 @@ class Api::V1::ChannelsController < ApplicationController
     # お気に入り登録してるユーザーにPush通知する
     send_tos = Favorite.where(channel_name: channel_name).flat_map { |favorite| favorite.user.devices.pluck(:token) }
 
-    link_url = "http://peca.live/channels/#{channel['channelId']}"
+    link_url = "http://peca.live/channels/#{channel['channelId']}?utm_medium=push"
     channel_detail = channel['genre']
     description = channel['description'].gsub(' - <Open>', '').gsub('<Open>', '').gsub(' - <Free>', '').gsub('<Free>', '').gsub(' - <2M Over>', '').gsub('<2M Over>', '').gsub(' - <Over>', '').gsub('<Over>', '')
     channel_detail += ' - ' if channel_detail.present? && description.present?
