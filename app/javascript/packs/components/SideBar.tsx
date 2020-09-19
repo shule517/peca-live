@@ -226,15 +226,15 @@ const SideBar = (props: Props) => {
         }
       />
 
-      <List
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            <Typography variant="body2" color="textSecondary" component="p" onClick={() => { console.log('!!!!!!!!!!!!')}}>
-              <TwitterLink>ぺからいぶ！とは</TwitterLink>
-            </Typography>
-          </ListSubheader>
-        }
-      />
+      {/*<List*/}
+      {/*  subheader={*/}
+      {/*    <ListSubheader component="div" id="nested-list-subheader">*/}
+      {/*      <Typography variant="body2" color="textSecondary" component="p" onClick={() => { console.log('!!!!!!!!!!!!')}}>*/}
+      {/*        <TwitterLink>ぺからいぶ！とは</TwitterLink>*/}
+      {/*      </Typography>*/}
+      {/*    </ListSubheader>*/}
+      {/*  }*/}
+      {/*/>*/}
     </div>
   )
 }
