@@ -10,8 +10,12 @@ import Typography from '@material-ui/core/Typography'
 
 type Props = {}
 
+const CurrentAboutVersion = '1' // 「ぺからいぶ！とは」のバージョン。変更すると初回だけダイアログを表示する
+
 const About = (props: Props) => {
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(
+    localStorage.getItem('aboutVersion') !== CurrentAboutVersion
+  )
   const [scroll, setScroll] = React.useState('paper')
 
   const handleClickOpen = (scrollType) => () => {
@@ -21,6 +25,7 @@ const About = (props: Props) => {
 
   const handleClose = () => {
     setOpen(false)
+    localStorage.setItem('aboutVersion', CurrentAboutVersion) // 見たAboutバージョンを設定する。次回の起動時に既読判定として使う。
   }
 
   const descriptionElementRef = React.useRef(null)
