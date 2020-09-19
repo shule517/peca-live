@@ -7,16 +7,17 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import Typography from '@material-ui/core/Typography'
+import { useEffect, useState, useRef } from 'react'
 
 type Props = {}
 
 const CurrentAboutVersion = '1' // 「ぺからいぶ！とは」のバージョン。変更すると初回だけダイアログを表示する
 
 const About = (props: Props) => {
-  const [open, setOpen] = React.useState(
+  const [open, setOpen] = useState(
     localStorage.getItem('aboutVersion') !== CurrentAboutVersion
   )
-  const [scroll, setScroll] = React.useState('paper')
+  const [scroll, setScroll] = useState('paper')
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true)
@@ -28,8 +29,8 @@ const About = (props: Props) => {
     localStorage.setItem('aboutVersion', CurrentAboutVersion) // 見たAboutバージョンを設定する。次回の起動時に既読判定として使う。
   }
 
-  const descriptionElementRef = React.useRef(null)
-  React.useEffect(() => {
+  const descriptionElementRef = useRef(null)
+  useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef
       if (descriptionElement !== null) {
