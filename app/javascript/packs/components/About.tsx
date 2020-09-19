@@ -164,14 +164,6 @@ const About = (props: Props) => {
       </Dialog>
     </div>
   )
-
-  // return (
-  //   <div className={classes.root}>
-  //     <Helmet title="ぺからいぶ！" />
-  //     <Logo src="/images/pecalive.png" />
-  //     <div>パソコンでも、スマホでも、もっと気軽にピアキャスライフを！</div>
-  //   </div>
-  // )
 }
 
 const CenterDiv = styled.div`
