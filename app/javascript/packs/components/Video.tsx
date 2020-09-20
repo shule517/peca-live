@@ -29,6 +29,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import { updateChannels, useSelectorChannels } from '../modules/channelsModule'
 import { useDispatch } from 'react-redux'
+import { useSelectorUser } from '../modules/userModule';
+import LoginDialog from './LoginDialog';
 
 type Props = {
   channel: Channel
@@ -41,6 +43,7 @@ type Props = {
 
 const Video = (props: Props) => {
   const dispatch = useDispatch()
+  const currentUser = useSelectorUser()
   const {
     channel,
     isHls,
@@ -59,6 +62,8 @@ const Video = (props: Props) => {
   const [video, setVideo] = useState<HTMLMediaElement>(null)
   const [visibleControll, setVisibleControll] = useState<boolean>(false)
   const [readyState, setReadyState] = useState<number>(0)
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false)
+
   const videoElementId = `videoElement-${channel.streamId}`
   const isHlsPlay = isHls && channel.streamId.length
 
@@ -163,6 +168,11 @@ const Video = (props: Props) => {
         onClick={() => videoStyleOnClick()}
       />
 
+      <LoginDialog
+        open={loginDialogOpen}
+        onClose={() => setLoginDialogOpen(false)}
+      />
+
       <Progress
         style={{
           left: width / 2 - 40,
@@ -247,7 +257,7 @@ const Video = (props: Props) => {
             <Tooltip
               title={
                 channel.isFavorited
-                  ? 'お気に入りの登録済み'
+                  ? 'お気に入りに登録済み'
                   : 'お気に入りに登録'
               }
               placement="top"
@@ -276,6 +286,12 @@ const Video = (props: Props) => {
 
                     await updateChannels(dispatch) // 画面に反映
                     // TODO: setFavoriteChannel(channels, channel.name, false, dispatch)
+                  }
+                  if (currentUser.isLogin) {
+                    favoriteChannel()
+                  } else {
+                    // ログインしていない場合は、ログインを促す
+                    setLoginDialogOpen(true)
                   }
                 }}
               >
