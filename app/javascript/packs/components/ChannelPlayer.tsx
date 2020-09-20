@@ -333,11 +333,11 @@ const ChannelPlayer = (props: Props) => {
       {/*  /!*</Typography>*!/*/}
       {/*</div>*/}
 
-      {/*<div style={{ marginTop: '10px' }}>*/}
-      {/*  <a href={channel.contactUrl}>*/}
-      {/*    <span style={{ wordBreak: 'break-all' }}>{channel.contactUrl}</span>*/}
-      {/*  </a>*/}
-      {/*</div>*/}
+      <div style={{ margin: '15px' }}>
+        <a href={channel.contactUrl}>
+          <span style={{ wordBreak: 'break-all' }}>{channel.contactUrl}</span>
+        </a>
+      </div>
 
       {/*<Comment>*/}
       {/*  {comments.map( (comment) => {*/}
