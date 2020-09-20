@@ -25,6 +25,10 @@ import { isMobile, isIOS } from 'react-device-detect'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import SkipNextIcon from '@material-ui/icons/SkipNext'
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
+import { updateChannels, useSelectorChannels } from '../modules/channelsModule'
+import { useDispatch } from 'react-redux'
 
 type Props = {
   channel: Channel
@@ -36,6 +40,7 @@ type Props = {
 }
 
 const Video = (props: Props) => {
+  const dispatch = useDispatch()
   const {
     channel,
     isHls,
@@ -64,7 +69,8 @@ const Video = (props: Props) => {
   // PictureInPictureの有効確認
   const enablePictureInPicture =
     (document as any).pictureInPictureEnabled &&
-    (video && !(video as any).disablePictureInPicture)
+    video &&
+    !(video as any).disablePictureInPicture
 
   useEffect(() => {
     if (channel.streamId.length <= 0) {
@@ -235,6 +241,49 @@ const Video = (props: Props) => {
                 onClick={() => onClickReload()}
               >
                 <RefreshIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip
+              title={
+                channel.isFavorited
+                  ? 'お気に入りの登録済み'
+                  : 'お気に入りに登録'
+              }
+              placement="top"
+              arrow
+            >
+              <IconButton
+                color="primary"
+                component="span"
+                onClick={() => {
+                  const favoriteChannel = async () => {
+                    const token = document.getElementsByName('csrf-token')[0][
+                      'content'
+                    ]
+                    const headers = {
+                      'Content-Type': 'application/x-www-form-urlencoded',
+                      'X-CSRF-TOKEN': token,
+                    }
+                    const body = `channel_name=${channel.name}`
+
+                    await fetch('/api/v1/favorites', {
+                      credentials: 'same-origin',
+                      method: channel.isFavorited ? 'DELETE' : 'POST',
+                      headers: headers,
+                      body,
+                    })
+
+                    await updateChannels(dispatch) // 画面に反映
+                    // TODO: setFavoriteChannel(channels, channel.name, false, dispatch)
+                  }
+                }}
+              >
+                {channel.isFavorited ? (
+                  <FavoriteIcon color="secondary" />
+                ) : (
+                  <FavoriteBorderIcon style={{ color: 'white' }} />
+                )}
               </IconButton>
             </Tooltip>
           </FooterLeftControl>
