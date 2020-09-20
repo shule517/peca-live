@@ -135,8 +135,8 @@ const App = () => {
                     return (
                       <div
                         style={{
-                          width: window.innerWidth,
-                          height: window.innerHeight,
+                          width: window.innerWidth > 800 ? 800 : window.innerWidth,
+                          height: window.innerHeight - 64,
                         }}
                       >
                         <ChannelPlayer
