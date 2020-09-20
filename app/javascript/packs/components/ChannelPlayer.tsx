@@ -22,6 +22,7 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import { isMobile } from 'react-device-detect'
+import IconButton from '@material-ui/core/IconButton';
 
 type Props = {
   streamId: string
@@ -35,23 +36,23 @@ type IconButtonProps = {
   children: React.ReactNode
 }
 
-const IconButton = (props: IconButtonProps) => {
-  const { title, onClick, children } = props
-
-  return (
-    <Tooltip title={title} arrow>
-      <Button
-        variant="outlined"
-        size="small"
-        color="primary"
-        onClick={() => onClick()}
-        style={{ marginRight: '5px' }}
-      >
-        {children}
-      </Button>
-    </Tooltip>
-  )
-}
+// const IconButton = (props: IconButtonProps) => {
+//   const { title, onClick, children } = props
+//
+//   return (
+//     <Tooltip title={title} arrow>
+//       <Button
+//         variant="outlined"
+//         size="small"
+//         color="primary"
+//         onClick={() => onClick()}
+//         style={{ marginRight: '5px' }}
+//       >
+//         {children}
+//       </Button>
+//     </Tooltip>
+//   )
+// }
 
 const ChannelPlayer = (props: Props) => {
   const dispatch = useDispatch()
@@ -277,7 +278,8 @@ const ChannelPlayer = (props: Props) => {
                 component="p"
                 style={{ marginTop: '2px' }}
               >
-                {channel.streamId && `${channel.listenerCount}人が視聴中・${channel.startingTime}から`}
+                {channel.streamId &&
+                  `${channel.listenerCount}人が視聴中 - ${channel.startingTime}から`}
               </Typography>
             </div>
 
