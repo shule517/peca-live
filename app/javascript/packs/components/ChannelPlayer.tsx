@@ -23,7 +23,6 @@ const ChannelPlayer = (props: Props) => {
   const { streamId, isHls, local } = props
 
   const channels = useSelectorChannels()
-  const [loginDialogOpen, setLoginDialogOpen] = useState(false)
 
   const channel =
     channels.find((channel) => channel.streamId === streamId) ||
@@ -90,11 +89,6 @@ const ChannelPlayer = (props: Props) => {
           })
           location.reload()
         }}
-      />
-
-      <LoginDialog
-        open={loginDialogOpen}
-        onClose={() => setLoginDialogOpen(false)}
       />
 
       <ChannelDetail
