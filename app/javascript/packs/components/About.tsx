@@ -7,12 +7,11 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import Typography from '@material-ui/core/Typography'
 import { useState } from 'react'
-import { setAboutPage, useSelectorDialog } from '../modules/dialogModule'
+import DialogModel from '../types/Dialog'
 import { useDispatch } from 'react-redux'
+import { setAboutPage, useSelectorDialog } from '../modules/dialogModule'
 
 type Props = {}
-
-const CurrentAboutVersion = '2' // 「ぺからいぶ！とは」のバージョン。変更すると初回だけダイアログを表示する
 
 const About = (props: Props) => {
   const dialog = useSelectorDialog()
@@ -30,7 +29,7 @@ const About = (props: Props) => {
 
     // 最後のページを閉じたときに、読んだフラグを立てる
     if (dialog.currentAboutPage >= 1) {
-      localStorage.setItem('aboutVersion', CurrentAboutVersion) // 見たAboutバージョンを設定する。次回の起動時に既読判定として使う。
+      localStorage.setItem('aboutVersion', DialogModel.CurrentAboutVersion) // 見たAboutバージョンを設定する。次回の起動時に既読判定として使う。
     }
   }
 
@@ -80,7 +79,11 @@ const About = (props: Props) => {
             </CenterDiv>
 
             <CenterDiv
-              style={{ fontSize: '16px', color: 'rgba(0, 0, 0, 0.54)' }}
+              style={{
+                fontSize: '16px',
+                color: 'rgba(0, 0, 0, 0.54)',
+                margin: '5px 0 15px 0',
+              }}
             >
               どこからでもPeerCastを見よう！
             </CenterDiv>
@@ -138,39 +141,33 @@ const About = (props: Props) => {
                 </span>
               </Typography>
             </div>
-
-            {/*<Title>脱・限界集落！</Title>*/}
-            {/*<div style={{ marginBottom: '30px' }}>*/}
-            {/*  <Typography variant="body2" color="textSecondary" component="p">*/}
-            {/*    <span>とまではいかなくても、</span>*/}
-            {/*  </Typography>*/}
-            {/*</div>*/}
           </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            閉じる
+            次へ
           </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog
-        // open={dialog.currentAboutPage === 2}
-        open={false}
+        open={dialog.currentAboutPage === 2}
         onClose={handleClose}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle>脱・限界集落！</DialogTitle>
+        <DialogTitle>
+          <span style={{ fontFamily: 'Anton' }}>PeerCast FOREVER</span>
+        </DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <div style={{ maxWidth: '400px', width: '100%' }}>
             <Title>みんなのピアキャスライフをサポートしていきたい！</Title>
-            <div style={{ marginBottom: '5px' }}>
-              <Typography variant="body2" color="textSecondary" component="p">
-                <span>
-                  このままだと本当にコミュニティとしてのPeerCastは死ぬんだなと思いました。
-                </span>
-                <span>この場所を守るためにも、サポートをしていきたい。</span>
+            <div style={{ marginBottom: '15px' }}>
+              <Typography variant="body2" color="textSecondary" component="div">
+                もっと快適なサービスにしていくために、みなさんの意見が必要です！
+                要望、バグ報告など 気軽に{' '}
+                <a href="https://twitter.com/shule517">@shule517</a>{' '}
+                まで連絡ください。
               </Typography>
             </div>
 

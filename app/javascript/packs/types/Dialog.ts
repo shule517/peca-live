@@ -3,7 +3,7 @@ export type DialogInterface = {
 }
 
 class Dialog {
-  static CurrentAboutVersion = '2' // 「ぺからいぶ！とは」のバージョン。変更すると初回だけダイアログを表示する
+  static CurrentAboutVersion = '3' // 「ぺからいぶ！とは」のバージョン。変更すると初回だけダイアログを表示する
 
   constructor(public json: DialogInterface) {}
 
