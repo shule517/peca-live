@@ -17,7 +17,6 @@ export type ChannelInterface = {
   uptime: number
   yellowPage: string
   favorited: boolean
-  comments: any
 }
 
 class Channel {
@@ -95,10 +94,6 @@ class Channel {
     return this.json.favorited
   }
 
-  get comments() {
-    return this.json.comments
-  }
-
   get isSp() {
     return this.yellowPage === 'SP'
   }
@@ -155,8 +150,7 @@ class Channel {
       listeners: -1,
       relays: -1,
       uptime: 0,
-      favorited: false,
-      comments: [],
+      favorited: false
     })
   }
 
