@@ -31,16 +31,6 @@ const About = (props: Props) => {
     }
   }
 
-  const descriptionElementRef = useRef(null)
-  useEffect(() => {
-    if (open) {
-      const { current: descriptionElement } = descriptionElementRef
-      if (descriptionElement !== null) {
-        descriptionElement.focus()
-      }
-    }
-  }, [open])
-
   return (
     <div>
       <Dialog
@@ -52,7 +42,6 @@ const About = (props: Props) => {
         <DialogTitle>ぺからいぶ！とは</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText
-            ref={descriptionElementRef}
             tabIndex={-1}
             style={{ maxWidth: '400px', width: '100%' }}
           >
@@ -109,7 +98,6 @@ const About = (props: Props) => {
         <DialogTitle>作りはじめたきっかけ</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText
-            ref={descriptionElementRef}
             tabIndex={-1}
             style={{ maxWidth: '400px', width: '100%' }}
           >
@@ -165,7 +153,6 @@ const About = (props: Props) => {
         <DialogTitle>脱・限界集落！</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText
-            ref={descriptionElementRef}
             tabIndex={-1}
             style={{ maxWidth: '400px', width: '100%' }}
           >
