@@ -14,7 +14,9 @@ type Props = {}
 const CurrentAboutVersion = '2' // 「ぺからいぶ！とは」のバージョン。変更すると初回だけダイアログを表示する
 
 const About = (props: Props) => {
-  const [currentPage, setCurrentPage] = useState(localStorage.getItem('aboutVersion') === CurrentAboutVersion ? -1 : 0) // 見たフラグがない時はAboutの1ページ目をセット
+  const [currentPage, setCurrentPage] = useState(
+    localStorage.getItem('aboutVersion') === CurrentAboutVersion ? -1 : 0
+  ) // 見たフラグがない時はAboutの1ページ目をセット
   const [scroll, setScroll] = useState('paper')
 
   const handleClickOpen = (scrollType) => () => {
