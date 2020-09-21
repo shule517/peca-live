@@ -13,7 +13,7 @@ class Bbs
     dat = res.body
     result = dat.each_line.map.with_index(1) do |line, index|
       elements = line.split('<>')
-      { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3] }
+      { no: elements[0], name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4] }
     end
   end
 
