@@ -3,20 +3,21 @@ import styled from 'styled-components'
 import { DialogActions } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import Typography from '@material-ui/core/Typography'
 import { useState } from 'react'
+import { setAboutPage, useSelectorDialog } from '../modules/dialogModule'
+import { useDispatch } from 'react-redux'
 
 type Props = {}
 
 const CurrentAboutVersion = '2' // 「ぺからいぶ！とは」のバージョン。変更すると初回だけダイアログを表示する
 
 const About = (props: Props) => {
-  const [currentPage, setCurrentPage] = useState(
-    localStorage.getItem('aboutVersion') === CurrentAboutVersion ? -1 : 0
-  ) // 見たフラグがない時はAboutの1ページ目をセット
+  const dialog = useSelectorDialog()
+  const dispatch = useDispatch()
+
   const [scroll, setScroll] = useState('paper')
 
   const handleClickOpen = (scrollType) => () => {
@@ -25,10 +26,10 @@ const About = (props: Props) => {
   }
 
   const handleClose = () => {
-    setCurrentPage(currentPage + 1)
+    setAboutPage(dispatch, dialog.currentAboutPage + 1)
 
     // 最後のページを閉じたときに、読んだフラグを立てる
-    if (currentPage >= 1) {
+    if (dialog.currentAboutPage >= 1) {
       localStorage.setItem('aboutVersion', CurrentAboutVersion) // 見たAboutバージョンを設定する。次回の起動時に既読判定として使う。
     }
   }
@@ -36,17 +37,14 @@ const About = (props: Props) => {
   return (
     <div>
       <Dialog
-        open={currentPage === 0}
+        open={dialog.currentAboutPage === 0}
         onClose={handleClose}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
         <DialogTitle>ぺからいぶ！とは</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
-          <DialogContentText
-            tabIndex={-1}
-            style={{ maxWidth: '400px', width: '100%' }}
-          >
+          <div style={{ maxWidth: '400px', width: '100%' }}>
             <CenterDiv style={{ margin: '20px 0 15px 0' }}>
               <Logo
                 src="/images/pecalive.png"
@@ -81,8 +79,12 @@ const About = (props: Props) => {
               />
             </CenterDiv>
 
-            <CenterDiv>どこからでもPeerCastを見よう！</CenterDiv>
-          </DialogContentText>
+            <CenterDiv
+              style={{ fontSize: '16px', color: 'rgba(0, 0, 0, 0.54)' }}
+            >
+              どこからでもPeerCastを見よう！
+            </CenterDiv>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -92,17 +94,14 @@ const About = (props: Props) => {
       </Dialog>
 
       <Dialog
-        open={currentPage === 1}
+        open={dialog.currentAboutPage === 1}
         onClose={handleClose}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
         <DialogTitle>作りはじめたきっかけ</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
-          <DialogContentText
-            tabIndex={-1}
-            style={{ maxWidth: '400px', width: '100%' }}
-          >
+          <div style={{ maxWidth: '400px', width: '100%' }}>
             <CenterDiv>
               <img
                 src="/images/pecalive-about.jpg"
@@ -114,8 +113,14 @@ const About = (props: Props) => {
             <div style={{ marginBottom: '5px' }}>
               <Typography variant="body2" color="textSecondary" component="p">
                 <span>「限界集落」と呼ばれだして早５年以上が経ちました。</span>
-                <span>Youtube Liveや、Twitchなど お手軽にゲーム配信ができるサービスが増えました。</span>
-                <span>そして、配信以外にも Youtube、Netflix、amazon prime videoなどの強敵も登場！</span>
+                <span>
+                  Youtube Liveや、Twitchなど
+                  お手軽にゲーム配信ができるサービスが増えました。
+                </span>
+                <span>
+                  そして、配信以外にも Youtube、Netflix、amazon prime
+                  videoなどの強敵も登場！
+                </span>
               </Typography>
             </div>
 
@@ -125,8 +130,12 @@ const About = (props: Props) => {
             <div>
               <Typography variant="body2" color="textSecondary" component="p">
                 <span>僕も気がついたら、Youtubeばっかり見てました。。。</span>
-                <span>ピアキャスは好きなんだけど、なんとなく離れていってしまう。</span>
-                <span>あいつらみたいに「お手軽さ」がないとやっていけない時代になってきたんだと思う。</span>
+                <span>
+                  ピアキャスは好きなんだけど、なんとなく離れていってしまう。
+                </span>
+                <span>
+                  あいつらみたいに「お手軽さ」がないとやっていけない時代になってきたんだと思う。
+                </span>
               </Typography>
             </div>
 
@@ -136,7 +145,7 @@ const About = (props: Props) => {
             {/*    <span>とまではいかなくても、</span>*/}
             {/*  </Typography>*/}
             {/*</div>*/}
-          </DialogContentText>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -146,7 +155,7 @@ const About = (props: Props) => {
       </Dialog>
 
       <Dialog
-        // open={currentPage === 2}
+        // open={dialog.currentAboutPage === 2}
         open={false}
         onClose={handleClose}
         aria-labelledby="scroll-dialog-title"
@@ -154,10 +163,7 @@ const About = (props: Props) => {
       >
         <DialogTitle>脱・限界集落！</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
-          <DialogContentText
-            tabIndex={-1}
-            style={{ maxWidth: '400px', width: '100%' }}
-          >
+          <div style={{ maxWidth: '400px', width: '100%' }}>
             <Title>みんなのピアキャスライフをサポートしていきたい！</Title>
             <div style={{ marginBottom: '5px' }}>
               <Typography variant="body2" color="textSecondary" component="p">
@@ -174,7 +180,7 @@ const About = (props: Props) => {
                 style={{ maxWidth: '400px', width: '100%' }}
               />
             </CenterDiv>
-          </DialogContentText>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -193,6 +199,9 @@ const CenterDiv = styled.div`
 `
 
 const Title = styled.h4`
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 16px;
+  line-height: 1.5;
   margin-bottom: 10px;
 `
 
