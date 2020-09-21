@@ -4,7 +4,11 @@ class Api::V1::ChannelsController < ApplicationController
   def index
     channels = fetch_channels
     favorites = Array(current_user&.favorites)
-    channels.map { |hash| hash[:favorited] = favorites.any? { |favorite| favorite.channel_name == hash['name'] } }
+    channels.each { |hash| hash[:favorited] = favorites.any? { |favorite| favorite.channel_name == hash['name'] } }
+    channels.each do |hash|
+      bbs = Bbs.new(hash['contactUrl'])
+      hash[:comments] = bbs.fetch_comments if bbs.shitaraba?
+    end
     render json: channels
   end
 
