@@ -103,7 +103,7 @@ const ChannelPlayer = (props: Props) => {
           }}
         />
 
-        <div style={{ margin: '0' }}>
+        <div style={{ paddingRight: '15px' }}>
           <div style={{ display: 'flex' }}>
             <Typography
               gutterBottom

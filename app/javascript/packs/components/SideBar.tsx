@@ -239,6 +239,7 @@ const SideBar = (props: Props) => {
             </Typography>
           </HoverLinkListSubheader>
         }
+        style={{ paddingBottom: '20px' }}
       />
     </div>
   )
