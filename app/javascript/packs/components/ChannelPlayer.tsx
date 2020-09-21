@@ -91,62 +91,48 @@ const ChannelPlayer = (props: Props) => {
         }}
       />
 
-      <ChannelDetail
-        style={{
-          borderBottom: 'solid 1px rgba(0, 0, 0, 0.1)',
-          padding: '15px',
-        }}
-      >
-        <div
+      <ChannelDetail>
+        <Avatar
+          alt={channel.name}
+          src={channel.ypIconUrl}
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            overflow: 'auto',
-            whiteSpace: 'nowrap',
+            width: isMobile ? '50px' : '80px',
+            height: isMobile ? '50px' : '80px',
+            margin: '0px 15px 0px 0px',
+            border: 'solid 1px rgba(0, 0, 0, 0.1)',
           }}
-        >
-          <Avatar
-            alt={channel.name}
-            src={channel.ypIconUrl}
-            style={{
-              width: isMobile ? '50px' : '80px',
-              height: isMobile ? '50px' : '80px',
-              margin: '0px 15px 0px 0px',
-              border: 'solid 1px rgba(0, 0, 0, 0.1)',
-            }}
-          />
+        />
 
-          <div style={{ margin: '0' }}>
-            <div style={{ display: 'flex' }}>
-              <Typography
-                gutterBottom
-                variant="subtitle2"
-                component="h3"
-                style={{ marginRight: '15px' }}
-              >
-                {channel.name}
-              </Typography>
-
-              <Typography
-                variant="caption"
-                color="textSecondary"
-                component="p"
-                style={{ marginTop: '2px' }}
-              >
-                {channel.streamId &&
-                  `${channel.listenerCount}人が視聴中 - ${channel.startingTime}から`}
-              </Typography>
-            </div>
-
+        <div style={{ margin: '0' }}>
+          <div style={{ display: 'flex' }}>
             <Typography
               gutterBottom
-              variant="subtitle1"
+              variant="subtitle2"
               component="h3"
-              style={{ marginBottom: '0x' }}
+              style={{ marginRight: '15px' }}
             >
-              {channel.explanation}
+              {channel.name}
+            </Typography>
+
+            <Typography
+              variant="caption"
+              color="textSecondary"
+              component="p"
+              style={{ marginTop: '2px' }}
+            >
+              {channel.streamId &&
+                `${channel.listenerCount}人が視聴中 - ${channel.startingTime}から`}
             </Typography>
           </div>
+
+          <Typography
+            gutterBottom
+            variant="subtitle1"
+            component="h3"
+            style={{ marginBottom: '0x' }}
+          >
+            {channel.explanation}
+          </Typography>
         </div>
       </ChannelDetail>
 
@@ -180,6 +166,12 @@ const Comment = styled.div`
 
 const ChannelDetail = styled.div`
   background: white;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  overflow: auto;
+  white-space: nowrap;
 `
 
 export default ChannelPlayer
