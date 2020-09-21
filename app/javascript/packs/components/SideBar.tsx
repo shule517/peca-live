@@ -244,8 +244,6 @@ const TwitterLink = styled.a`
     cursor: pointer;
     text-decoration: underline;
   }
-  margin-left: 3px;
-  margin-right: 3px;
 `
 
 const ListenerCountStyle = styled.span`
