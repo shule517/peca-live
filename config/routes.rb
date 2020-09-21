@@ -33,6 +33,8 @@ Rails.application.routes.draw do
           delete :destroy
         end
       end
+
+      resources :comments
     end
   end
 end
