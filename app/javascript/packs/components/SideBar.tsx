@@ -214,27 +214,25 @@ const SideBar = (props: Props) => {
 
       <List
         subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
+          <HoverLinkListSubheader>
             <Typography variant="body2" color="textSecondary" component="p">
-              ご連絡は
-              <TwitterLink href={'https://twitter.com/shule517'}>
-                @shule517
-              </TwitterLink>
-              まで！
+              ぺからいぶ！ とは？
             </Typography>
-          </ListSubheader>
+          </HoverLinkListSubheader>
         }
       />
 
-      {/*<List*/}
-      {/*  subheader={*/}
-      {/*    <ListSubheader component="div" id="nested-list-subheader">*/}
-      {/*      <Typography variant="body2" color="textSecondary" component="p" onClick={() => { console.log('!!!!!!!!!!!!')}}>*/}
-      {/*        <TwitterLink>ぺからいぶ！とは</TwitterLink>*/}
-      {/*      </Typography>*/}
-      {/*    </ListSubheader>*/}
-      {/*  }*/}
-      {/*/>*/}
+      <List
+        subheader={
+          <HoverLinkListSubheader>
+            <Typography variant="body2" color="textSecondary" component="p">
+              <TwitterLink href={'https://twitter.com/shule517'}>
+                ご連絡は @shule517 まで！
+              </TwitterLink>
+            </Typography>
+          </HoverLinkListSubheader>
+        }
+      />
     </div>
   )
 }
@@ -261,6 +259,13 @@ const ChannelDetailTooltip = styled(Tooltip)`
 
 const StyledAvator = styled(Avatar)`
   border: solid 1px rgba(0, 0, 0, 0.04);
+`
+
+const HoverLinkListSubheader = styled(ListSubheader)`
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 `
 
 const Logo = styled.img`
