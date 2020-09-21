@@ -14,19 +14,21 @@ type Props = {}
 const CurrentAboutVersion = '2' // 「ぺからいぶ！とは」のバージョン。変更すると初回だけダイアログを表示する
 
 const About = (props: Props) => {
-  const [open, setOpen] = useState(
-    localStorage.getItem('aboutVersion') !== CurrentAboutVersion
-  )
+  const [currentPage, setCurrentPage] = useState(localStorage.getItem('aboutVersion') === CurrentAboutVersion ? -1 : 0) // 見たフラグがない時はAboutの1ページ目をセット
   const [scroll, setScroll] = useState('paper')
 
   const handleClickOpen = (scrollType) => () => {
-    setOpen(true)
+    // setOpen(true)
     setScroll(scrollType)
   }
 
   const handleClose = () => {
-    setOpen(false)
-    localStorage.setItem('aboutVersion', CurrentAboutVersion) // 見たAboutバージョンを設定する。次回の起動時に既読判定として使う。
+    setCurrentPage(currentPage + 1)
+
+    // 最後のページを閉じたときに、読んだフラグを立てる
+    if (currentPage >= 1) {
+      localStorage.setItem('aboutVersion', CurrentAboutVersion) // 見たAboutバージョンを設定する。次回の起動時に既読判定として使う。
+    }
   }
 
   const descriptionElementRef = useRef(null)
@@ -42,15 +44,14 @@ const About = (props: Props) => {
   return (
     <div>
       <Dialog
-        open={open}
+        open={currentPage === 0}
         onClose={handleClose}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">ぺからいぶ！とは</DialogTitle>
+        <DialogTitle>ぺからいぶ！とは</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText
-            id="scroll-dialog-description"
             ref={descriptionElementRef}
             tabIndex={-1}
             style={{ maxWidth: '400px', width: '100%' }}
@@ -94,23 +95,20 @@ const About = (props: Props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            閉じる
+            次へ
           </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog
-        open={false}
+        open={currentPage === 1}
         onClose={handleClose}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">
-          ぺからいぶ！を作り出した きっかけ
-        </DialogTitle>
+        <DialogTitle>作りはじめたきっかけ</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText
-            id="scroll-dialog-description"
             ref={descriptionElementRef}
             tabIndex={-1}
             style={{ maxWidth: '400px', width: '100%' }}
@@ -118,7 +116,7 @@ const About = (props: Props) => {
             <CenterDiv>
               <img
                 src="/images/pecalive-about.jpg"
-                style={{ maxWidth: '400px', width: '100%' }}
+                style={{ maxWidth: '360px', width: '100%' }}
               />
             </CenterDiv>
 
@@ -126,24 +124,51 @@ const About = (props: Props) => {
             <div style={{ marginBottom: '5px' }}>
               <Typography variant="body2" color="textSecondary" component="p">
                 <span>「限界集落」と呼ばれだして早５年以上が経ちました。</span>
-                <span>その間に、お手軽な動画配信サービスが登場しました。</span>
+                <span>Youtube Liveや、Twitchなど お手軽にゲーム配信ができるサービスが増えました。</span>
+                <span>そして、配信以外にも Youtube、Netflix、amazon prime videoなどの強敵も登場！</span>
               </Typography>
             </div>
 
             <div style={{ margin: '30px 0' }} />
 
             <Title>お手軽さが必要な時代になった！</Title>
-            <div style={{ marginBottom: '30px' }}>
+            <div>
               <Typography variant="body2" color="textSecondary" component="p">
-                <span>
-                  ピアキャスは好きなんだけど、なんとなく離れていってしまう。。。
-                </span>
-                <span>
-                  あいつらみたいに「お手軽さ」が必要な時代になってきたんだと思う。
-                </span>
+                <span>僕も気がついたら、Youtubeばっかり見てました。。。</span>
+                <span>ピアキャスは好きなんだけど、なんとなく離れていってしまう。</span>
+                <span>あいつらみたいに「お手軽さ」がないとやっていけない時代になってきたんだと思う。</span>
               </Typography>
             </div>
 
+            {/*<Title>脱・限界集落！</Title>*/}
+            {/*<div style={{ marginBottom: '30px' }}>*/}
+            {/*  <Typography variant="body2" color="textSecondary" component="p">*/}
+            {/*    <span>とまではいかなくても、</span>*/}
+            {/*  </Typography>*/}
+            {/*</div>*/}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            閉じる
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        // open={currentPage === 2}
+        open={false}
+        onClose={handleClose}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <DialogTitle>脱・限界集落！</DialogTitle>
+        <DialogContent dividers={scroll === 'paper'}>
+          <DialogContentText
+            ref={descriptionElementRef}
+            tabIndex={-1}
+            style={{ maxWidth: '400px', width: '100%' }}
+          >
             <Title>みんなのピアキャスライフをサポートしていきたい！</Title>
             <div style={{ marginBottom: '5px' }}>
               <Typography variant="body2" color="textSecondary" component="p">
