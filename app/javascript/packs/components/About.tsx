@@ -50,10 +50,9 @@ const About = (props: Props) => {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">ぺからいぶ！とは</DialogTitle>
+        <DialogTitle>ぺからいぶ！とは</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText
-            id="scroll-dialog-description"
             ref={descriptionElementRef}
             tabIndex={-1}
             style={{ maxWidth: '400px', width: '100%' }}
@@ -108,12 +107,11 @@ const About = (props: Props) => {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">
-          ぺからいぶ！を作り出した きっかけ
+        <DialogTitle>
+          作りはじめたきっかけ
         </DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText
-            id="scroll-dialog-description"
             ref={descriptionElementRef}
             tabIndex={-1}
             style={{ maxWidth: '400px', width: '100%' }}
@@ -121,7 +119,7 @@ const About = (props: Props) => {
             <CenterDiv>
               <img
                 src="/images/pecalive-about.jpg"
-                style={{ maxWidth: '400px', width: '100%' }}
+                style={{ maxWidth: '360px', width: '100%' }}
               />
             </CenterDiv>
 
@@ -155,23 +153,23 @@ const About = (props: Props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            次へ
+            閉じる
           </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog
-        open={currentPage === 2}
+        // open={currentPage === 2}
+        open={false}
         onClose={handleClose}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="scroll-dialog-title">
+        <DialogTitle>
           脱・限界集落！
         </DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText
-            id="scroll-dialog-description"
             ref={descriptionElementRef}
             tabIndex={-1}
             style={{ maxWidth: '400px', width: '100%' }}
