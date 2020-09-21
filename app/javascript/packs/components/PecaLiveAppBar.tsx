@@ -13,7 +13,7 @@ import LoginDialog from './LoginDialog'
 import { useSelectorUser } from '../modules/userModule'
 import SettingsIcon from '@material-ui/icons/Settings'
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
-import { isMobile } from 'react-device-detect'
+import { isMobile, isIOS } from 'react-device-detect'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -62,19 +62,22 @@ const PecaLiveAppBar = (props: Props) => {
           <Logo src="/images/pecalive.png" />
         </Link>
 
-        <IconButton
-          onClick={() => {
-            if (currentUser.isLogin) {
-              // WebPush通知の設定をする
-              window.location.href = 'https://peca-live.netlify.app/'
-            } else {
-              // ログインしていない場合は、ログインを促す
-              setLoginDialogOpen(true)
-            }
-          }}
-        >
-          <NotificationsActiveIcon />
-        </IconButton>
+        {!isIOS && (
+          // iOSはWebPushが対応していないため、通知ボタンを表示しない
+          <IconButton
+            onClick={() => {
+              if (currentUser.isLogin) {
+                // WebPush通知の設定をする
+                window.location.href = 'https://peca-live.netlify.app/'
+              } else {
+                // ログインしていない場合は、ログインを促す
+                setLoginDialogOpen(true)
+              }
+            }}
+          >
+            <NotificationsActiveIcon />
+          </IconButton>
+        )}
 
         <IconButton onClick={() => setSettingDialogOpen(true)}>
           <SettingsIcon />
