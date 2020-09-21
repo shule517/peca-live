@@ -14,22 +14,21 @@ type Props = {}
 const CurrentAboutVersion = '2' // 「ぺからいぶ！とは」のバージョン。変更すると初回だけダイアログを表示する
 
 const About = (props: Props) => {
-  const [open, setOpen] = useState(
-    localStorage.getItem('aboutVersion') !== CurrentAboutVersion
-  )
-  const [currentPage, setCurrentPage] = useState(0)
+  const [currentPage, setCurrentPage] = useState(localStorage.getItem('aboutVersion') === CurrentAboutVersion ? -1 : 0) // 見たフラグがない時はAboutの1ページ目をセット
   const [scroll, setScroll] = useState('paper')
 
   const handleClickOpen = (scrollType) => () => {
-    setOpen(true)
+    // setOpen(true)
     setScroll(scrollType)
   }
 
   const handleClose = () => {
-    // setOpen(false)
-
     setCurrentPage(currentPage + 1)
-    localStorage.setItem('aboutVersion', CurrentAboutVersion) // 見たAboutバージョンを設定する。次回の起動時に既読判定として使う。
+
+    // 最後のページを閉じたときに、読んだフラグを立てる
+    if (currentPage >= 1) {
+      localStorage.setItem('aboutVersion', CurrentAboutVersion) // 見たAboutバージョンを設定する。次回の起動時に既読判定として使う。
+    }
   }
 
   const descriptionElementRef = useRef(null)
@@ -107,9 +106,7 @@ const About = (props: Props) => {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle>
-          作りはじめたきっかけ
-        </DialogTitle>
+        <DialogTitle>作りはじめたきっかけ</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText
             ref={descriptionElementRef}
@@ -165,9 +162,7 @@ const About = (props: Props) => {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle>
-          脱・限界集落！
-        </DialogTitle>
+        <DialogTitle>脱・限界集落！</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText
             ref={descriptionElementRef}
