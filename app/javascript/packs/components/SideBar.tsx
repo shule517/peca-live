@@ -4,11 +4,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import {
-  withStyles,
-  createStyles,
-  makeStyles
-} from '@material-ui/core/styles'
+import { withStyles, createStyles, makeStyles } from '@material-ui/core/styles'
 import Badge from '@material-ui/core/Badge'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Avatar from '@material-ui/core/Avatar'
@@ -23,6 +19,8 @@ import { Link } from 'react-router-dom'
 import HeadsetIcon from '@material-ui/icons/Headset'
 import AccessTimeIcon from '@material-ui/icons/AccessTime'
 import About from './About'
+import { openAboutPage } from '../modules/dialogModule'
+import { useDispatch } from 'react-redux'
 
 const StyledBadge = withStyles((theme) =>
   createStyles({
@@ -39,27 +37,27 @@ const StyledBadge = withStyles((theme) =>
         borderRadius: '50%',
         // animation: '$ripple 1.2s infinite ease-in-out',
         // border: '1px solid currentColor',
-        content: '""'
-      }
+        content: '""',
+      },
     },
     '@keyframes ripple': {
       '0%': {
         transform: 'scale(.8)',
-        opacity: 1
+        opacity: 1,
       },
       '100%': {
         transform: 'scale(2.4)',
-        opacity: 0
-      }
-    }
+        opacity: 0,
+      },
+    },
   })
 )(Badge)
 
 const useStyles = makeStyles((theme) => ({
   noMaxWidth: {
-    maxWidth: 'none'
+    maxWidth: 'none',
   },
-  toolbar: theme.mixins.toolbar
+  toolbar: theme.mixins.toolbar,
 }))
 
 type Props = {
@@ -68,9 +66,11 @@ type Props = {
 
 const SideBar = (props: Props) => {
   const { onChannelClick } = props
-  const classes = useStyles({})
 
+  const dispatch = useDispatch()
+  const classes = useStyles({})
   const channels = useSelectorChannels()
+
   const dup = channels.slice(0, channels.length)
   const hotChannels = dup
     .sort((a, b) => {
@@ -113,7 +113,7 @@ const SideBar = (props: Props) => {
                 overlap="circle"
                 anchorOrigin={{
                   vertical: 'bottom',
-                  horizontal: 'right'
+                  horizontal: 'right',
                 }}
                 variant="dot"
               >
@@ -146,8 +146,8 @@ const SideBar = (props: Props) => {
                 style: {
                   whiteSpace: 'nowrap',
                   textOverflow: 'ellipsis',
-                  overflow: 'hidden'
-                }
+                  overflow: 'hidden',
+                },
               }}
             />
           </ListItem>
@@ -183,7 +183,7 @@ const SideBar = (props: Props) => {
           </ListSubheader>
         }
       >
-        {hotChannels.map(channel => {
+        {hotChannels.map((channel) => {
           return channelItem(
             'listener-order',
             channel,
@@ -201,7 +201,7 @@ const SideBar = (props: Props) => {
           </ListSubheader>
         }
       >
-        {newChannels.map(channel => {
+        {newChannels.map((channel) => {
           return channelItem(
             'uptime-order',
             channel,
@@ -214,27 +214,32 @@ const SideBar = (props: Props) => {
 
       <List
         subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            <Typography variant="body2" color="textSecondary" component="p">
-              ご連絡は
-              <TwitterLink href={'https://twitter.com/shule517'}>
-                @shule517
-              </TwitterLink>
-              まで！
+          <HoverLinkListSubheader>
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              component="p"
+              onClick={() => {
+                openAboutPage(dispatch)
+              }}
+            >
+              ぺからいぶ！ とは？
             </Typography>
-          </ListSubheader>
+          </HoverLinkListSubheader>
         }
       />
 
-      {/*<List*/}
-      {/*  subheader={*/}
-      {/*    <ListSubheader component="div" id="nested-list-subheader">*/}
-      {/*      <Typography variant="body2" color="textSecondary" component="p" onClick={() => { console.log('!!!!!!!!!!!!')}}>*/}
-      {/*        <TwitterLink>ぺからいぶ！とは</TwitterLink>*/}
-      {/*      </Typography>*/}
-      {/*    </ListSubheader>*/}
-      {/*  }*/}
-      {/*/>*/}
+      <List
+        subheader={
+          <HoverLinkListSubheader>
+            <Typography variant="body2" color="textSecondary" component="p">
+              <TwitterLink href={'https://twitter.com/shule517'}>
+                ご連絡は @shule517 まで！
+              </TwitterLink>
+            </Typography>
+          </HoverLinkListSubheader>
+        }
+      />
     </div>
   )
 }
@@ -246,8 +251,6 @@ const TwitterLink = styled.a`
     cursor: pointer;
     text-decoration: underline;
   }
-  margin-left: 3px;
-  margin-right: 3px;
 `
 
 const ListenerCountStyle = styled.span`
@@ -261,6 +264,13 @@ const ChannelDetailTooltip = styled(Tooltip)`
 
 const StyledAvator = styled(Avatar)`
   border: solid 1px rgba(0, 0, 0, 0.04);
+`
+
+const HoverLinkListSubheader = styled(ListSubheader)`
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 `
 
 const Logo = styled.img`
