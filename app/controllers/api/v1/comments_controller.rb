@@ -6,14 +6,13 @@ class Api::V1::CommentsController < ApplicationController
   private
 
   def fetch_comments
-    bbs = Bbs.new(params[:url])
-
-    if bbs.shitaraba?
-      Rails.cache.fetch("api/v1/comments?url=#{params[:url]}", expires_in: 1.minute) do
+    Rails.cache.fetch("api/v1/comments?url=#{params[:url]}", expires_in: 1.minute) do
+      bbs = Bbs.new(params[:url])
+      if bbs.shitaraba?
         bbs.fetch_comments
+      else
+        {}
       end
-    else
-      {}
     end
   end
 end
