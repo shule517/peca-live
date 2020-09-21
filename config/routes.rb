@@ -34,7 +34,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :comments
+      resources :comments, only: %i(index)
     end
   end
 end
