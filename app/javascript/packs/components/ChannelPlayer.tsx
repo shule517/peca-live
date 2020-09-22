@@ -8,6 +8,7 @@ import { useSelectorChannels } from '../modules/channelsModule'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import { isMobile } from 'react-device-detect'
+import { Helmet } from 'react-helmet'
 
 type Props = {
   streamId: string
@@ -48,7 +49,10 @@ const ChannelPlayer = (props: Props) => {
           : 'チャンネル情報を取得中...'
       )
 
-    if (channel.name !== fetch_channel.name) {
+    if (
+      channel.name !== fetch_channel.name || // 「配信は終了しました。」に変更する
+      channel.isFavorited !== fetch_channel.isFavorited // お気に入り登録した後に♡の表示に反映する
+    ) {
       const index = channels.findIndex((item) => item === fetch_channel)
       const nextChannel = channels[(index + 1) % channels.length]
       const nextChannelUrl = nextChannel
@@ -99,7 +103,9 @@ const ChannelPlayer = (props: Props) => {
 
   return (
     <div>
-      {/*<Helmet title={`${channel.name} - ぺからいぶ！`} />*/}
+      <Helmet
+        title={`${channels.length > 0 ? `${channel.name} - ` : ''}ぺからいぶ！`}
+      />
       <Video
         channel={channel}
         isHls={isHls}

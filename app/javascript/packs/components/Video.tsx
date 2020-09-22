@@ -29,8 +29,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import { updateChannels, useSelectorChannels } from '../modules/channelsModule'
 import { useDispatch } from 'react-redux'
-import { useSelectorUser } from '../modules/userModule';
-import LoginDialog from './LoginDialog';
+import { useSelectorUser } from '../modules/userModule'
+import LoginDialog from './LoginDialog'
 
 type Props = {
   channel: Channel
@@ -201,7 +201,7 @@ const Video = (props: Props) => {
         )}
       </Progress>
 
-      {visibleControll && (
+      {(visibleControll || isIOS) && (
         <VideoControl
           style={{ width: width }}
           onMouseEnter={() => {
@@ -222,17 +222,19 @@ const Video = (props: Props) => {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title="再生" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => {
-                  player.play()
-                }}
-              >
-                <PlayArrowIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
+            {!isIOS && (
+              <Tooltip title="再生" placement="top" arrow>
+                <IconButton
+                  color="primary"
+                  component="span"
+                  onClick={() => {
+                    player.play()
+                  }}
+                >
+                  <PlayArrowIcon style={{ color: 'white' }} />
+                </IconButton>
+              </Tooltip>
+            )}
 
             <Tooltip title="次の配信へ" placement="top" arrow>
               <IconButton
@@ -244,15 +246,17 @@ const Video = (props: Props) => {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title="再接続(Bump)" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => onClickReload()}
-              >
-                <RefreshIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
+            {!isIOS && (
+              <Tooltip title="再接続(Bump)" placement="top" arrow>
+                <IconButton
+                  color="primary"
+                  component="span"
+                  onClick={() => onClickReload()}
+                >
+                  <RefreshIcon style={{ color: 'white' }} />
+                </IconButton>
+              </Tooltip>
+            )}
 
             <Tooltip
               title={
@@ -349,17 +353,19 @@ const Video = (props: Props) => {
               </Tooltip>
             )}
 
-            <Tooltip title="フルスクリーン" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => {
-                  video.requestFullscreen()
-                }}
-              >
-                <FullscreenIcon style={{ color: 'white' }} />
-              </IconButton>
-            </Tooltip>
+            {!isIOS && (
+              <Tooltip title="フルスクリーン" placement="top" arrow>
+                <IconButton
+                  color="primary"
+                  component="span"
+                  onClick={() => {
+                    video.requestFullscreen()
+                  }}
+                >
+                  <FullscreenIcon style={{ color: 'white' }} />
+                </IconButton>
+              </Tooltip>
+            )}
           </FooterRightControl>
         </VideoControl>
       )}
