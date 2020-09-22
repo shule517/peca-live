@@ -1,7 +1,8 @@
 class Bbs
   attr_reader :url
 
-  SHITARABA_URLREX = %r{\A(https?://jbbs.shitaraba.net/bbs/read.cgi/[a-z]+/\d+/\d+)}
+  SHITARABA_URL_REGEX = %r{\A(https?://jbbs.shitaraba.net/bbs/read.cgi/[a-z]+/\d+/\d+)}
+  LIVEDOOR_URL_REGEX = %r{\A(https?://jbbs.livedoor.jp/bbs/read.cgi/[a-z]+/\d+/\d+)}
 
   def initialize(url)
     @url = url
@@ -18,16 +19,22 @@ class Bbs
   end
 
   def shitaraba?
-    SHITARABA_URLREX.match?(url)
+    SHITARABA_URL_REGEX.match?(url) || LIVEDOOR_URL_REGEX.match?(url)
   end
 
   private
 
   def dat_url
-    matches = SHITARABA_URLREX.match(url)
+    matches = SHITARABA_URL_REGEX.match(url)
     if matches.present?
       dat_url = matches[1].gsub('read.cgi', 'rawmode.cgi')
-      "#{dat_url}/l10"
+      return "#{dat_url}/l10"
+    end
+
+    matches = LIVEDOOR_URL_REGEX.match(url)
+    if matches.present?
+      dat_url = matches[1].gsub('read.cgi', 'rawmode.cgi').gsub('jbbs.livedoor.jp', 'jbbs.shitaraba.net')
+      return "#{dat_url}/l10"
     end
   end
 
