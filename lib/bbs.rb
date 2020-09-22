@@ -3,7 +3,7 @@ class Bbs
 
   SHITARABA_URL_REGEX = %r{\A(https?://jbbs.shitaraba.net/bbs/read.cgi/[a-z]+/\d+/\d+)}
   LIVEDOOR_URL_REGEX = %r{\A(https?://jbbs.livedoor.jp/bbs/read.cgi/[a-z]+/\d+/\d+)}
-  JPNKN_URL_REGEX = %r{\Ahttps?://bbs.jpnkn.com/test/read.cgi/([a-z0-9]+)/(\d+)}
+  JPNKN_URL_REGEX = %r{\Ahttps?://bbs.jpnkn.com/test/read.cgi/([a-zA-Z0-9]+)/(\d+)}
 
   def initialize(url)
     @url = url
@@ -25,9 +25,9 @@ class Bbs
     client = HTTPClient.new
     res = client.get(dat_url)
     dat = res.body
-    dat.each_line.map.with_index(1) do |line, index|
+    dat.each_line.map do |line|
       elements = line.split('<>')
-      { no: elements[0].to_i, name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4] }
+      { no: elements[0].to_i, name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4].gsub('<br>', "\n") }
     end
   end
 
@@ -37,7 +37,7 @@ class Bbs
     dat = res.body
     dat.each_line.map.with_index(1) do |line, index|
       elements = line.split('<>')
-      { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3] }
+      { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3].gsub('<br>', "\n") }
     end
   end
 

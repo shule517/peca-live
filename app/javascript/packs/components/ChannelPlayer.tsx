@@ -63,11 +63,11 @@ const ChannelPlayer = (props: Props) => {
         fetchComments()
       }
 
-      // TODO: 本当は１番↓までスクロールしたいけど、reverseして逃げた
-      // const element = document.getElementById(commentId)
-      // if (element) {
-      //   element.scrollTo(0, 1000)
-      // }
+      // 配信を切り替えた時に、コメントのスクロール位置を上に戻す
+      const element = document.getElementById(commentId)
+      if (element) {
+        element.scrollTo(0, 0)
+      }
     }
   }, [channels])
 
@@ -138,7 +138,7 @@ const ChannelPlayer = (props: Props) => {
       </ChannelDetail>
 
       <Comment id={commentId}>
-        {comments.length == 0 ? '未対応な掲示板です' : null}
+        {comments.length == 0 ? <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>対応していないURLです</div> : null}
         {comments.map((comment) => {
           return (
             <div
@@ -154,7 +154,11 @@ const ChannelPlayer = (props: Props) => {
               >
                 {comment['no']}
               </div>
-              <div style={{}}>{comment['body']}</div>
+              <div>
+                {comment['body'].split('\n').map((line, index) => {
+                  return <div key={`${channel.streamId}-comments-${comment['no']}-${index}`}>{line}</div>
+                })}
+              </div>
             </div>
           )
         })}
