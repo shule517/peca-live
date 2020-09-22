@@ -88,8 +88,8 @@ const ChannelPlayer = (props: Props) => {
   }, [channels])
 
   return (
-    <>
-      <Helmet title={`${channel.name} - ぺからいぶ！`} />
+    <div>
+      {/*<Helmet title={`${channel.name} - ぺからいぶ！`} />*/}
       <Video
         channel={channel}
         isHls={isHls}
@@ -207,18 +207,9 @@ const ChannelPlayer = (props: Props) => {
           ※WMV配信のためVLCで再生してください。
         </div>
       )}
-    </>
+    </div>
   )
 }
-
-const Comment = styled.div`
-  border-top: solid 1px rgba(0, 0, 0, 0.1);
-  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
-  background: white;
-  padding: 5px 0px;
-  overflow: auto;
-  height: 200px;
-`
 
 const ChannelDetail = styled.div`
   background: white;
@@ -227,6 +218,16 @@ const ChannelDetail = styled.div`
   align-items: center;
   overflow: auto;
   white-space: nowrap;
+  margin-top: -5px;
+`
+
+const Comment = styled.div`
+  border-top: solid 1px rgba(0, 0, 0, 0.1);
+  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 5px 0px;
+  overflow: auto;
+  height: 200px;
 `
 
 export default ChannelPlayer
