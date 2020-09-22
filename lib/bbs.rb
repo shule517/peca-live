@@ -1,7 +1,7 @@
 class Bbs
   attr_reader :url
 
-  SHITARABA_URLREX = %r{\Ahttp://jbbs.shitaraba.net/bbs/read.cgi/([a-z]+)/(\d+)/(\d+)/\z}
+  SHITARABA_URLREX = %r{\A(https?://jbbs.shitaraba.net/bbs/read.cgi/[a-z]+/\d+/\d+)}
 
   def initialize(url)
     @url = url
@@ -11,7 +11,7 @@ class Bbs
     client = HTTPClient.new
     res = client.get(dat_url)
     dat = res.body
-    result = dat.each_line.map.with_index(1) do |line, index|
+    dat.each_line.map.with_index(1) do |line, index|
       elements = line.split('<>')
       { no: elements[0], name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4] }
     end
@@ -26,8 +26,8 @@ class Bbs
   def dat_url
     matches = SHITARABA_URLREX.match(url)
     if matches.present?
-      dat_url = url.gsub('read.cgi', 'rawmode.cgi')
-      "#{dat_url}l10"
+      dat_url = matches[1].gsub('read.cgi', 'rawmode.cgi')
+      "#{dat_url}/l10"
     end
   end
 
