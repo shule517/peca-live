@@ -11,7 +11,7 @@ class Api::V1::CommentsController < ApplicationController
       if bbs.shitaraba?
         bbs.fetch_comments
       else
-        {}
+        []
       end
     end
   end
