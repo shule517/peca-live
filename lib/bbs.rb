@@ -9,6 +9,16 @@ class Bbs
   end
 
   def fetch_comments
+    if shitaraba?
+      fetch_shitaraba_comments
+    else
+      []
+    end
+  end
+
+  private
+
+  def fetch_shitaraba_comments
     client = HTTPClient.new
     res = client.get(dat_url)
     dat = res.body
@@ -21,8 +31,6 @@ class Bbs
   def shitaraba?
     SHITARABA_URL_REGEX.match?(url) || LIVEDOOR_URL_REGEX.match?(url)
   end
-
-  private
 
   def dat_url
     matches = SHITARABA_URL_REGEX.match(url)
