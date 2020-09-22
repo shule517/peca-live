@@ -21,10 +21,14 @@ class Bbs
 
   private
 
+  def parse_web_code(text)
+    text.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
+  end
+
   def fetch_shitaraba_comments
     client = HTTPClient.new
     res = client.get(dat_url)
-    dat = res.body
+    dat = parse_web_code(res.body)
     dat.each_line.map do |line|
       elements = line.split('<>')
       { no: elements[0].to_i, name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4].gsub('<br>', "\n") }
@@ -34,7 +38,7 @@ class Bbs
   def fetch_jpnkn_comments
     client = HTTPClient.new
     res = client.get(dat_url)
-    dat = res.body
+    dat = parse_web_code(res.body)
     dat.each_line.map.with_index(1) do |line, index|
       elements = line.split('<>')
       { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3].gsub('<br>', "\n") }
