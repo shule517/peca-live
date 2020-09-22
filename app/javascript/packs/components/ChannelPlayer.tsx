@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import Channel, { ChannelInterface } from '../types/Channel'
+import Channel from '../types/Channel'
 import { CommentInterface } from '../types/Comment'
-import { Helmet } from 'react-helmet'
 import Video from './Video'
 import { useHistory } from 'react-router-dom'
 import { useSelectorChannels } from '../modules/channelsModule'
@@ -28,6 +27,7 @@ const ChannelPlayer = (props: Props) => {
   const [nextChannelUrl, setNextChannelUrl] = useState(null)
   const [prevChannelUrl, setPrevChannelUrl] = useState(null)
   const [comments, setComments] = useState(null)
+  const [timerId, setTimerId] = useState(null)
   const commentId = `comment-${channel.streamId}`
   const history = useHistory()
 
@@ -76,7 +76,17 @@ const ChannelPlayer = (props: Props) => {
           >
           setComments(fetch_comments.reverse())
         }
+        // 初回のコメント情報を取得
         fetchComments()
+
+        // 前回のタイマーを止める
+        if (timerId) {
+          clearInterval(timerId)
+        }
+
+        // 10秒に1回コメントを再取得
+        const id = setInterval(() => fetchComments(), 10000)
+        setTimerId(id)
       }
 
       // 配信を切り替えた時に、コメントのスクロール位置を上に戻す
