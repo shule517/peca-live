@@ -20,10 +20,14 @@ const ChannelPlayer = (props: Props) => {
   const { streamId, isHls, local } = props
 
   const channels = useSelectorChannels()
-  const [channel, setChannel] = useState(Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'))
+  const [channel, setChannel] = useState(
+    Channel.nullObject(
+      channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'
+    )
+  )
   const [nextChannelUrl, setNextChannelUrl] = useState(null)
   const [prevChannelUrl, setPrevChannelUrl] = useState(null)
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState(null)
   const commentId = `comment-${channel.streamId}`
   const history = useHistory()
 
@@ -33,10 +37,15 @@ const ChannelPlayer = (props: Props) => {
   }, [])
 
   useEffect(() => {
+    const found_channel = channels.find(
+      (channel) => channel.streamId === streamId
+    )
     const fetch_channel =
-      channels.find((channel) => channel.streamId === streamId) ||
+      found_channel ||
       Channel.nullObject(
-        channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'
+        channels.length > 0
+          ? '配信は終了しました。'
+          : 'チャンネル情報を取得中...'
       )
 
     if (channel.name !== fetch_channel.name) {
@@ -45,7 +54,8 @@ const ChannelPlayer = (props: Props) => {
       const nextChannelUrl = nextChannel
         ? `/channels/${nextChannel.streamId}`
         : null
-      const prevChannel = channels[(index - 1 + channels.length) % channels.length]
+      const prevChannel =
+        channels[(index - 1 + channels.length) % channels.length]
       const prevChannelUrl = prevChannel
         ? `/channels/${prevChannel.streamId}`
         : null
@@ -53,11 +63,17 @@ const ChannelPlayer = (props: Props) => {
       setChannel(fetch_channel)
       setNextChannelUrl(nextChannelUrl)
       setPrevChannelUrl(prevChannelUrl)
+      setComments(found_channel ? null : []) // コメント表示を初期化
 
       if (fetch_channel.contactUrl) {
         const fetchComments = async () => {
-          const response = await fetch(`/api/v1/comments?url=${fetch_channel.contactUrl}`, { credentials: 'same-origin' })
-          const fetch_comments = (await response.json()) as Array<CommentInterface>
+          const response = await fetch(
+            `/api/v1/comments?url=${fetch_channel.contactUrl}`,
+            { credentials: 'same-origin' }
+          )
+          const fetch_comments = (await response.json()) as Array<
+            CommentInterface
+          >
           setComments(fetch_comments.reverse())
         }
         fetchComments()
@@ -138,30 +154,46 @@ const ChannelPlayer = (props: Props) => {
       </ChannelDetail>
 
       <Comment id={commentId}>
-        {comments.length == 0 ? <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>対応していないURLです</div> : null}
-        {comments.map((comment) => {
-          return (
-            <div
-              key={`${channel.streamId}-comments-${comment['no']}`}
-              style={{ display: 'flex', margin: '10px 10px' }}
-            >
+        {!comments && (
+          <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>
+            loading...
+          </div>
+        )}
+        {comments && comments.length == 0 && (
+          <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>
+            対応していないURLです
+          </div>
+        )}
+        {comments &&
+          comments.map((comment) => {
+            return (
               <div
-                style={{
-                  marginRight: '10px',
-                  width: '36px',
-                  color: 'rgb(0, 128, 0)',
-                }}
+                key={`${channel.streamId}-comments-${comment['no']}`}
+                style={{ display: 'flex', margin: '10px 10px' }}
               >
-                {comment['no']}
+                <div
+                  style={{
+                    marginRight: '10px',
+                    width: '36px',
+                    color: 'rgb(0, 128, 0)',
+                  }}
+                >
+                  {comment['no']}
+                </div>
+                <div>
+                  {comment['body'].split('\n').map((line, index) => {
+                    return (
+                      <div
+                        key={`${channel.streamId}-comments-${comment['no']}-${index}`}
+                      >
+                        {line}
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
-              <div>
-                {comment['body'].split('\n').map((line, index) => {
-                  return <div key={`${channel.streamId}-comments-${comment['no']}-${index}`}>{line}</div>
-                })}
-              </div>
-            </div>
-          )
-        })}
+            )
+          })}
       </Comment>
 
       <div style={{ margin: '15px' }}>
