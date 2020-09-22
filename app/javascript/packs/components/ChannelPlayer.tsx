@@ -24,10 +24,13 @@ const ChannelPlayer = (props: Props) => {
   const [nextChannelUrl, setNextChannelUrl] = useState(null)
   const [prevChannelUrl, setPrevChannelUrl] = useState(null)
   const [comments, setComments] = useState([])
-
-  window.scrollTo(0, 0)
-
+  const commentId = `comment-${channel.streamId}`
   const history = useHistory()
+
+  useEffect(() => {
+    // チャンネル一覧から画面遷移した時に、スクロール位置をリセットする
+    window.scrollTo(0, 0)
+  }, [])
 
   useEffect(() => {
     const fetch_channel =
@@ -50,6 +53,21 @@ const ChannelPlayer = (props: Props) => {
       setChannel(fetch_channel)
       setNextChannelUrl(nextChannelUrl)
       setPrevChannelUrl(prevChannelUrl)
+
+      if (fetch_channel.contactUrl) {
+        const fetchComments = async () => {
+          const response = await fetch(`/api/v1/comments?url=${fetch_channel.contactUrl}`, { credentials: 'same-origin' })
+          const fetch_comments = (await response.json()) as Array<CommentInterface>
+          setComments(fetch_comments.reverse())
+        }
+        fetchComments()
+      }
+
+      // TODO: 本当は１番↓までスクロールしたいけど、reverseして逃げた
+      // const element = document.getElementById(commentId)
+      // if (element) {
+      //   element.scrollTo(0, 1000)
+      // }
     }
   }, [channels])
 
@@ -119,7 +137,7 @@ const ChannelPlayer = (props: Props) => {
         </div>
       </ChannelDetail>
 
-      <Comment>
+      <Comment id={commentId}>
         {comments.length == 0 ? '未対応な掲示板です' : null}
         {comments.map((comment) => {
           return (
