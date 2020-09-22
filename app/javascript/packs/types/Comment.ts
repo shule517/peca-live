@@ -1,5 +1,5 @@
 export type CommentInterface = {
-  no: string
+  no: number
   name: string
   mail: string
   writed_at: string

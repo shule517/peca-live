@@ -3,6 +3,7 @@ class Bbs
 
   SHITARABA_URL_REGEX = %r{\A(https?://jbbs.shitaraba.net/bbs/read.cgi/[a-z]+/\d+/\d+)}
   LIVEDOOR_URL_REGEX = %r{\A(https?://jbbs.livedoor.jp/bbs/read.cgi/[a-z]+/\d+/\d+)}
+  JPNKN_URL_REGEX = %r{\Ahttps?://bbs.jpnkn.com/test/read.cgi/([a-z0-9]+)/(\d+)}
 
   def initialize(url)
     @url = url
@@ -11,6 +12,8 @@ class Bbs
   def fetch_comments
     if shitaraba?
       fetch_shitaraba_comments
+    elsif jpnkn?
+      fetch_jpnkn_comments
     else
       []
     end
@@ -24,12 +27,26 @@ class Bbs
     dat = res.body
     dat.each_line.map.with_index(1) do |line, index|
       elements = line.split('<>')
-      { no: elements[0], name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4] }
+      { no: elements[0].to_i, name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4] }
+    end
+  end
+
+  def fetch_jpnkn_comments
+    client = HTTPClient.new
+    res = client.get(dat_url)
+    dat = res.body
+    dat.each_line.map.with_index(1) do |line, index|
+      elements = line.split('<>')
+      { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3] }
     end
   end
 
   def shitaraba?
     SHITARABA_URL_REGEX.match?(url) || LIVEDOOR_URL_REGEX.match?(url)
+  end
+
+  def jpnkn?
+    JPNKN_URL_REGEX.match?(url)
   end
 
   def dat_url
@@ -44,9 +61,10 @@ class Bbs
       dat_url = matches[1].gsub('read.cgi', 'rawmode.cgi').gsub('jbbs.livedoor.jp', 'jbbs.shitaraba.net')
       return "#{dat_url}/l10"
     end
-  end
 
-  def jpnkn?
-    false
+    matches = JPNKN_URL_REGEX.match(url)
+    if matches.present?
+      return "https://bbs.jpnkn.com/#{matches[1]}/dat/#{matches[2]}.dat"
+    end
   end
 end
