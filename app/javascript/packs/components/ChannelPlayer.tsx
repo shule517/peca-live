@@ -1,14 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import Channel from '../types/Channel'
+import Channel, { ChannelInterface } from '../types/Channel'
+import { CommentInterface } from '../types/Comment'
 import { Helmet } from 'react-helmet'
 import Video from './Video'
 import { useHistory } from 'react-router-dom'
 import { useSelectorChannels } from '../modules/channelsModule'
-import { useSelectorPeerCast } from '../modules/peercastModule'
-import { useDispatch } from 'react-redux'
-import { useSelectorUser } from '../modules/userModule'
-import LoginDialog from './LoginDialog'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import { isMobile } from 'react-device-detect'
@@ -23,25 +20,38 @@ const ChannelPlayer = (props: Props) => {
   const { streamId, isHls, local } = props
 
   const channels = useSelectorChannels()
-
-  const channel =
-    channels.find((channel) => channel.streamId === streamId) ||
-    Channel.nullObject(
-      channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'
-    )
-  const index = channels.findIndex((item) => item === channel)
-  const nextChannel = channels[(index + 1) % channels.length]
-  const nextChannelUrl = nextChannel
-    ? `/channels/${nextChannel.streamId}`
-    : null
-  const prevChannel = channels[(index - 1 + channels.length) % channels.length]
-  const prevChannelUrl = prevChannel
-    ? `/channels/${prevChannel.streamId}`
-    : null
+  const [channel, setChannel] = useState(Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'))
+  const [nextChannelUrl, setNextChannelUrl] = useState(null)
+  const [prevChannelUrl, setPrevChannelUrl] = useState(null)
+  const [comments, setComments] = useState([])
 
   window.scrollTo(0, 0)
 
   const history = useHistory()
+
+  useEffect(() => {
+    const fetch_channel =
+      channels.find((channel) => channel.streamId === streamId) ||
+      Channel.nullObject(
+        channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'
+      )
+
+    if (channel.streamId !== fetch_channel.streamId) {
+      const index = channels.findIndex((item) => item === fetch_channel)
+      const nextChannel = channels[(index + 1) % channels.length]
+      const nextChannelUrl = nextChannel
+        ? `/channels/${nextChannel.streamId}`
+        : null
+      const prevChannel = channels[(index - 1 + channels.length) % channels.length]
+      const prevChannelUrl = prevChannel
+        ? `/channels/${prevChannel.streamId}`
+        : null
+
+      setChannel(fetch_channel)
+      setNextChannelUrl(nextChannelUrl)
+      setPrevChannelUrl(prevChannelUrl)
+    }
+  }, [channels])
 
   return (
     <>
@@ -109,29 +119,28 @@ const ChannelPlayer = (props: Props) => {
         </div>
       </ChannelDetail>
 
-      {channel.comments && (
-        <Comment>
-          {channel.comments.map((comment) => {
-            return (
+      <Comment>
+        {comments.length == 0 ? '未対応な掲示板です' : null}
+        {comments.map((comment) => {
+          return (
+            <div
+              key={`${channel.streamId}-comments-${comment['no']}`}
+              style={{ display: 'flex', margin: '10px 10px' }}
+            >
               <div
-                key={`${channel.streamId}-comments-${comment['no']}`}
-                style={{ display: 'flex', margin: '10px 10px' }}
+                style={{
+                  marginRight: '10px',
+                  width: '36px',
+                  color: 'rgb(0, 128, 0)',
+                }}
               >
-                <div
-                  style={{
-                    marginRight: '10px',
-                    width: '36px',
-                    color: 'rgb(0, 128, 0)',
-                  }}
-                >
-                  {comment['no']}
-                </div>
-                <div style={{}}>{comment['body']}</div>
+                {comment['no']}
               </div>
-            )
-          })}
-        </Comment>
-      )}
+              <div style={{}}>{comment['body']}</div>
+            </div>
+          )
+        })}
+      </Comment>
 
       <div style={{ margin: '15px' }}>
         <a href={channel.contactUrl}>
