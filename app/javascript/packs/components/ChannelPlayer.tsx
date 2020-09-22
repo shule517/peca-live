@@ -173,14 +173,13 @@ const ChannelPlayer = (props: Props) => {
               >
                 <div
                   style={{
-                    marginRight: '10px',
-                    width: '36px',
+                    width: '50px',
                     color: 'rgb(0, 128, 0)',
                   }}
                 >
                   {comment['no']}
                 </div>
-                <div>
+                <div style={{ width: '100%' }}>
                   {comment['body'].split('\n').map((line, index) => {
                     return (
                       <div
