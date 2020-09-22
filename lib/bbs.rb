@@ -52,14 +52,12 @@ class Bbs
   def dat_url
     matches = SHITARABA_URL_REGEX.match(url)
     if matches.present?
-      dat_url = matches[1].gsub('read.cgi', 'rawmode.cgi')
-      return "#{dat_url}/l10"
+      return matches[1].gsub('read.cgi', 'rawmode.cgi')
     end
 
     matches = LIVEDOOR_URL_REGEX.match(url)
     if matches.present?
-      dat_url = matches[1].gsub('read.cgi', 'rawmode.cgi').gsub('jbbs.livedoor.jp', 'jbbs.shitaraba.net')
-      return "#{dat_url}/l10"
+      return matches[1].gsub('read.cgi', 'rawmode.cgi').gsub('jbbs.livedoor.jp', 'jbbs.shitaraba.net')
     end
 
     matches = JPNKN_URL_REGEX.match(url)
