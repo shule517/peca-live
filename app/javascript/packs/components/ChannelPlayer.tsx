@@ -39,7 +39,7 @@ const ChannelPlayer = (props: Props) => {
         channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'
       )
 
-    if (channel.streamId !== fetch_channel.streamId) {
+    if (channel.name !== fetch_channel.name) {
       const index = channels.findIndex((item) => item === fetch_channel)
       const nextChannel = channels[(index + 1) % channels.length]
       const nextChannelUrl = nextChannel
