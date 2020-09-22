@@ -1,9 +1,10 @@
 class Bbs
   attr_reader :url
 
-  SHITARABA_URL_REGEX = %r{\Ahttps?://jbbs.shitaraba.net/bbs/read.cgi/([a-z]+)/(\d+)/(\d+)}
-  LIVEDOOR_URL_REGEX = %r{\Ahttps?://jbbs.livedoor.jp/bbs/read.cgi/([a-z]+)/(\d+)/(\d+)}
-  JPNKN_URL_REGEX = %r{\Ahttps?://bbs.jpnkn.com/test/read.cgi/([a-zA-Z0-9]+)/(\d+)}
+  SHITARABA_URL_REGEX = %r{\Ahttps?://jbbs\.shitaraba\.net/bbs/read\.cgi/([a-z]+)/(\d+)/(\d+)}
+  LIVEDOOR_URL_REGEX = %r{\Ahttps?://jbbs\.livedoor\.jp/bbs/read\.cgi/([a-z]+)/(\d+)/(\d+)}
+  JPNKN_URL_REGEX = %r{\Ahttps?://bbs\.jpnkn\.com/test/read\.cgi/([a-zA-Z0-9]+)/(\d+)}
+  JPNKN_BORAD_URL_REGEX = %r{\Ahttps?://bbs\.jpnkn\.com/([a-zA-Z0-9]+)}
 
   def initialize(url)
     @url = url
@@ -19,9 +20,15 @@ class Bbs
     end
   end
 
-  # def fetch_board
-  #   http://jbbs.shitaraba.net/bbs/read.cgi/game/51312/1600343196/
-  # end
+  def fetch_board
+    client = HTTPClient.new
+    res = client.get(board_url)
+    html = res.body
+    doc = Nokogiri::HTML.parse(html)
+
+    top_image_url = doc.css('div > img').first.attributes["src"].value
+    { top_image_url: top_image_url }
+  end
 
   private
 
@@ -71,6 +78,28 @@ class Bbs
     matches = JPNKN_URL_REGEX.match(url)
     if matches.present?
       return "https://bbs.jpnkn.com/#{matches[1]}/dat/#{matches[2]}.dat"
+    end
+  end
+
+  def board_url
+    matches = SHITARABA_URL_REGEX.match(url)
+    if matches.present?
+      return "https://jbbs.shitaraba.net/#{matches[1]}/#{matches[2]}/"
+    end
+
+    matches = LIVEDOOR_URL_REGEX.match(url)
+    if matches.present?
+      return "https://jbbs.shitaraba.net/#{matches[1]}/#{matches[2]}/"
+    end
+
+    matches = JPNKN_URL_REGEX.match(url)
+    if matches.present?
+      return "http://bbs.jpnkn.com/#{matches[1]}/"
+    end
+
+    matches = JPNKN_BORAD_URL_REGEX.match(url)
+    if matches.present?
+      return "http://bbs.jpnkn.com/#{matches[1]}/"
     end
   end
 end

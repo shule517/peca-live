@@ -29,6 +29,7 @@ const ChannelPlayer = (props: Props) => {
   const [prevChannelUrl, setPrevChannelUrl] = useState(null)
   const [comments, setComments] = useState(null)
   const [timerId, setTimerId] = useState(null)
+  const [topImageUrl, setTopImageUrl] = useState(null)
   const commentId = `comment-${channel.streamId}`
   const history = useHistory()
 
@@ -68,6 +69,7 @@ const ChannelPlayer = (props: Props) => {
       setNextChannelUrl(nextChannelUrl)
       setPrevChannelUrl(prevChannelUrl)
       setComments(found_channel ? null : []) // コメント表示を初期化
+      setTopImageUrl(null) // TOP画像を初期化
 
       if (fetch_channel.contactUrl) {
         const fetchComments = async () => {
@@ -79,6 +81,13 @@ const ChannelPlayer = (props: Props) => {
             CommentInterface
           >
           setComments(fetch_comments.reverse())
+
+          const response_bbs = await fetch(
+            `/api/v1/bbs?url=${fetch_channel.contactUrl}`,
+            { credentials: 'same-origin' }
+          )
+          const bbs = await response_bbs.json()
+          setTopImageUrl(bbs.top_image_url)
         }
         // 初回のコメント情報を取得
         fetchComments()
@@ -216,6 +225,8 @@ const ChannelPlayer = (props: Props) => {
           <span style={{ wordBreak: 'break-all' }}>{channel.contactUrl}</span>
         </a>
       </div>
+
+      {topImageUrl && <img src={topImageUrl} style={{ maxWidth: '800px' }} />}
 
       {channel.isWmv && (
         <div style={{ padding: '10px', background: 'white' }}>
