@@ -8,6 +8,7 @@ import { useSelectorChannels } from '../modules/channelsModule'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import { isMobile } from 'react-device-detect'
+import { Helmet } from 'react-helmet'
 
 type Props = {
   streamId: string
@@ -102,7 +103,9 @@ const ChannelPlayer = (props: Props) => {
 
   return (
     <div>
-      {/*<Helmet title={`${channel.name} - ぺからいぶ！`} />*/}
+      <Helmet
+        title={`${channels.length > 0 ? `${channel.name} - ` : ''}ぺからいぶ！`}
+      />
       <Video
         channel={channel}
         isHls={isHls}
