@@ -1,8 +1,8 @@
 class Bbs
   attr_reader :url
 
-  SHITARABA_URL_REGEX = %r{\A(https?://jbbs.shitaraba.net/bbs/read.cgi/[a-z]+/\d+/\d+)}
-  LIVEDOOR_URL_REGEX = %r{\A(https?://jbbs.livedoor.jp/bbs/read.cgi/[a-z]+/\d+/\d+)}
+  SHITARABA_URL_REGEX = %r{\Ahttps?://jbbs.shitaraba.net/bbs/read.cgi/([a-z]+)/(\d+)/(\d+)}
+  LIVEDOOR_URL_REGEX = %r{\Ahttps?://jbbs.livedoor.jp/bbs/read.cgi/([a-z]+)/(\d+)/(\d+)}
   JPNKN_URL_REGEX = %r{\Ahttps?://bbs.jpnkn.com/test/read.cgi/([a-zA-Z0-9]+)/(\d+)}
 
   def initialize(url)
@@ -18,6 +18,10 @@ class Bbs
       []
     end
   end
+
+  # def fetch_board
+  #   http://jbbs.shitaraba.net/bbs/read.cgi/game/51312/1600343196/
+  # end
 
   private
 
@@ -56,12 +60,12 @@ class Bbs
   def dat_url
     matches = SHITARABA_URL_REGEX.match(url)
     if matches.present?
-      return matches[1].gsub('read.cgi', 'rawmode.cgi')
+      return "http://jbbs.shitaraba.net/bbs/rawmode.cgi/#{matches[1]}/#{matches[2]}/#{matches[3]}/"
     end
 
     matches = LIVEDOOR_URL_REGEX.match(url)
     if matches.present?
-      return matches[1].gsub('read.cgi', 'rawmode.cgi').gsub('jbbs.livedoor.jp', 'jbbs.shitaraba.net')
+      return "http://jbbs.shitaraba.net/bbs/rawmode.cgi/#{matches[1]}/#{matches[2]}/#{matches[3]}/"
     end
 
     matches = JPNKN_URL_REGEX.match(url)
