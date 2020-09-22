@@ -378,6 +378,7 @@ const Video = (props: Props) => {
 const VideoStyle = styled.video`
   background-color: #333333;
   max-width: 800px;
+  max-height: 500px;
 `
 
 const VideoControl = styled.div`
