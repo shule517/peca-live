@@ -196,29 +196,32 @@ const ChannelPlayer = (props: Props) => {
           })}
       </Comment>
 
-      <div style={{ margin: '15px' }}>
+      <div style={{ padding: '10px', background: 'white' }}>
         <a href={channel.contactUrl}>
           <span style={{ wordBreak: 'break-all' }}>{channel.contactUrl}</span>
         </a>
       </div>
 
-      <div style={{ margin: '15px' }}>
-        {channel.isWmv && '※WMV配信のためVLCで再生してください。'}
-      </div>
+      {channel.isWmv && (
+        <div style={{ padding: '10px', background: 'white' }}>
+          ※WMV配信のためVLCで再生してください。
+        </div>
+      )}
     </>
   )
 }
 
 const Comment = styled.div`
+  border-top: solid 1px rgba(0, 0, 0, 0.1);
+  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
   background: white;
   padding: 5px 0px;
   overflow: auto;
-  height: 150px;
+  height: 200px;
 `
 
 const ChannelDetail = styled.div`
   background: white;
-  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
   padding: 15px;
   display: flex;
   align-items: center;
