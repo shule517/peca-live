@@ -50,10 +50,8 @@ const ChannelPlayer = (props: Props) => {
           : 'チャンネル情報を取得中...'
       )
 
-    if (
-      channel.name !== fetch_channel.name || // 「配信は終了しました。」に変更する
-      channel.isFavorited !== fetch_channel.isFavorited // お気に入り登録した後に♡の表示に反映する
-    ) {
+    // 変更があればchannelを更新
+    if (!channel.equal(fetch_channel)) {
       const index = channels.findIndex((item) => item === fetch_channel)
       const nextChannel = channels[(index + 1) % channels.length]
       const nextChannelUrl = nextChannel
@@ -226,7 +224,7 @@ const ChannelPlayer = (props: Props) => {
         </a>
       </div>
 
-      {topImageUrl && <img src={topImageUrl} style={{ maxWidth: '800px' }} />}
+      {topImageUrl && <img src={topImageUrl} style={{ maxWidth: '800px', width: '100%' }} />}
 
       {channel.isWmv && (
         <div style={{ padding: '10px', background: 'white' }}>
