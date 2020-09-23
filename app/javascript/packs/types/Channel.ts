@@ -17,11 +17,33 @@ export type ChannelInterface = {
   uptime: number
   yellowPage: string
   favorited: boolean
-  comments: any
 }
 
 class Channel {
   constructor(public json: ChannelInterface) {}
+
+  equal(channel) {
+    return (
+      this.name === channel.name &&
+      this.streamId === channel.streamId &&
+      this.tip === channel.tip &&
+      this.contactUrl === channel.contactUrl &&
+      this.genre === channel.genre &&
+      this.details === channel.details &&
+      this.listenerCount === channel.listenerCount &&
+      this.relayCount === channel.relayCount &&
+      this.bitrate === channel.bitrate &&
+      this.type === channel.type &&
+      this.album === channel.album &&
+      this.comment === channel.comment &&
+      this.creator === channel.creator &&
+      this.trackTitle === channel.trackTitle &&
+      this.trackUrl === channel.trackUrl &&
+      this.uptime === channel.uptime &&
+      this.yellowPage === channel.yellowPage &&
+      this.isFavorited === channel.isFavorited
+    )
+  }
 
   get name() {
     return this.json.name
@@ -95,10 +117,6 @@ class Channel {
     return this.json.favorited
   }
 
-  get comments() {
-    return this.json.comments
-  }
-
   get isSp() {
     return this.yellowPage === 'SP'
   }
@@ -156,7 +174,6 @@ class Channel {
       relays: -1,
       uptime: 0,
       favorited: false,
-      comments: [],
     })
   }
 
