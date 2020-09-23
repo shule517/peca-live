@@ -192,7 +192,7 @@ const ChannelPlayer = (props: Props) => {
             return (
               <div
                 key={`${channel.streamId}-comments-${comment['no']}`}
-                style={{ display: 'flex', margin: '10px 10px' }}
+                style={{ display: 'flex', margin: '10px 15px' }}
               >
                 <div
                   style={{
