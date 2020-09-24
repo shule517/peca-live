@@ -32,19 +32,17 @@ class Bbs
   private
 
   def fetch_shitaraba_comments
-    res = fetch(dat_url)
-    dat = parse_web_code(res)
+    dat = fetch(dat_url)
     dat.each_line.map do |line|
-      elements = line.split('<>')
+      elements = line.split('<>').map { |element| parse_web_code(element)}
       { no: elements[0].to_i, name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4].gsub('<br>', "\n") }
     end
   end
 
   def fetch_jpnkn_comments
-    res = fetch(dat_url)
-    dat = parse_web_code(res)
+    dat = fetch(dat_url)
     dat.each_line.map.with_index(1) do |line, index|
-      elements = line.split('<>')
+      elements = line.split('<>').map { |element| parse_web_code(element)}
       { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3].gsub('<br>', "\n") }
     end
   end
