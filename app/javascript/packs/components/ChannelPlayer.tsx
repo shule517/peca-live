@@ -50,8 +50,8 @@ const ChannelPlayer = (props: Props) => {
           : 'チャンネル情報を取得中...'
       )
 
-    // 変更があればchannelを更新
-    if (!channel.equal(fetch_channel)) {
+    if (channel.name !== fetch_channel.name) {
+      // 配信を切り替えた
       const index = channels.findIndex((item) => item === fetch_channel)
       const nextChannel = channels[(index + 1) % channels.length]
       const nextChannelUrl = nextChannel
@@ -105,6 +105,9 @@ const ChannelPlayer = (props: Props) => {
       if (element) {
         element.scrollTo(0, 0)
       }
+    } else if (!channel.equal(fetch_channel)) {
+      // 変更があればchannelを更新
+      setChannel(fetch_channel)
     }
   }, [channels])
 
