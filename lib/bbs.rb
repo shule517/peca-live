@@ -23,11 +23,11 @@ class Bbs
   def fetch_board
     client = HTTPClient.new
     res = client.get(board_url)
-    html = res.body
+    html = NKF.nkf("-e",res.body)
     doc = Nokogiri::HTML.parse(html)
 
     top_image_url = doc.css('div > img').first.attributes["src"].value
-    { top_image_url: top_image_url }
+    { top_image_url: top_image_url, title: doc.title }
   end
 
   private
