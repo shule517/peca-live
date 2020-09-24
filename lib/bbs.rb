@@ -64,6 +64,10 @@ class Bbs
     JPNKN_URL_REGEX.match?(url)
   end
 
+  def threads_url
+    "#{board_url}subject.txt" if board_url.present?
+  end
+
   def dat_url
     matches = SHITARABA_URL_REGEX.match(url)
     if matches.present?
