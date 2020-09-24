@@ -22,7 +22,7 @@ class Bbs
 
   def fetch_board
     res = fetch(board_url)
-    html = NKF.nkf("-e",res.body)
+    html = NKF.nkf("-e",res)
     doc = Nokogiri::HTML.parse(html)
 
     top_image_url = doc.css('div > img').first.attributes["src"].value
@@ -33,7 +33,7 @@ class Bbs
 
   def fetch_shitaraba_comments
     res = fetch(dat_url)
-    dat = parse_web_code(res.body)
+    dat = parse_web_code(res)
     dat.each_line.map do |line|
       elements = line.split('<>')
       { no: elements[0].to_i, name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4].gsub('<br>', "\n") }
@@ -42,7 +42,7 @@ class Bbs
 
   def fetch_jpnkn_comments
     res = fetch(dat_url)
-    dat = parse_web_code(res.body)
+    dat = parse_web_code(res)
     dat.each_line.map.with_index(1) do |line, index|
       elements = line.split('<>')
       { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3].gsub('<br>', "\n") }
@@ -102,6 +102,6 @@ class Bbs
 
   def fetch(url)
     client = HTTPClient.new
-    client.get(url)
+    client.get(url).body
   end
 end
