@@ -21,9 +21,8 @@ class Bbs
   end
 
   def fetch_board
-    client = HTTPClient.new
-    res = client.get(board_url)
-    html = NKF.nkf("-e",res.body)
+    res = fetch(board_url)
+    html = NKF.nkf("-e",res)
     doc = Nokogiri::HTML.parse(html)
 
     top_image_url = doc.css('div > img').first.attributes["src"].value
@@ -32,26 +31,18 @@ class Bbs
 
   private
 
-  def parse_web_code(text)
-    text.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
-  end
-
   def fetch_shitaraba_comments
-    client = HTTPClient.new
-    res = client.get(dat_url)
-    dat = parse_web_code(res.body)
+    dat = fetch(dat_url)
     dat.each_line.map do |line|
-      elements = line.split('<>')
+      elements = line.split('<>').map { |element| parse_web_code(element)}
       { no: elements[0].to_i, name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4].gsub('<br>', "\n") }
     end
   end
 
   def fetch_jpnkn_comments
-    client = HTTPClient.new
-    res = client.get(dat_url)
-    dat = parse_web_code(res.body)
+    dat = fetch(dat_url)
     dat.each_line.map.with_index(1) do |line, index|
-      elements = line.split('<>')
+      elements = line.split('<>').map { |element| parse_web_code(element)}
       { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3].gsub('<br>', "\n") }
     end
   end
@@ -101,5 +92,14 @@ class Bbs
     if matches.present?
       return "http://bbs.jpnkn.com/#{matches[1]}/"
     end
+  end
+
+  def parse_web_code(text)
+    text.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
+  end
+
+  def fetch(url)
+    client = HTTPClient.new
+    client.get(url).body
   end
 end
