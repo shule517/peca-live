@@ -164,8 +164,8 @@ const ChannelPlayer = (props: Props) => {
               component="p"
               style={{ marginTop: '2px' }}
             >
-              {channel.streamId &&
-                `${channel.listenerCount}人が視聴中 - ${channel.startingTime}から`}
+              {channel.streamId && channel.listenerCount > 0 && `${channel.listenerCount}人が視聴中 - `}
+              {channel.streamId && `${channel.startingTime}から`}
             </Typography>
           </div>
 
