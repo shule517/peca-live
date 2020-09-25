@@ -157,7 +157,7 @@ const SideBar = (props: Props) => {
   }
 
   return (
-    <div>
+    <div style={{ padding: '8px 15px' }}>
       <About />
       {isMobile ? (
         <>
