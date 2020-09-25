@@ -10,7 +10,7 @@ import SideBar from './components/SideBar'
 import PecaLiveAppBar from './components/PecaLiveAppBar'
 import Drawer from '@material-ui/core/Drawer'
 import CssBaseline from '@material-ui/core/CssBaseline'
-const drawerWidth = 240
+const drawerWidth = 290
 import { useDispatch } from 'react-redux'
 import { updateChannels } from './modules/channelsModule'
 import { updateFavorites } from './modules/favoritesModule'
