@@ -23,7 +23,7 @@ class Bbs
   end
 
   def fetch_board
-    return if board_url.blank?
+    return { top_image_url: nil, title: nil } if board_url.blank?
     res = fetch(board_url)
     html = NKF.nkf("-e",res)
     doc = Nokogiri::HTML.parse(html)
