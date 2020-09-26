@@ -183,7 +183,10 @@ const ChannelPlayer = (props: Props) => {
       <Comment id={commentId}>
         {!comments && (
           <div style={{ margin: '15px', color: 'rgba(0, 0, 0, 0.5)' }}>
-            <CircularProgress size={30} style={{ color: 'lightgray' }} />
+            <CircularProgress
+              size={60}
+              style={{ color: 'lightgray' }}
+            />
           </div>
         )}
         {comments && comments.length == 0 && (
