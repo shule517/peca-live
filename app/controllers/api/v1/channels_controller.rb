@@ -85,8 +85,7 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def json_rpc_api
-    peca_tip = "http://#{ENV['PEERCAST_TIP']}"
-    JsonRpc.new("#{peca_tip}/api/1", ENV['PEERCAST_BASIC_TOKEN'])
+    JsonRpc.peercast_api
   end
 
   def visible_channel?(channel)
