@@ -309,17 +309,6 @@ const Video = (props: Props) => {
           </FooterLeftControl>
 
           <FooterRightControl>
-            <Slider
-              orientation="vertical"
-              defaultValue={100}
-              style={{ height: '100px' }}
-              onChange={(event, newValue) => {
-                if (typeof newValue === 'number') {
-                  const value = newValue * 0.01
-                  player.volume = value
-                }
-              }}
-            />
             {player && !isMobile ? ( // PCだけで表示
               muted ? (
                 <Tooltip title="ミュートを解除" placement="top" arrow>
@@ -335,18 +324,49 @@ const Video = (props: Props) => {
                   </IconButton>
                 </Tooltip>
               ) : (
-                <Tooltip title="ミュート" placement="top" arrow>
-                  <IconButton
-                    color="primary"
-                    component="span"
-                    onClick={() => {
-                      player.muted = true
-                      setMuted(player.muted)
+                <>
+                  <div
+                    style={{
+                      backgroundColor: 'rgba(100, 100, 100, 0.4)',
+                      position: 'absolute',
+                      top: '-140px',
+                      left: '5px',
+                      borderRadius: '10px',
+                      padding: '20px 6px 15px 6px',
                     }}
                   >
-                    <VolumeUpIcon style={{ color: 'white' }} />
-                  </IconButton>
-                </Tooltip>
+                    <Slider
+                      color="secondary"
+                      orientation="vertical"
+                      defaultValue={100}
+                      valueLabelDisplay="auto"
+                      style={{ height: '100px' }}
+                      onChange={(event, newValue) => {
+                        if (typeof newValue === 'number') {
+                          const value = newValue * 0.01
+                          player.volume = value
+                        }
+                      }}
+                    />
+                  </div>
+
+                  <Tooltip
+                    title="ミュート"
+                    placement="top"
+                    arrow
+                  >
+                    <IconButton
+                      color="primary"
+                      component="span"
+                      onClick={() => {
+                        player.muted = true
+                        setMuted(player.muted)
+                      }}
+                    >
+                      <VolumeUpIcon style={{ color: 'white' }} />
+                    </IconButton>
+                  </Tooltip>
+                </>
               )
             ) : null}
 
