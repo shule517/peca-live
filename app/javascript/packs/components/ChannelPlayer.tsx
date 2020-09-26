@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import { isMobile } from 'react-device-detect'
 import { Helmet } from 'react-helmet'
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 type Props = {
   streamId: string
@@ -183,10 +183,7 @@ const ChannelPlayer = (props: Props) => {
       <Comment id={commentId}>
         {!comments && (
           <div style={{ margin: '15px', color: 'rgba(0, 0, 0, 0.5)' }}>
-            <CircularProgress
-              size={60}
-              style={{ color: 'lightgray' }}
-            />
+            <CircularProgress size={30} style={{ color: 'lightgray' }} />
           </div>
         )}
         {comments && comments.length == 0 && (
