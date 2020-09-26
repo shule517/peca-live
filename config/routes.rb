@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resource :csrf_token, only: %i(show)
+      resource :peercast, only: %i(show)
       resources :accounts, only: %i(create) do
         collection do
           get :sign_out
