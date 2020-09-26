@@ -206,7 +206,7 @@ const ChannelPlayer = (props: Props) => {
                 >
                   {comment['no']}
                 </div>
-                <div style={{ width: '100%' }}>
+                <div style={{ width: '100%', wordBreak: 'break-all' }}>
                   {comment['body'].split('\n').map((line, index) => {
                     return (
                       <div
