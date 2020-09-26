@@ -1,5 +1,3 @@
-require 'nkf'
-
 class Bbs
   attr_reader :url
 
@@ -23,13 +21,11 @@ class Bbs
   end
 
   def fetch_board
-    return if board_url.blank?
     res = fetch(board_url)
     html = NKF.nkf("-e",res)
     doc = Nokogiri::HTML.parse(html)
 
-    img = doc.css('div > img').first
-    top_image_url = img.attributes["src"].value if img.present?
+    top_image_url = doc.css('div > img').first.attributes["src"].value
     { top_image_url: top_image_url, title: doc.title }
   end
 
