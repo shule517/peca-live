@@ -309,6 +309,17 @@ const Video = (props: Props) => {
           </FooterLeftControl>
 
           <FooterRightControl>
+            <Slider
+              orientation="vertical"
+              defaultValue={100}
+              style={{ height: '100px' }}
+              onChange={(event, newValue) => {
+                if (typeof newValue === 'number') {
+                  const value = newValue * 0.01
+                  player.volume = value
+                }
+              }}
+            />
             {player && !isMobile ? ( // PCだけで表示
               muted ? (
                 <Tooltip title="ミュートを解除" placement="top" arrow>
