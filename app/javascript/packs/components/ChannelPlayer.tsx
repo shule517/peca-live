@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Channel from '../types/Channel'
 import { CommentInterface } from '../types/Comment'
 import { ThreadInterface } from '../types/Thread'
+import BbsApi from '../apis/BbsApi'
 import Video from './Video'
 import { useHistory } from 'react-router-dom'
 import { useSelectorChannels } from '../modules/channelsModule'
@@ -70,27 +71,15 @@ const ChannelPlayer = (props: Props) => {
       setNextChannelUrl(nextChannelUrl)
       setPrevChannelUrl(prevChannelUrl)
       setComments(foundChannel ? null : []) // コメント表示を初期化
+      setThreads(foundChannel ? null : []) // スレッド表示を初期化
       setTopImageUrl(null) // TOP画像を初期化
 
       if (fetchChannel.contactUrl) {
         const fetchComments = async () => {
-          // コメントを取得
-          const responseComments = await fetch(
-            `/api/v1/bbs/comments?url=${fetchChannel.contactUrl}`,
-            { credentials: 'same-origin' }
-          )
-          const fetchComments = (await responseComments.json()) as Array<
-            CommentInterface
-          >
-          setComments(fetchComments.reverse())
-
-          // 掲示板情報を取得
-          const responseBbs = await fetch(
-            `/api/v1/bbs?url=${fetchChannel.contactUrl}`,
-            { credentials: 'same-origin' }
-          )
-          const bbs = await responseBbs.json()
-          setTopImageUrl(bbs.top_image_url)
+          const bbsApi = new BbsApi(fetchChannel.contactUrl)
+          setComments(await bbsApi.fetchComments()) // コメントを取得
+          setThreads(await bbsApi.fetchThreads()) // スレッド一覧を取得
+          setTopImageUrl((await bbsApi.fetchBbs()).top_image_url) // 掲示板情報を取得
         }
         // 初回のコメント情報を取得
         fetchComments()
@@ -197,11 +186,44 @@ const ChannelPlayer = (props: Props) => {
             <CircularProgress size={30} style={{ color: 'lightgray' }} />
           </div>
         )}
-        {comments && comments.length == 0 && (
-          <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>
-            対応していないURLです
-          </div>
-        )}
+
+        {comments &&
+          comments.length == 0 &&
+          // threads &&
+          // threads.length === 0 &&
+          (
+            <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>
+              対応していないURLです
+            </div>
+          )}
+
+        {/*{comments && comments.length === 0 && threads && (*/}
+        {/*  <>*/}
+        {/*    <div style={{ margin: '15px', color: 'rgba(0, 0, 0, 0.5)' }}>*/}
+        {/*      スレッドを選択してください*/}
+        {/*    </div>*/}
+
+        {/*    {threads.map((thread) => {*/}
+        {/*      return (*/}
+        {/*        <div*/}
+        {/*          key={`${channel.streamId}-threads-${thread.no}`}*/}
+        {/*          style={{ display: 'flex', margin: '10px 15px' }}*/}
+        {/*        >*/}
+        {/*          <div*/}
+        {/*            style={{*/}
+        {/*              // width: '50px',*/}
+        {/*              color: 'rgb(0, 128, 0)',*/}
+        {/*            }}*/}
+        {/*          >*/}
+        {/*            {`${thread.no} - ${thread.title}(${thread.comments_size})`}*/}
+        {/*          </div>*/}
+        {/*          /!*<div style={{ width: '100%', wordBreak: 'break-all' }}></div>*!/*/}
+        {/*        </div>*/}
+        {/*      )*/}
+        {/*    })}*/}
+        {/*  </>*/}
+        {/*)}*/}
+
         {comments &&
           comments.map((comment) => {
             return (
