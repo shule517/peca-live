@@ -189,39 +189,41 @@ const ChannelPlayer = (props: Props) => {
 
         {comments &&
           comments.length == 0 &&
-          threads &&
-          threads.length === 0 && (
+          // threads &&
+          // threads.length === 0 &&
+          (
             <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>
               対応していないURLです
             </div>
           )}
 
-        {comments && comments.length === 0 && threads && (
-          <>
-            <div style={{ margin: '15px', color: 'rgba(0, 0, 0, 0.5)' }}>
-              スレッドを選択してください
-            </div>
+        {/*{comments && comments.length === 0 && threads && (*/}
+        {/*  <>*/}
+        {/*    <div style={{ margin: '15px', color: 'rgba(0, 0, 0, 0.5)' }}>*/}
+        {/*      スレッドを選択してください*/}
+        {/*    </div>*/}
 
-            {threads.map((thread) => {
-              return (
-                <div
-                  key={`${channel.streamId}-threads-${thread.no}`}
-                  style={{ display: 'flex', margin: '10px 15px' }}
-                >
-                  <div
-                    style={{
-                      // width: '50px',
-                      color: 'rgb(0, 128, 0)',
-                    }}
-                  >
-                    {`${thread.no} - ${thread.title}(${thread.comments_size})`}
-                  </div>
-                  {/*<div style={{ width: '100%', wordBreak: 'break-all' }}></div>*/}
-                </div>
-              )
-            })}
-          </>
-        )}
+        {/*    {threads.map((thread) => {*/}
+        {/*      return (*/}
+        {/*        <div*/}
+        {/*          key={`${channel.streamId}-threads-${thread.no}`}*/}
+        {/*          style={{ display: 'flex', margin: '10px 15px' }}*/}
+        {/*        >*/}
+        {/*          <div*/}
+        {/*            style={{*/}
+        {/*              // width: '50px',*/}
+        {/*              color: 'rgb(0, 128, 0)',*/}
+        {/*            }}*/}
+        {/*          >*/}
+        {/*            {`${thread.no} - ${thread.title}(${thread.comments_size})`}*/}
+        {/*          </div>*/}
+        {/*          /!*<div style={{ width: '100%', wordBreak: 'break-all' }}></div>*!/*/}
+        {/*        </div>*/}
+        {/*      )*/}
+        {/*    })}*/}
+        {/*  </>*/}
+        {/*)}*/}
+
         {comments &&
           comments.map((comment) => {
             return (
