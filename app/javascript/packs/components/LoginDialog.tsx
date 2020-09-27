@@ -30,16 +30,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const LoginDialog = (props: Props) => {
-  const classes = useStyles();
+  const classes = useStyles()
   const dispatch = useDispatch()
   const { open, onClose } = props
   const currentUser = useSelectorUser()
 
   return (
     <Dialog aria-labelledby="simple-dialog-title" open={open} onClose={onClose}>
-      <DialogTitle>
-        {currentUser.isLogin ? 'ログイン' : 'ログインしてもっと便利に！'}
-      </DialogTitle>
+      <DialogTitle>{currentUser.isLogin ? 'ログイン' : 'ログインしてもっと便利に！'}</DialogTitle>
       <DialogContent dividers>
         {currentUser.isLogin ? (
           <Button

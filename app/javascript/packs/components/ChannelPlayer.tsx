@@ -24,9 +24,7 @@ const ChannelPlayer = (props: Props) => {
 
   const channels = useSelectorChannels()
   const [channel, setChannel] = useState(
-    Channel.nullObject(
-      channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'
-    )
+    Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...')
   )
   const [nextChannelUrl, setNextChannelUrl] = useState<string>(null)
   const [prevChannelUrl, setPrevChannelUrl] = useState<string>(null)
@@ -43,29 +41,17 @@ const ChannelPlayer = (props: Props) => {
   }, [])
 
   useEffect(() => {
-    const foundChannel = channels.find(
-      (channel) => channel.streamId === streamId
-    )
+    const foundChannel = channels.find((channel) => channel.streamId === streamId)
     const fetchChannel =
-      foundChannel ||
-      Channel.nullObject(
-        channels.length > 0
-          ? '配信は終了しました。'
-          : 'チャンネル情報を取得中...'
-      )
+      foundChannel || Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...')
 
     if (channel.name !== fetchChannel.name) {
       // 配信を切り替えた
       const index = channels.findIndex((item) => item === fetchChannel)
       const nextChannel = channels[(index + 1) % channels.length]
-      const nextChannelUrl = nextChannel
-        ? `/channels/${nextChannel.streamId}`
-        : null
-      const prevChannel =
-        channels[(index - 1 + channels.length) % channels.length]
-      const prevChannelUrl = prevChannel
-        ? `/channels/${prevChannel.streamId}`
-        : null
+      const nextChannelUrl = nextChannel ? `/channels/${nextChannel.streamId}` : null
+      const prevChannel = channels[(index - 1 + channels.length) % channels.length]
+      const prevChannelUrl = prevChannel ? `/channels/${prevChannel.streamId}` : null
 
       setChannel(fetchChannel)
       setNextChannelUrl(nextChannelUrl)
@@ -112,9 +98,7 @@ const ChannelPlayer = (props: Props) => {
 
   return (
     <div>
-      <Helmet
-        title={`${channels.length > 0 ? `${channel.name} - ` : ''}ぺからいぶ！`}
-      />
+      <Helmet title={`${channels.length > 0 ? `${channel.name} - ` : ''}ぺからいぶ！`} />
       <Video
         channel={channel}
         isHls={isHls}
@@ -147,34 +131,17 @@ const ChannelPlayer = (props: Props) => {
 
         <div style={{ paddingRight: '15px' }}>
           <div style={{ display: 'flex' }}>
-            <Typography
-              gutterBottom
-              variant="subtitle2"
-              component="h3"
-              style={{ marginRight: '15px' }}
-            >
+            <Typography gutterBottom variant="subtitle2" component="h3" style={{ marginRight: '15px' }}>
               {channel.name}
             </Typography>
 
-            <Typography
-              variant="caption"
-              color="textSecondary"
-              component="p"
-              style={{ marginTop: '2px' }}
-            >
-              {channel.streamId &&
-                channel.listenerCount > 0 &&
-                `${channel.listenerCount}人が視聴中 - `}
+            <Typography variant="caption" color="textSecondary" component="p" style={{ marginTop: '2px' }}>
+              {channel.streamId && channel.listenerCount > 0 && `${channel.listenerCount}人が視聴中 - `}
               {channel.streamId && `${channel.startingTime}から`}
             </Typography>
           </div>
 
-          <Typography
-            gutterBottom
-            variant="subtitle1"
-            component="h3"
-            style={{ marginBottom: '0x' }}
-          >
+          <Typography gutterBottom variant="subtitle1" component="h3" style={{ marginBottom: '0x' }}>
             {channel.explanation}
           </Typography>
         </div>
@@ -187,15 +154,11 @@ const ChannelPlayer = (props: Props) => {
           </div>
         )}
 
-        {comments &&
-          comments.length == 0 &&
+        {comments && comments.length == 0 && (
           // threads &&
           // threads.length === 0 &&
-          (
-            <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>
-              対応していないURLです
-            </div>
-          )}
+          <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>対応していないURLです</div>
+        )}
 
         {/*{comments && comments.length === 0 && threads && (*/}
         {/*  <>*/}
@@ -241,13 +204,7 @@ const ChannelPlayer = (props: Props) => {
                 </div>
                 <div style={{ width: '100%', wordBreak: 'break-all' }}>
                   {comment['body'].split('\n').map((line, index) => {
-                    return (
-                      <div
-                        key={`${channel.streamId}-comments-${comment['no']}-${index}`}
-                      >
-                        {line}
-                      </div>
-                    )
+                    return <div key={`${channel.streamId}-comments-${comment['no']}-${index}`}>{line}</div>
                   })}
                 </div>
               </div>
@@ -261,14 +218,10 @@ const ChannelPlayer = (props: Props) => {
         </a>
       </div>
 
-      {topImageUrl && (
-        <img src={topImageUrl} style={{ maxWidth: '800px', width: '100%' }} />
-      )}
+      {topImageUrl && <img src={topImageUrl} style={{ maxWidth: '800px', width: '100%' }} />}
 
       {channel.isWmv && (
-        <div style={{ padding: '10px', background: 'white' }}>
-          ※WMV配信のためVLCで再生してください。
-        </div>
+        <div style={{ padding: '10px', background: 'white' }}>※WMV配信のためVLCで再生してください。</div>
       )}
     </div>
   )

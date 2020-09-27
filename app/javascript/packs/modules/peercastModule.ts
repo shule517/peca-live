@@ -5,23 +5,19 @@ import { RootState } from './rootState'
 
 export const peercastInitialState: PeerCastInterface = {
   host: PeerCast.defaultHost,
-  portNo: PeerCast.defaultPortNo
+  portNo: PeerCast.defaultPortNo,
 }
 
 export const peercastModules = createSlice({
   name: 'peercast',
   initialState: peercastInitialState,
   reducers: {
-    updatePeerCast: (state, action: PayloadAction<PeerCastInterface>) =>
-      action.payload
-  }
+    updatePeerCast: (state, action: PayloadAction<PeerCastInterface>) => action.payload,
+  },
 })
 
 export const updatePeerCast = (dispatch, host, portNo) => {
-  dispatch(
-    peercastModules.actions.updatePeerCast({ host: host, portNo: portNo })
-  )
+  dispatch(peercastModules.actions.updatePeerCast({ host: host, portNo: portNo }))
 }
 
-export const useSelectorPeerCast = () =>
-  useSelector((state: RootState) => new PeerCast(state.peercast))
+export const useSelectorPeerCast = () => useSelector((state: RootState) => new PeerCast(state.peercast))
