@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Channel from '../types/Channel'
 import { CommentInterface } from '../types/Comment'
 import { ThreadInterface } from '../types/Thread'
+import BbsApi from '../apis/BbsApi'
 import Video from './Video'
 import { useHistory } from 'react-router-dom'
 import { useSelectorChannels } from '../modules/channelsModule'
@@ -75,33 +76,10 @@ const ChannelPlayer = (props: Props) => {
 
       if (fetchChannel.contactUrl) {
         const fetchComments = async () => {
-          // コメントを取得
-          const responseComments = await fetch(
-            `/api/v1/bbs/comments?url=${fetchChannel.contactUrl}`,
-            { credentials: 'same-origin' }
-          )
-          const fetchComments = (await responseComments.json()) as Array<
-            CommentInterface
-          >
-          setComments(fetchComments.reverse())
-
-          // スレッド一覧を取得
-          const responseThreads = await fetch(
-            `/api/v1/bbs/threads?url=${fetchChannel.contactUrl}`,
-            { credentials: 'same-origin' }
-          )
-          const fetchThreads = (await responseThreads.json()) as Array<
-            ThreadInterface
-          >
-          setThreads(fetchThreads)
-
-          // 掲示板情報を取得
-          const responseBbs = await fetch(
-            `/api/v1/bbs?url=${fetchChannel.contactUrl}`,
-            { credentials: 'same-origin' }
-          )
-          const bbs = await responseBbs.json()
-          setTopImageUrl(bbs.top_image_url)
+          const bbsApi = new BbsApi(fetchChannel.contactUrl)
+          setComments(await bbsApi.fetchComments()) // コメントを取得
+          setThreads(await bbsApi.fetchThreads()) // スレッド一覧を取得
+          setTopImageUrl((await bbsApi.fetchBbs()).top_image_url) // 掲示板情報を取得
         }
         // 初回のコメント情報を取得
         fetchComments()
