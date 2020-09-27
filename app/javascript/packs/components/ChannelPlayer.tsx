@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Channel from '../types/Channel'
 import { CommentInterface } from '../types/Comment'
+import { ThreadInterface } from '../types/Thread'
 import Video from './Video'
 import { useHistory } from 'react-router-dom'
 import { useSelectorChannels } from '../modules/channelsModule'
@@ -26,11 +27,12 @@ const ChannelPlayer = (props: Props) => {
       channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'
     )
   )
-  const [nextChannelUrl, setNextChannelUrl] = useState(null)
-  const [prevChannelUrl, setPrevChannelUrl] = useState(null)
-  const [comments, setComments] = useState(null)
-  const [timerId, setTimerId] = useState(null)
-  const [topImageUrl, setTopImageUrl] = useState(null)
+  const [nextChannelUrl, setNextChannelUrl] = useState<string>(null)
+  const [prevChannelUrl, setPrevChannelUrl] = useState<string>(null)
+  const [comments, setComments] = useState<CommentInterface[]>(null)
+  const [threads, setThreads] = useState<ThreadInterface[]>(null)
+  const [timerId, setTimerId] = useState<number>(null)
+  const [topImageUrl, setTopImageUrl] = useState<string>(null)
   const commentId = `comment-${channel.streamId}`
   const history = useHistory()
 
@@ -40,20 +42,20 @@ const ChannelPlayer = (props: Props) => {
   }, [])
 
   useEffect(() => {
-    const found_channel = channels.find(
+    const foundChannel = channels.find(
       (channel) => channel.streamId === streamId
     )
-    const fetch_channel =
-      found_channel ||
+    const fetchChannel =
+      foundChannel ||
       Channel.nullObject(
         channels.length > 0
           ? '配信は終了しました。'
           : 'チャンネル情報を取得中...'
       )
 
-    if (channel.name !== fetch_channel.name) {
+    if (channel.name !== fetchChannel.name) {
       // 配信を切り替えた
-      const index = channels.findIndex((item) => item === fetch_channel)
+      const index = channels.findIndex((item) => item === fetchChannel)
       const nextChannel = channels[(index + 1) % channels.length]
       const nextChannelUrl = nextChannel
         ? `/channels/${nextChannel.streamId}`
@@ -64,28 +66,30 @@ const ChannelPlayer = (props: Props) => {
         ? `/channels/${prevChannel.streamId}`
         : null
 
-      setChannel(fetch_channel)
+      setChannel(fetchChannel)
       setNextChannelUrl(nextChannelUrl)
       setPrevChannelUrl(prevChannelUrl)
-      setComments(found_channel ? null : []) // コメント表示を初期化
+      setComments(foundChannel ? null : []) // コメント表示を初期化
       setTopImageUrl(null) // TOP画像を初期化
 
-      if (fetch_channel.contactUrl) {
+      if (fetchChannel.contactUrl) {
         const fetchComments = async () => {
-          const response = await fetch(
-            `/api/v1/bbs/comments?url=${fetch_channel.contactUrl}`,
+          // コメントを取得
+          const responseComments = await fetch(
+            `/api/v1/bbs/comments?url=${fetchChannel.contactUrl}`,
             { credentials: 'same-origin' }
           )
-          const fetch_comments = (await response.json()) as Array<
+          const fetchComments = (await responseComments.json()) as Array<
             CommentInterface
           >
-          setComments(fetch_comments.reverse())
+          setComments(fetchComments.reverse())
 
-          const response_bbs = await fetch(
-            `/api/v1/bbs?url=${fetch_channel.contactUrl}`,
+          // 掲示板情報を取得
+          const responseBbs = await fetch(
+            `/api/v1/bbs?url=${fetchChannel.contactUrl}`,
             { credentials: 'same-origin' }
           )
-          const bbs = await response_bbs.json()
+          const bbs = await responseBbs.json()
           setTopImageUrl(bbs.top_image_url)
         }
         // 初回のコメント情報を取得
@@ -99,6 +103,11 @@ const ChannelPlayer = (props: Props) => {
         // 10秒に1回コメントを再取得
         const id = setInterval(() => fetchComments(), 10000)
         setTimerId(id)
+      } else {
+        // コンタクトURLが設定されてない
+        setComments([])
+        setThreads([])
+        setTopImageUrl(null)
       }
 
       // 配信を切り替えた時に、コメントのスクロール位置を上に戻す
@@ -106,9 +115,9 @@ const ChannelPlayer = (props: Props) => {
       if (element) {
         element.scrollTo(0, 0)
       }
-    } else if (!channel.equal(fetch_channel)) {
+    } else if (!channel.equal(fetchChannel)) {
       // 変更があればchannelを更新
-      setChannel(fetch_channel)
+      setChannel(fetchChannel)
     }
   }, [channels])
 
@@ -164,7 +173,9 @@ const ChannelPlayer = (props: Props) => {
               component="p"
               style={{ marginTop: '2px' }}
             >
-              {channel.streamId && channel.listenerCount > 0 && `${channel.listenerCount}人が視聴中 - `}
+              {channel.streamId &&
+                channel.listenerCount > 0 &&
+                `${channel.listenerCount}人が視聴中 - `}
               {channel.streamId && `${channel.startingTime}から`}
             </Typography>
           </div>
@@ -228,7 +239,9 @@ const ChannelPlayer = (props: Props) => {
         </a>
       </div>
 
-      {topImageUrl && <img src={topImageUrl} style={{ maxWidth: '800px', width: '100%' }} />}
+      {topImageUrl && (
+        <img src={topImageUrl} style={{ maxWidth: '800px', width: '100%' }} />
+      )}
 
       {channel.isWmv && (
         <div style={{ padding: '10px', background: 'white' }}>
