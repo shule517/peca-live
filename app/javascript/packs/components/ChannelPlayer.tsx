@@ -99,6 +99,11 @@ const ChannelPlayer = (props: Props) => {
         // 10秒に1回コメントを再取得
         const id = setInterval(() => fetchComments(), 10000)
         setTimerId(id)
+      } else {
+        // コンタクトURLが設定されてない
+        setComments([])
+        setThreads([])
+        setTopImageUrl(null)
       }
 
       // 配信を切り替えた時に、コメントのスクロール位置を上に戻す
