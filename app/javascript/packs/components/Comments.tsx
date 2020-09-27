@@ -1,17 +1,55 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { CommentInterface } from '../types/Comment'
 import styled from 'styled-components'
 import Channel from '../types/Channel'
+import BbsApi from '../apis/BbsApi'
+import { ThreadInterface } from '../types/Thread'
 
 type Props = {
-  commentId: string
   channel: Channel
-  comments: CommentInterface[]
 }
 
 const Comments = (props: Props) => {
-  const { commentId, channel, comments } = props
+  const { channel } = props
+
+  const commentId = `comment-${channel.streamId}`
+  const [comments, setComments] = useState<CommentInterface[]>(null)
+  const [threads, setThreads] = useState<ThreadInterface[]>(null)
+  const [timerId, setTimerId] = useState<number>(null)
+
+  useEffect(() => {
+    // 初期化
+    setComments(null)
+    setThreads(null)
+
+    if (channel.contactUrl) {
+      const fetchBbs = async () => {
+        const bbsApi = new BbsApi(channel.contactUrl)
+        setComments(await bbsApi.fetchComments()) // コメントを取得
+        setThreads(await bbsApi.fetchThreads()) // スレッド一覧を取得
+      }
+      fetchBbs()
+
+      // 前回のタイマーを止める
+      if (timerId) {
+        clearInterval(timerId)
+      }
+
+      // 10秒に1回コメントを再取得
+      const id = setInterval(() => fetchBbs(), 10000)
+      setTimerId(id)
+    } else {
+      setComments([])
+      setThreads([])
+    }
+
+    // 配信を切り替えた時に、コメントのスクロール位置を上に戻す
+    const element = document.getElementById(commentId)
+    if (element) {
+      element.scrollTo(0, 0)
+    }
+  }, [channel.name])
 
   return (
     <StyledDiv id={commentId}>
