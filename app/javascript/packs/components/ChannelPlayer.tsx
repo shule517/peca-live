@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import { isMobile } from 'react-device-detect'
 import { Helmet } from 'react-helmet'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import Comments from './Comments'
 
 type Props = {
   streamId: string
@@ -23,9 +23,7 @@ const ChannelPlayer = (props: Props) => {
   const { streamId, isHls, local } = props
 
   const channels = useSelectorChannels()
-  const [channel, setChannel] = useState(
-    Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...')
-  )
+  const [channel, setChannel] = useState(Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'))
   const [nextChannelUrl, setNextChannelUrl] = useState<string>(null)
   const [prevChannelUrl, setPrevChannelUrl] = useState<string>(null)
   const [comments, setComments] = useState<CommentInterface[]>(null)
@@ -147,70 +145,7 @@ const ChannelPlayer = (props: Props) => {
         </div>
       </ChannelDetail>
 
-      <Comment id={commentId}>
-        {!comments && (
-          <div style={{ margin: '15px', color: 'rgba(0, 0, 0, 0.5)' }}>
-            <CircularProgress size={30} style={{ color: 'lightgray' }} />
-          </div>
-        )}
-
-        {comments && comments.length == 0 && (
-          // threads &&
-          // threads.length === 0 &&
-          <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>対応していないURLです</div>
-        )}
-
-        {/*{comments && comments.length === 0 && threads && (*/}
-        {/*  <>*/}
-        {/*    <div style={{ margin: '15px', color: 'rgba(0, 0, 0, 0.5)' }}>*/}
-        {/*      スレッドを選択してください*/}
-        {/*    </div>*/}
-
-        {/*    {threads.map((thread) => {*/}
-        {/*      return (*/}
-        {/*        <div*/}
-        {/*          key={`${channel.streamId}-threads-${thread.no}`}*/}
-        {/*          style={{ display: 'flex', margin: '10px 15px' }}*/}
-        {/*        >*/}
-        {/*          <div*/}
-        {/*            style={{*/}
-        {/*              // width: '50px',*/}
-        {/*              color: 'rgb(0, 128, 0)',*/}
-        {/*            }}*/}
-        {/*          >*/}
-        {/*            {`${thread.no} - ${thread.title}(${thread.comments_size})`}*/}
-        {/*          </div>*/}
-        {/*          /!*<div style={{ width: '100%', wordBreak: 'break-all' }}></div>*!/*/}
-        {/*        </div>*/}
-        {/*      )*/}
-        {/*    })}*/}
-        {/*  </>*/}
-        {/*)}*/}
-
-        {comments &&
-          comments.map((comment) => {
-            return (
-              <div
-                key={`${channel.streamId}-comments-${comment['no']}`}
-                style={{ display: 'flex', margin: '10px 15px' }}
-              >
-                <div
-                  style={{
-                    width: '50px',
-                    color: 'rgb(0, 128, 0)',
-                  }}
-                >
-                  {comment['no']}
-                </div>
-                <div style={{ width: '100%', wordBreak: 'break-all' }}>
-                  {comment['body'].split('\n').map((line, index) => {
-                    return <div key={`${channel.streamId}-comments-${comment['no']}-${index}`}>{line}</div>
-                  })}
-                </div>
-              </div>
-            )
-          })}
-      </Comment>
+      <Comments commentId={commentId} channel={channel} comments={comments} />
 
       <div style={{ padding: '10px', background: 'white' }}>
         <a href={channel.contactUrl}>
@@ -235,15 +170,6 @@ const ChannelDetail = styled.div`
   overflow: auto;
   white-space: nowrap;
   margin-top: -5px;
-`
-
-const Comment = styled.div`
-  border-top: solid 1px rgba(0, 0, 0, 0.1);
-  border-bottom: solid 1px rgba(0, 0, 0, 0.1);
-  background: white;
-  padding: 5px 0px;
-  overflow: auto;
-  height: 200px;
 `
 
 export default ChannelPlayer
