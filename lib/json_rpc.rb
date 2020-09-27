@@ -36,9 +36,9 @@ class JsonRpc
 
   def command(method_name, params = nil)
     hash = {
-      jsonrpc: "2.0",
-      id: 6412,
-      method: method_name,
+        jsonrpc: "2.0",
+        id: 6412,
+        method: method_name,
     }
     hash[:params] = params if params.present?
 

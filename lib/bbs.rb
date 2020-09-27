@@ -23,9 +23,8 @@ class Bbs
   end
 
   def fetch_board
-    return if board_url.blank?
-    res = fetch(board_url)
-    html = NKF.nkf("-e",res)
+    return { top_image_url: nil, title: nil } if board_url.blank?
+    html = fetch(board_url, '-e')
     doc = Nokogiri::HTML.parse(html)
 
     img = doc.css('div > img').first
@@ -36,7 +35,9 @@ class Bbs
   private
 
   def fetch_shitaraba_comments
-    dat = fetch(dat_url)
+    dat = fetch(dat_url, '-w')
+    return [] if dat.include?('指定されたページまたはファイルは存在しません') # アーカイブされていてdatが見れない
+
     dat.each_line.map do |line|
       elements = line.split('<>').map { |element| parse_web_code(element)}
       { no: elements[0].to_i, name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4].gsub('<br>', "\n") }
@@ -44,7 +45,7 @@ class Bbs
   end
 
   def fetch_jpnkn_comments
-    dat = fetch(dat_url)
+    dat = fetch(dat_url, '-e')
     dat.each_line.map.with_index(1) do |line, index|
       elements = line.split('<>').map { |element| parse_web_code(element)}
       { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3].gsub('<br>', "\n") }
@@ -102,8 +103,9 @@ class Bbs
     text.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
   end
 
-  def fetch(url)
+  def fetch(url, charset_nkf_option)
     client = HTTPClient.new
-    client.get(url).body
+    body = client.get(url).body
+    NKF.nkf(charset_nkf_option, body)
   end
 end
