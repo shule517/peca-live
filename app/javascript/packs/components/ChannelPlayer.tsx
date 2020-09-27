@@ -74,12 +74,8 @@ const ChannelPlayer = (props: Props) => {
         channel={channel}
         isHls={isHls}
         local={local}
-        onClickPreviousChannel={() => {
-          prevChannelUrl && history.push(prevChannelUrl)
-        }}
-        onClickNextChannel={() => {
-          nextChannelUrl && history.push(nextChannelUrl)
-        }}
+        onClickPreviousChannel={() => prevChannelUrl && history.push(prevChannelUrl)}
+        onClickNextChannel={() => nextChannelUrl && history.push(nextChannelUrl)}
         onClickReload={() => {
           fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
             credentials: 'same-origin',
