@@ -1,5 +1,5 @@
 class Api::V1::BbsController < ApplicationController
-  def index
+  def show
     render json: fetch_board
   end
 

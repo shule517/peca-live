@@ -35,8 +35,10 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :comments, only: %i(index)
-      resources :bbs, only: %i(index)
+      resource :bbs, only: %i(show) do
+        resource :threads, only: %i(show)
+        resource :comments, only: %i(show)
+      end
     end
   end
 end

@@ -73,7 +73,7 @@ const ChannelPlayer = (props: Props) => {
       if (fetch_channel.contactUrl) {
         const fetchComments = async () => {
           const response = await fetch(
-            `/api/v1/comments?url=${fetch_channel.contactUrl}`,
+            `/api/v1/bbs/comments?url=${fetch_channel.contactUrl}`,
             { credentials: 'same-origin' }
           )
           const fetch_comments = (await response.json()) as Array<
