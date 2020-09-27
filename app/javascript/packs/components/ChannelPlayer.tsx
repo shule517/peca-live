@@ -26,11 +26,12 @@ const ChannelPlayer = (props: Props) => {
       channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'
     )
   )
-  const [nextChannelUrl, setNextChannelUrl] = useState(null)
-  const [prevChannelUrl, setPrevChannelUrl] = useState(null)
-  const [comments, setComments] = useState(null)
-  const [timerId, setTimerId] = useState(null)
-  const [topImageUrl, setTopImageUrl] = useState(null)
+  const [nextChannelUrl, setNextChannelUrl] = useState<string>(null)
+  const [prevChannelUrl, setPrevChannelUrl] = useState<string>(null)
+  const [comments, setComments] = useState<CommentInterface[]>(null)
+  const [threads, setThreads] = useState<ThreadInterface[]>(null)
+  const [timerId, setTimerId] = useState<number>(null)
+  const [topImageUrl, setTopImageUrl] = useState<string>(null)
   const commentId = `comment-${channel.streamId}`
   const history = useHistory()
 
