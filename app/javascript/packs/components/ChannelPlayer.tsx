@@ -40,20 +40,20 @@ const ChannelPlayer = (props: Props) => {
   }, [])
 
   useEffect(() => {
-    const found_channel = channels.find(
+    const foundChannel = channels.find(
       (channel) => channel.streamId === streamId
     )
-    const fetch_channel =
-      found_channel ||
+    const fetchChannel =
+      foundChannel ||
       Channel.nullObject(
         channels.length > 0
           ? '配信は終了しました。'
           : 'チャンネル情報を取得中...'
       )
 
-    if (channel.name !== fetch_channel.name) {
+    if (channel.name !== fetchChannel.name) {
       // 配信を切り替えた
-      const index = channels.findIndex((item) => item === fetch_channel)
+      const index = channels.findIndex((item) => item === fetchChannel)
       const nextChannel = channels[(index + 1) % channels.length]
       const nextChannelUrl = nextChannel
         ? `/channels/${nextChannel.streamId}`
@@ -64,13 +64,13 @@ const ChannelPlayer = (props: Props) => {
         ? `/channels/${prevChannel.streamId}`
         : null
 
-      setChannel(fetch_channel)
+      setChannel(fetchChannel)
       setNextChannelUrl(nextChannelUrl)
       setPrevChannelUrl(prevChannelUrl)
       setComments(found_channel ? null : []) // コメント表示を初期化
       setTopImageUrl(null) // TOP画像を初期化
 
-      if (fetch_channel.contactUrl) {
+      if (fetchChannel.contactUrl) {
         const fetchComments = async () => {
           const response = await fetch(
             `/api/v1/bbs/comments?url=${fetch_channel.contactUrl}`,
@@ -79,13 +79,13 @@ const ChannelPlayer = (props: Props) => {
           const fetch_comments = (await response.json()) as Array<
             CommentInterface
           >
-          setComments(fetch_comments.reverse())
+          setComments(fetchComments.reverse())
 
           const response_bbs = await fetch(
             `/api/v1/bbs?url=${fetch_channel.contactUrl}`,
             { credentials: 'same-origin' }
           )
-          const bbs = await response_bbs.json()
+          const bbs = await responseBbs.json()
           setTopImageUrl(bbs.top_image_url)
         }
         // 初回のコメント情報を取得
@@ -106,9 +106,9 @@ const ChannelPlayer = (props: Props) => {
       if (element) {
         element.scrollTo(0, 0)
       }
-    } else if (!channel.equal(fetch_channel)) {
+    } else if (!channel.equal(fetchChannel)) {
       // 変更があればchannelを更新
-      setChannel(fetch_channel)
+      setChannel(fetchChannel)
     }
   }, [channels])
 
