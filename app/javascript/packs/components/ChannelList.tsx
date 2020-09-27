@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) =>
     root: {
       flexGrow: 1,
       overflow: 'hidden',
-      padding: theme.spacing(0, 1)
+      padding: theme.spacing(0, 1),
     },
     card: {
       maxWidth: 550,
@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) =>
       margin: `${theme.spacing(1)}px auto`,
     },
     media: {
-      height: 140
-    }
+      height: 140,
+    },
   })
 )
 
@@ -45,31 +45,25 @@ const ChannelList = (props: Props) => {
       {channels.map((channel, index) => {
         return (
           <Fade key={channel.streamId} in={true}>
-            <Link
-              to={`/channels/${channel.streamId}`}
-              style={{ textDecoration: 'none' }}
-            >
+            <Link to={`/channels/${channel.streamId}`} style={{ textDecoration: 'none' }}>
               <Card className={classes.card}>
                 <CardActionArea>
                   <CardContent style={{ minHeight: '92px' }}>
                     <Grid container wrap="nowrap" spacing={2}>
                       <Grid item>
-                        <StyledAvator
-                          alt={channel.name}
-                          src={channel.ypIconUrl}
-                        />
+                        <StyledAvator alt={channel.name} src={channel.ypIconUrl} />
                         <div
                           style={{
                             position: 'absolute',
                             left: '21px',
-                            bottom: '16px'
+                            bottom: '16px',
                           }}
                         >
                           <HeadsetIcon
                             style={{
                               fontSize: '14px',
                               marginRight: '5px',
-                              marginBottom: '-2px'
+                              marginBottom: '-2px',
                             }}
                           />
                           {channel.listenerCount}
@@ -79,11 +73,7 @@ const ChannelList = (props: Props) => {
                         <Typography gutterBottom variant="h5" component="h2">
                           {channel.name}
                         </Typography>
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          component="p"
-                        >
+                        <Typography variant="body2" color="textSecondary" component="p">
                           {channel.explanation}
                         </Typography>
                       </Grid>
@@ -95,7 +85,7 @@ const ChannelList = (props: Props) => {
                           style={{
                             position: 'absolute',
                             right: '16px',
-                            top: '14px'
+                            top: '14px',
                           }}
                         >
                           {channel.isFavorited ? (
@@ -103,7 +93,7 @@ const ChannelList = (props: Props) => {
                               style={{
                                 position: 'absolute',
                                 right: '16px',
-                                top: '10px'
+                                top: '10px',
                               }}
                             />
                           ) : (
@@ -112,7 +102,7 @@ const ChannelList = (props: Props) => {
                               style={{
                                 position: 'absolute',
                                 right: '16px',
-                                top: '10px'
+                                top: '10px',
                               }}
                             />
                           )}
@@ -124,7 +114,7 @@ const ChannelList = (props: Props) => {
                           style={{
                             position: 'absolute',
                             right: '16px',
-                            bottom: '16px'
+                            bottom: '16px',
                           }}
                         >
                           {channel.startingTime}

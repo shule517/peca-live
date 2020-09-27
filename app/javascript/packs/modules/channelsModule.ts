@@ -9,14 +9,13 @@ export const channelsModules = createSlice({
   name: 'channels',
   initialState: channelsInitialState,
   reducers: {
-    setChannels: (state, action: PayloadAction<ChannelInterface[]>) =>
-      action.payload
-  }
+    setChannels: (state, action: PayloadAction<ChannelInterface[]>) => action.payload,
+  },
 })
 
-export const updateChannels = async dispatch => {
+export const updateChannels = async (dispatch) => {
   const response = await fetch('/api/v1/channels', {
-    credentials: 'same-origin'
+    credentials: 'same-origin',
   })
   const channels = (await response.json()) as Array<ChannelInterface>
   channels.sort((a, b) => {
@@ -33,6 +32,4 @@ export const updateChannels = async dispatch => {
 }
 
 export const useSelectorChannels = () =>
-  useSelector((state: RootState) =>
-    state.channels.map(channel => new Channel(channel))
-  )
+  useSelector((state: RootState) => state.channels.map((channel) => new Channel(channel)))

@@ -89,23 +89,13 @@ const PecaLiveAppBar = (props: Props) => {
               <Avatar src={currentUser.photoURL} className={classes.avatar} />
             </IconButton>
           ) : (
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => setLoginDialogOpen(true)}
-            >
+            <Button variant="outlined" color="primary" onClick={() => setLoginDialogOpen(true)}>
               ログイン
             </Button>
           ))}
 
-        <LoginDialog
-          open={loginDialogOpen}
-          onClose={() => setLoginDialogOpen(false)}
-        />
-        <SettingDialog
-          open={settingDialogOpen}
-          onClose={() => setSettingDialogOpen(false)}
-        />
+        <LoginDialog open={loginDialogOpen} onClose={() => setLoginDialogOpen(false)} />
+        <SettingDialog open={settingDialogOpen} onClose={() => setSettingDialogOpen(false)} />
       </Toolbar>
     </AppBar>
   )

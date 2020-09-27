@@ -103,10 +103,7 @@ const App = () => {
               classes={{ paper: classes.drawerPaper }}
               ModalProps={{ keepMounted: true /* スマホの性能改善 */ }}
             >
-              <SideBar
-                key={'sidebar-mobile'}
-                onChannelClick={() => setIsSiderbarOpen(false)}
-              />
+              <SideBar key={'sidebar-mobile'} onChannelClick={() => setIsSiderbarOpen(false)} />
             </Drawer>
           ) : (
             <Drawer
@@ -117,10 +114,7 @@ const App = () => {
               className={classes.drawer}
               classes={{ paper: classes.drawerPaper }}
             >
-              <SideBar
-                key={'sidebar-pc'}
-                onChannelClick={() => setIsSiderbarOpen(false)}
-              />
+              <SideBar key={'sidebar-pc'} onChannelClick={() => setIsSiderbarOpen(false)} />
             </Drawer>
           )}
 
@@ -139,11 +133,7 @@ const App = () => {
                           height: window.innerHeight - 64,
                         }}
                       >
-                        <ChannelPlayer
-                          streamId={props.match.params.streamId}
-                          isHls={isIOS}
-                          local={false}
-                        />
+                        <ChannelPlayer streamId={props.match.params.streamId} isHls={isIOS} local={false} />
                       </div>
                     )
                   }}
@@ -151,25 +141,13 @@ const App = () => {
                 <Route
                   path="/hls/:streamId"
                   render={(props) => {
-                    return (
-                      <ChannelPlayer
-                        streamId={props.match.params.streamId}
-                        isHls={true}
-                        local={false}
-                      />
-                    )
+                    return <ChannelPlayer streamId={props.match.params.streamId} isHls={true} local={false} />
                   }}
                 />
                 <Route
                   path="/local/:streamId"
                   render={(props) => {
-                    return (
-                      <ChannelPlayer
-                        streamId={props.match.params.streamId}
-                        isHls={true}
-                        local={true}
-                      />
-                    )
+                    return <ChannelPlayer streamId={props.match.params.streamId} isHls={true} local={true} />
                   }}
                 />
               </Switch>

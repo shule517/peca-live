@@ -14,10 +14,8 @@ export const dialogModules = createSlice({
   name: 'dialog',
   initialState: dialogInitialState,
   reducers: {
-    openAboutPage: (state, action: PayloadAction<DialogInterface>) =>
-      action.payload,
-    setAboutPage: (state, action: PayloadAction<DialogInterface>) =>
-      action.payload,
+    openAboutPage: (state, action: PayloadAction<DialogInterface>) => action.payload,
+    setAboutPage: (state, action: PayloadAction<DialogInterface>) => action.payload,
   },
 })
 
@@ -29,5 +27,4 @@ export const setAboutPage = (dispatch, openPage) => {
   dispatch(dialogModules.actions.setAboutPage({ currentAboutPage: openPage }))
 }
 
-export const useSelectorDialog = () =>
-  useSelector((state: RootState) => new Dialog(state.dialog))
+export const useSelectorDialog = () => useSelector((state: RootState) => new Dialog(state.dialog))

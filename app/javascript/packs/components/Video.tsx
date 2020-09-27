@@ -44,14 +44,7 @@ type Props = {
 const Video = (props: Props) => {
   const dispatch = useDispatch()
   const currentUser = useSelectorUser()
-  const {
-    channel,
-    isHls,
-    local,
-    onClickPreviousChannel,
-    onClickNextChannel,
-    onClickReload,
-  } = props
+  const { channel, isHls, local, onClickPreviousChannel, onClickNextChannel, onClickReload } = props
 
   const peercast = useSelectorPeerCast()
   const [player, setPlayer] = useState<FlvJs.Player>(null)
@@ -67,15 +60,12 @@ const Video = (props: Props) => {
   const videoElementId = `videoElement-${channel.streamId}`
   const isHlsPlay = isHls && channel.streamId.length
 
-  const width =
-    window.parent.screen.width < 800 ? window.parent.screen.width : 800
+  const width = window.parent.screen.width < 800 ? window.parent.screen.width : 800
   const aspectRate = videoHeight / videoWidth
   const height = width * aspectRate
   // PictureInPictureの有効確認
   const enablePictureInPicture =
-    (document as any).pictureInPictureEnabled &&
-    video &&
-    !(video as any).disablePictureInPicture
+    (document as any).pictureInPictureEnabled && video && !(video as any).disablePictureInPicture
 
   useEffect(() => {
     if (channel.streamId.length <= 0) {
@@ -94,9 +84,7 @@ const Video = (props: Props) => {
     }
 
     // TODO FLV再生
-    const videoElement: HTMLMediaElement = document.getElementById(
-      videoElementId
-    ) as HTMLMediaElement
+    const videoElement: HTMLMediaElement = document.getElementById(videoElementId) as HTMLMediaElement
     setVideo(videoElement)
 
     const flvStreamUrl = channel.flvStreamUrl(peercast.tip)
@@ -168,10 +156,7 @@ const Video = (props: Props) => {
         onClick={() => videoStyleOnClick()}
       />
 
-      <LoginDialog
-        open={loginDialogOpen}
-        onClose={() => setLoginDialogOpen(false)}
-      />
+      <LoginDialog open={loginDialogOpen} onClose={() => setLoginDialogOpen(false)} />
 
       <Progress
         style={{
@@ -192,11 +177,7 @@ const Video = (props: Props) => {
           />
         ) : (
           readyState < 4 && (
-            <CircularProgress
-              size={80}
-              style={{ color: 'lightgray' }}
-              onClick={() => videoStyleOnClick()}
-            />
+            <CircularProgress size={80} style={{ color: 'lightgray' }} onClick={() => videoStyleOnClick()} />
           )
         )}
       </Progress>
@@ -213,11 +194,7 @@ const Video = (props: Props) => {
         >
           <FooterLeftControl>
             <Tooltip title="前の配信へ" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => onClickPreviousChannel()}
-              >
+              <IconButton color="primary" component="span" onClick={() => onClickPreviousChannel()}>
                 <SkipPreviousIcon style={{ color: 'white' }} />
               </IconButton>
             </Tooltip>
@@ -237,44 +214,26 @@ const Video = (props: Props) => {
             )}
 
             <Tooltip title="次の配信へ" placement="top" arrow>
-              <IconButton
-                color="primary"
-                component="span"
-                onClick={() => onClickNextChannel()}
-              >
+              <IconButton color="primary" component="span" onClick={() => onClickNextChannel()}>
                 <SkipNextIcon style={{ color: 'white' }} />
               </IconButton>
             </Tooltip>
 
             {!isIOS && (
               <Tooltip title="再接続(Bump)" placement="top" arrow>
-                <IconButton
-                  color="primary"
-                  component="span"
-                  onClick={() => onClickReload()}
-                >
+                <IconButton color="primary" component="span" onClick={() => onClickReload()}>
                   <RefreshIcon style={{ color: 'white' }} />
                 </IconButton>
               </Tooltip>
             )}
 
-            <Tooltip
-              title={
-                channel.isFavorited
-                  ? 'お気に入りに登録済み'
-                  : 'お気に入りに登録'
-              }
-              placement="top"
-              arrow
-            >
+            <Tooltip title={channel.isFavorited ? 'お気に入りに登録済み' : 'お気に入りに登録'} placement="top" arrow>
               <IconButton
                 color="primary"
                 component="span"
                 onClick={() => {
                   const favoriteChannel = async () => {
-                    const token = document.getElementsByName('csrf-token')[0][
-                      'content'
-                    ]
+                    const token = document.getElementsByName('csrf-token')[0]['content']
                     const headers = {
                       'Content-Type': 'application/x-www-form-urlencoded',
                       'X-CSRF-TOKEN': token,
@@ -350,11 +309,7 @@ const Video = (props: Props) => {
                     />
                   </div>
 
-                  <Tooltip
-                    title="ミュート"
-                    placement="top"
-                    arrow
-                  >
+                  <Tooltip title="ミュート" placement="top" arrow>
                     <IconButton
                       color="primary"
                       component="span"
@@ -419,24 +374,9 @@ const VideoStyle = styled.video`
 `
 
 const VideoControl = styled.div`
-  background: -moz-linear-gradient(
-    top,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.4) 30%,
-    rgba(0, 0, 0, 0.9)
-  );
-  background: -webkit-linear-gradient(
-    top,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.4) 30%,
-    rgba(0, 0, 0, 0.9)
-  );
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.4) 30%,
-    rgba(0, 0, 0, 0.9)
-  );
+  background: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4) 30%, rgba(0, 0, 0, 0.9));
+  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4) 30%, rgba(0, 0, 0, 0.9));
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4) 30%, rgba(0, 0, 0, 0.9));
   position: absolute;
   left: 0;
   bottom: 6px;

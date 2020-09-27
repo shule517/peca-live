@@ -14,6 +14,6 @@ export const setupStore = () => {
     reducer: rootReducer,
     middleware: middlewares,
 
-    devTools: true
+    devTools: true,
   })
 }

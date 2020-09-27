@@ -9,20 +9,17 @@ export const favoritesModules = createSlice({
   name: 'favorites',
   initialState: favoritesInitialState,
   reducers: {
-    setFavorites: (state, action: PayloadAction<FavoriteInterface[]>) =>
-      action.payload
-  }
+    setFavorites: (state, action: PayloadAction<FavoriteInterface[]>) => action.payload,
+  },
 })
 
-export const updateFavorites = async dispatch => {
+export const updateFavorites = async (dispatch) => {
   const response = await fetch('/api/v1/favorites', {
-    credentials: 'same-origin'
+    credentials: 'same-origin',
   })
   const favorites = (await response.json()) as Array<FavoriteInterface>
   dispatch(favoritesModules.actions.setFavorites(favorites))
 }
 
 export const useSelectorFavorites = () =>
-  useSelector((state: RootState) =>
-    state.favorites.map(channel => new Favorite(channel))
-  )
+  useSelector((state: RootState) => state.favorites.map((channel) => new Favorite(channel)))

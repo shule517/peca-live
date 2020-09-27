@@ -37,7 +37,7 @@ const SettingDialog = (props: Props) => {
 
     const fetchLiveChannel = async () => {
       const response = await fetch('/api/v1/channels/broadcasting', {
-        credentials: 'same-origin'
+        credentials: 'same-origin',
       })
       const channels = await response.json()
       setBroadcastChannels(channels)
@@ -75,7 +75,7 @@ const SettingDialog = (props: Props) => {
           label="IP"
           size="small"
           value={textHost}
-          onChange={e => setTextHost(e.target.value)}
+          onChange={(e) => setTextHost(e.target.value)}
           fullWidth
         />
         <TextField
@@ -84,24 +84,24 @@ const SettingDialog = (props: Props) => {
           label="ポート番号"
           size="small"
           value={textPortNo}
-          onChange={e => setTextPortNo(parseInt(e.target.value))}
+          onChange={(e) => setTextPortNo(parseInt(e.target.value))}
           fullWidth
         />
 
         <StyledFormGroup>
           <FormLabel component="legend">配信の掲載</FormLabel>
           {broadcastChannels &&
-            broadcastChannels.map(channel => {
+            broadcastChannels.map((channel) => {
               return (
                 <FormControlLabel
                   key={channel.channelId}
                   control={
                     <Switch
                       checked={!channel.private}
-                      onChange={event => {
+                      onChange={(event) => {
                         const apiUrl = `/api/v1/channels/private/${channel.name}`
                         fetch(apiUrl, {
-                          credentials: 'same-origin'
+                          credentials: 'same-origin',
                         })
                         setIsPrivate(!isPrivate)
                       }}
