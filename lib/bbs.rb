@@ -5,6 +5,9 @@ class Bbs
 
   SHITARABA_URL_REGEX = %r{\Ahttps?://jbbs\.shitaraba\.net/bbs/read\.cgi/([a-z]+)/(\d+)/(\d+)}
   LIVEDOOR_URL_REGEX = %r{\Ahttps?://jbbs\.livedoor\.jp/bbs/read\.cgi/([a-z]+)/(\d+)/(\d+)}
+  SHITARABA_BOARD_URL_REGEX = %r{\Ahttps?://jbbs\.shitaraba\.net/([a-z]+)/(\d+)}
+  LIVEDOOR_BOARD_URL_REGEX = %r{\Ahttps?://jbbs\.livedoor\.jp/([a-z]+)/(\d+)}
+
   JPNKN_URL_REGEX = %r{\Ahttps?://bbs\.jpnkn\.com/test/read\.cgi/([a-zA-Z0-9]+)/(\d+)}
   JPNKN_BORAD_URL_REGEX = %r{\Ahttps?://bbs\.jpnkn\.com/([a-zA-Z0-9]+)}
 
@@ -13,6 +16,8 @@ class Bbs
   end
 
   def fetch_threads
+    return [] if threads_url.blank?
+
     if shitaraba?
       fetch_shitaraba_threads
     elsif jpnkn?
@@ -23,6 +28,8 @@ class Bbs
   end
 
   def fetch_comments
+    return [] if dat_url.blank?
+
     if shitaraba?
       fetch_shitaraba_comments
     elsif jpnkn?
@@ -34,6 +41,7 @@ class Bbs
 
   def fetch_board
     return { top_image_url: nil, title: nil } if board_url.blank?
+
     html = fetch(board_url, '-e')
     doc = Nokogiri::HTML.parse(html)
 
@@ -63,8 +71,8 @@ class Bbs
   end
 
   def fetch_shitaraba_threads
-    dat = fetch(threads_url, '-w')
-    dat.each_line.map do |line|
+    subject = fetch(threads_url, '-w')
+    threads = subject.each_line.map do |line|
       elements = line.split(',').map { |element| parse_web_code(element)}
 
       # スレッド番号の取得
@@ -80,12 +88,14 @@ class Bbs
 
       { no: no, title: title, comments_size: comments_size }
     end
+
+    threads.first(threads.size - 1) # 最終行の情報は最新スレ。重複した情報なので外す。
   end
 
   def fetch_jpnkn_threads
     # 1600986660.dat<>title&lt;&gt;dayo(9999) (1) (1)
-    dat = fetch(threads_url, '-e')
-    dat.each_line.map do |line|
+    subject = fetch(threads_url, '-e')
+    subject.each_line.map do |line|
       elements = line.split('<>').map { |element| parse_web_code(element)}
 
       # スレッド番号の取得
@@ -104,11 +114,11 @@ class Bbs
   end
 
   def shitaraba?
-    SHITARABA_URL_REGEX.match?(url) || LIVEDOOR_URL_REGEX.match?(url)
+    [SHITARABA_URL_REGEX, LIVEDOOR_URL_REGEX, SHITARABA_BOARD_URL_REGEX, LIVEDOOR_BOARD_URL_REGEX].any? { |regex| regex.match?(url) }
   end
 
   def jpnkn?
-    JPNKN_URL_REGEX.match?(url)
+    [JPNKN_URL_REGEX, JPNKN_BORAD_URL_REGEX].any? { |regex| regex.match?(url) }
   end
 
   def dat_url
@@ -133,6 +143,7 @@ class Bbs
   end
 
   def board_url
+    # したらば
     matches = SHITARABA_URL_REGEX.match(url)
     if matches.present?
       return "https://jbbs.shitaraba.net/#{matches[1]}/#{matches[2]}/"
@@ -143,6 +154,17 @@ class Bbs
       return "https://jbbs.shitaraba.net/#{matches[1]}/#{matches[2]}/"
     end
 
+    matches = SHITARABA_BOARD_URL_REGEX.match(url)
+    if matches.present?
+      return "https://jbbs.shitaraba.net/#{matches[1]}/#{matches[2]}/"
+    end
+
+    matches = LIVEDOOR_BOARD_URL_REGEX.match(url)
+    if matches.present?
+      return "https://jbbs.shitaraba.net/#{matches[1]}/#{matches[2]}/"
+    end
+
+    # JPNKN
     matches = JPNKN_URL_REGEX.match(url)
     if matches.present?
       return "http://bbs.jpnkn.com/#{matches[1]}/"
