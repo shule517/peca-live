@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Channel from '../types/Channel'
 import { CommentInterface } from '../types/Comment'
+import { ThreadInterface } from '../types/Thread'
 import Video from './Video'
 import { useHistory } from 'react-router-dom'
 import { useSelectorChannels } from '../modules/channelsModule'
@@ -68,22 +69,24 @@ const ChannelPlayer = (props: Props) => {
       setChannel(fetchChannel)
       setNextChannelUrl(nextChannelUrl)
       setPrevChannelUrl(prevChannelUrl)
-      setComments(found_channel ? null : []) // コメント表示を初期化
+      setComments(foundChannel ? null : []) // コメント表示を初期化
       setTopImageUrl(null) // TOP画像を初期化
 
       if (fetchChannel.contactUrl) {
         const fetchComments = async () => {
-          const response = await fetch(
-            `/api/v1/bbs/comments?url=${fetch_channel.contactUrl}`,
+          // コメントを取得
+          const responseComments = await fetch(
+            `/api/v1/bbs/comments?url=${fetchChannel.contactUrl}`,
             { credentials: 'same-origin' }
           )
-          const fetch_comments = (await response.json()) as Array<
+          const fetchComments = (await responseComments.json()) as Array<
             CommentInterface
           >
           setComments(fetchComments.reverse())
 
-          const response_bbs = await fetch(
-            `/api/v1/bbs?url=${fetch_channel.contactUrl}`,
+          // 掲示板情報を取得
+          const responseBbs = await fetch(
+            `/api/v1/bbs?url=${fetchChannel.contactUrl}`,
             { credentials: 'same-origin' }
           )
           const bbs = await responseBbs.json()
@@ -170,7 +173,9 @@ const ChannelPlayer = (props: Props) => {
               component="p"
               style={{ marginTop: '2px' }}
             >
-              {channel.streamId && channel.listenerCount > 0 && `${channel.listenerCount}人が視聴中 - `}
+              {channel.streamId &&
+                channel.listenerCount > 0 &&
+                `${channel.listenerCount}人が視聴中 - `}
               {channel.streamId && `${channel.startingTime}から`}
             </Typography>
           </div>
@@ -234,7 +239,9 @@ const ChannelPlayer = (props: Props) => {
         </a>
       </div>
 
-      {topImageUrl && <img src={topImageUrl} style={{ maxWidth: '800px', width: '100%' }} />}
+      {topImageUrl && (
+        <img src={topImageUrl} style={{ maxWidth: '800px', width: '100%' }} />
+      )}
 
       {channel.isWmv && (
         <div style={{ padding: '10px', background: 'white' }}>
