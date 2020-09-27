@@ -94,7 +94,7 @@ class Bbs
 
   def fetch_jpnkn_threads
     # 1600986660.dat<>title&lt;&gt;dayo(9999) (1) (1)
-    subject = fetch(threads_url, '-e')
+    subject = fetch(threads_url, '-w')
     subject.each_line.map do |line|
       elements = line.split('<>').map { |element| parse_web_code(element)}
 
