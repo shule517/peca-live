@@ -86,7 +86,7 @@ class Bbs
         comments_size = matches[2]&.to_i
       end
 
-      { no: no, title: title, comments_size: comments_size }
+      { no: no, url: thread_url(no), title: title, comments_size: comments_size }
     end
 
     threads.first(threads.size - 1) # 最終行の情報は最新スレ。重複した情報なので外す。
@@ -109,7 +109,7 @@ class Bbs
         comments_size = matches[2]&.to_i
       end
 
-      { no: no, title: title, comments_size: comments_size }
+      { no: no, url: thread_url(no), title: title, comments_size: comments_size }
     end
   end
 
@@ -122,19 +122,30 @@ class Bbs
   end
 
   def dat_url
-    matches = SHITARABA_URL_REGEX.match(url)
-    if matches.present?
-      return "http://jbbs.shitaraba.net/bbs/rawmode.cgi/#{matches[1]}/#{matches[2]}/#{matches[3]}/"
+    # したらば
+    matches = extract_shitaraba_url
+    if matches.present? && matches.size == 4
+      return "https://jbbs.shitaraba.net/bbs/rawmode.cgi/#{matches[1]}/#{matches[2]}/#{matches[3]}/"
     end
 
-    matches = LIVEDOOR_URL_REGEX.match(url)
-    if matches.present?
-      return "http://jbbs.shitaraba.net/bbs/rawmode.cgi/#{matches[1]}/#{matches[2]}/#{matches[3]}/"
-    end
-
-    matches = JPNKN_URL_REGEX.match(url)
-    if matches.present?
+    # jpnkn
+    matches = extract_jpnkn_url
+    if matches.present? && matches.size == 3
       return "https://bbs.jpnkn.com/#{matches[1]}/dat/#{matches[2]}.dat"
+    end
+  end
+
+  def thread_url(thread_no)
+    # したらば
+    matches = extract_shitaraba_url
+    if matches.present?
+      return "https://jbbs.shitaraba.net/bbs/read.cgi/#{matches[1]}/#{matches[2]}/#{thread_no}/"
+    end
+
+    # jpnkn
+    matches = extract_jpnkn_url
+    if matches.present?
+      return "https://bbs.jpnkn.com/test/read.cgi/#{matches[1]}/#{thread_no}/"
     end
   end
 
@@ -142,35 +153,35 @@ class Bbs
     "#{board_url}subject.txt" if board_url.present?
   end
 
+  def extract_shitaraba_url
+    # したらば
+    regexs = [SHITARABA_URL_REGEX, LIVEDOOR_URL_REGEX, SHITARABA_BOARD_URL_REGEX, LIVEDOOR_BOARD_URL_REGEX]
+    regexs.each do |regex|
+      matches = regex.match(url)
+      return matches if matches.present?
+    end
+    nil
+  end
+
+  def extract_jpnkn_url
+    # JPNKN
+    regexs = [JPNKN_URL_REGEX, JPNKN_BORAD_URL_REGEX]
+    regexs.each do |regex|
+      matches = regex.match(url)
+      return matches if matches.present?
+    end
+    nil
+  end
+
   def board_url
     # したらば
-    matches = SHITARABA_URL_REGEX.match(url)
-    if matches.present?
-      return "https://jbbs.shitaraba.net/#{matches[1]}/#{matches[2]}/"
-    end
-
-    matches = LIVEDOOR_URL_REGEX.match(url)
-    if matches.present?
-      return "https://jbbs.shitaraba.net/#{matches[1]}/#{matches[2]}/"
-    end
-
-    matches = SHITARABA_BOARD_URL_REGEX.match(url)
-    if matches.present?
-      return "https://jbbs.shitaraba.net/#{matches[1]}/#{matches[2]}/"
-    end
-
-    matches = LIVEDOOR_BOARD_URL_REGEX.match(url)
+    matches = extract_shitaraba_url
     if matches.present?
       return "https://jbbs.shitaraba.net/#{matches[1]}/#{matches[2]}/"
     end
 
     # JPNKN
-    matches = JPNKN_URL_REGEX.match(url)
-    if matches.present?
-      return "http://bbs.jpnkn.com/#{matches[1]}/"
-    end
-
-    matches = JPNKN_BORAD_URL_REGEX.match(url)
+    matches = extract_jpnkn_url
     if matches.present?
       return "http://bbs.jpnkn.com/#{matches[1]}/"
     end

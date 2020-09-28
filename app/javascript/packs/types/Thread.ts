@@ -1,5 +1,6 @@
 export type ThreadInterface = {
   no: number
+  url: string
   title: string
   comments_size: string
 }
