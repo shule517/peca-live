@@ -5,6 +5,10 @@ import styled from 'styled-components'
 import Channel from '../types/Channel'
 import BbsApi from '../apis/BbsApi'
 import { ThreadInterface } from '../types/Thread'
+import { List, ListItem } from '@material-ui/core'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
 
 type Props = {
   channel: Channel
@@ -17,15 +21,12 @@ const Comments = (props: Props) => {
   const [comments, setComments] = useState<CommentInterface[]>(null)
   const [threads, setThreads] = useState<ThreadInterface[]>(null)
   const [timerId, setTimerId] = useState<number>(null)
+  const [contactUrl, setContactUrl] = useState<string>(null)
 
   useEffect(() => {
-    // 初期化
-    setComments(null)
-    setThreads(null)
-
-    if (channel.contactUrl) {
+    if (contactUrl) {
       const fetchBbs = async () => {
-        const bbsApi = new BbsApi(channel.contactUrl)
+        const bbsApi = new BbsApi(contactUrl)
         setComments(await bbsApi.fetchComments()) // コメントを取得
         setThreads(await bbsApi.fetchThreads()) // スレッド一覧を取得
       }
@@ -49,7 +50,16 @@ const Comments = (props: Props) => {
     if (element) {
       element.scrollTo(0, 0)
     }
+  }, [contactUrl])
+
+  useEffect(() => {
+    // 初期化
+    setComments(null)
+    setThreads(null)
+    setContactUrl(channel.contactUrl)
   }, [channel.name])
+
+  const isNonSupportedUrl = comments && comments.length == 0 && threads && threads.length === 0
 
   return (
     <StyledDiv id={commentId}>
@@ -59,39 +69,32 @@ const Comments = (props: Props) => {
         </div>
       )}
 
-      {comments && comments.length == 0 && (
-        // threads &&
-        // threads.length === 0 &&
-        <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>対応していないURLです</div>
+      {isNonSupportedUrl && <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>対応していないURLです</div>}
+
+      {/* スレッド選択画面 */}
+      {comments && comments.length === 0 && threads && (
+        <>
+          <div style={{ margin: '15px 15px 10px 15px', color: 'rgba(0, 0, 0, 0.5)' }}>スレッドを選択してください</div>
+
+          <List>
+            {threads.map((thread) => (
+              <ListItem
+                button
+                onClick={() => setContactUrl(thread.url)}
+                key={`${channel.streamId}-threads-${thread.no}`}
+              >
+                <ListItemIcon>
+                  <ChatBubbleOutlineIcon />
+                </ListItemIcon>
+
+                <ListItemText primary={thread.title} />
+              </ListItem>
+            ))}
+          </List>
+        </>
       )}
 
-      {/*{comments && comments.length === 0 && threads && (*/}
-      {/*  <>*/}
-      {/*    <div style={{ margin: '15px', color: 'rgba(0, 0, 0, 0.5)' }}>*/}
-      {/*      スレッドを選択してください*/}
-      {/*    </div>*/}
-
-      {/*    {threads.map((thread) => {*/}
-      {/*      return (*/}
-      {/*        <div*/}
-      {/*          key={`${channel.streamId}-threads-${thread.no}`}*/}
-      {/*          style={{ display: 'flex', margin: '10px 15px' }}*/}
-      {/*        >*/}
-      {/*          <div*/}
-      {/*            style={{*/}
-      {/*              // width: '50px',*/}
-      {/*              color: 'rgb(0, 128, 0)',*/}
-      {/*            }}*/}
-      {/*          >*/}
-      {/*            {`${thread.no} - ${thread.title}(${thread.comments_size})`}*/}
-      {/*          </div>*/}
-      {/*          /!*<div style={{ width: '100%', wordBreak: 'break-all' }}></div>*!/*/}
-      {/*        </div>*/}
-      {/*      )*/}
-      {/*    })}*/}
-      {/*  </>*/}
-      {/*)}*/}
-
+      {/* コメント一覧 */}
       {comments &&
         comments.map((comment) => {
           return (
