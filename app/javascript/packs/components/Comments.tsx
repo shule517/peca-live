@@ -25,6 +25,10 @@ const Comments = (props: Props) => {
 
   useEffect(() => {
     if (contactUrl) {
+      // スレッド変更時に初期化する（Loadingのくるくるを出す）
+      setComments(null)
+      setThreads(null)
+
       const fetchBbs = async () => {
         const bbsApi = new BbsApi(contactUrl)
         setComments(await bbsApi.fetchComments()) // コメントを取得
@@ -72,7 +76,7 @@ const Comments = (props: Props) => {
       {isNonSupportedUrl && <div style={{ margin: '10px', color: 'rgba(0, 0, 0, 0.5)' }}>対応していないURLです</div>}
 
       {/* スレッド選択画面 */}
-      {comments && comments.length === 0 && threads && (
+      {!isNonSupportedUrl && comments && comments.length === 0 && threads && (
         <>
           <div style={{ margin: '15px 15px 10px 15px', color: 'rgba(0, 0, 0, 0.5)' }}>スレッドを選択してください</div>
 
