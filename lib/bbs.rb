@@ -28,14 +28,15 @@ class Bbs
   end
 
   def fetch_comments
-    return [] if dat_url.blank?
+    non_support_response = { thread_title: nil, comments: [] }
+    return non_support_response if dat_url.blank?
 
     if shitaraba?
       fetch_shitaraba_comments
     elsif jpnkn?
       fetch_jpnkn_comments
     else
-      []
+      non_support_response
     end
   end
 
@@ -56,18 +57,27 @@ class Bbs
     dat = fetch(dat_url, '-w')
     return [] if dat.include?('指定されたページまたはファイルは存在しません') # アーカイブされていてdatが見れない
 
-    dat.each_line.map do |line|
+    thread_title = nil
+    comments = dat.each_line.map.with_index do |line, index|
       elements = line.split('<>').map { |element| parse_web_code(element)}
+      thread_title = elements[5] if index == 0
       { no: elements[0].to_i, name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4].gsub('<br>', "\n") }
     end
+
+    { thread_title: thread_title, comments: comments.reverse.first(30) }
   end
 
   def fetch_jpnkn_comments
-    dat = fetch(dat_url, '-e')
-    dat.each_line.map.with_index(1) do |line, index|
-      elements = line.split('<>').map { |element| parse_web_code(element)}
+    dat = fetch(dat_url, '-w')
+
+    thread_title = nil
+    comments = dat.each_line.map.with_index(1) do |line, index|
+      elements = line.chop.split('<>').map { |element| parse_web_code(element)}
+      thread_title = elements[4] if index == 1
       { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3].gsub('<br>', "\n") }
     end
+
+    { thread_title: thread_title, comments: comments.reverse.first(30) }
   end
 
   def fetch_shitaraba_threads
