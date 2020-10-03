@@ -9,7 +9,8 @@ class BbsApi {
     const response = await fetch(`/api/v1/bbs/comments?url=${this.url}`, {
       credentials: 'same-origin',
     })
-    return (await response.json()) as Array<CommentInterface>
+    const json = await response.json()
+    return json['comments'] as Array<CommentInterface>
   }
 
   // スレッド一覧を取得
