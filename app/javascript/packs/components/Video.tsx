@@ -297,7 +297,7 @@ const Video = (props: Props) => {
                     <Slider
                       color="secondary"
                       orientation="vertical"
-                      defaultValue={100}
+                      defaultValue={player ? player.volume * 100 : 100}
                       valueLabelDisplay="auto"
                       style={{ height: '100px' }}
                       onChange={(event, newValue) => {
