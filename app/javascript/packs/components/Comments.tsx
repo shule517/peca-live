@@ -42,7 +42,11 @@ const Comments = (props: Props) => {
       }
 
       // 10秒に1回コメントを再取得
-      const id = setInterval(() => fetchBbs(), 10000)
+      const fetchComments = async () => {
+        const bbsApi = new BbsApi(contactUrl)
+        setComments(await bbsApi.fetchComments()) // コメントを取得
+      }
+      const id = setInterval(() => fetchComments(), 10000)
       setTimerId(id)
     } else {
       setComments([])
