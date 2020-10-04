@@ -28,7 +28,7 @@ class Bbs
   end
 
   def fetch_comments
-    non_support_response = { thread_title: nil, comments: [] }
+    non_support_response = { thread_title: nil, comments: [], comment_count: 0 }
     return non_support_response if dat_url.blank?
 
     if shitaraba?
@@ -64,7 +64,7 @@ class Bbs
       { no: elements[0].to_i, name: elements[1], mail: elements[2], writed_at: elements[3], body: elements[4].gsub('<br>', "\n") }
     end
 
-    { thread_title: thread_title, comments: comments.reverse.first(30) }
+    { thread_title: thread_title, comments: comments.reverse.first(30), comment_count: comments.last[:no] }
   end
 
   def fetch_jpnkn_comments
@@ -77,7 +77,7 @@ class Bbs
       { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3].gsub('<br>', "\n") }
     end
 
-    { thread_title: thread_title, comments: comments.reverse.first(30) }
+    { thread_title: thread_title, comments: comments.reverse.first(30), comment_count: comments.last[:no] }
   end
 
   def fetch_shitaraba_threads
