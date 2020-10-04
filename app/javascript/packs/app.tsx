@@ -70,6 +70,9 @@ const App = () => {
                 Authorization: `Bearer ${idToken}`,
               },
             })
+
+            // ログイン後に「お気に入り」を反映するため、チャンネル情報を再取得する
+            updateChannels(dispatch)
           }
           signinRails()
         })
