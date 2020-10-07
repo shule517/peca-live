@@ -198,12 +198,18 @@ class Bbs
   end
 
   def parse_web_code(text)
-    text.gsub('&amp;', '&')
+    result = text.gsub('&amp;', '&')
         .gsub('&lt;', '<')
         .gsub('&gt;', '>')
         .gsub('&quot;', '"')
         .gsub('&#39;', '\'')
         .gsub('&nbsp;', ' ')
+
+    # &#65374; → 〜 に変換
+    result.scan(/&#([0-9]+);/).flatten.each do |char_code|
+      result.gsub!("&##{char_code};", char_code.to_i.chr)
+    end
+    result
   end
 
   def fetch(url, charset_nkf_option)
