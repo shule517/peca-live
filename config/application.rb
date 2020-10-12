@@ -11,6 +11,7 @@ module Pecalive
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
     config.paths.add 'lib', eager_load: true
+    config.time_zone = 'Tokyo' # 時間の表示をJSTにする
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
