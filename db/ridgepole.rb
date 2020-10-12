@@ -48,3 +48,4 @@ create_table :channel_histories, force: :cascade do |t|
   t.datetime :latest_lived_at, null: false
   t.timestamps
 end
+add_index :channel_histories, :stream_id, unique: true

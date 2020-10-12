@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "latest_lived_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["stream_id"], name: "index_channel_histories_on_stream_id", unique: true
   end
 
   create_table "favorites", force: :cascade do |t|
