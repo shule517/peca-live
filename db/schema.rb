@@ -12,6 +12,30 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
+  create_table "channel_histories", force: :cascade do |t|
+    t.string "stream_id", null: false
+    t.string "name", null: false
+    t.string "yellow_page", null: false
+    t.string "tracker"
+    t.string "contact_url"
+    t.string "genre"
+    t.string "description"
+    t.string "comment"
+    t.integer "bitrate", null: false
+    t.string "content_type"
+    t.string "track_title"
+    t.string "album"
+    t.string "creator"
+    t.string "track_url"
+    t.integer "listeners", null: false
+    t.integer "relays", null: false
+    t.integer "uptime", null: false
+    t.datetime "latest_lived_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stream_id"], name: "index_channel_histories_on_stream_id", unique: true
+  end
+
   create_table "favorites", force: :cascade do |t|
     t.string "user_id", null: false
     t.string "channel_name", null: false

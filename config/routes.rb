@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resources :channels do
         collection do
           get :notification_broadcasting
+          get :record_history
           get :broadcasting
           get :check_port
           get :bump

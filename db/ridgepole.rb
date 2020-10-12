@@ -26,3 +26,26 @@ create_table :favorites, force: :cascade do |t|
 end
 add_index :favorites, :user_id
 add_index :favorites, %i(user_id channel_name), unique: true
+
+create_table :channel_histories, force: :cascade do |t|
+  t.string   :stream_id, null: false
+  t.string   :name, null: false
+  t.string   :yellow_page, null: false
+  t.string   :tracker
+  t.string   :contact_url
+  t.string   :genre
+  t.string   :description
+  t.string   :comment
+  t.integer  :bitrate, null: false
+  t.string   :content_type
+  t.string   :track_title
+  t.string   :album
+  t.string   :creator
+  t.string   :track_url
+  t.integer  :listeners, null: false
+  t.integer  :relays, null: false
+  t.integer  :uptime, null: false
+  t.datetime :latest_lived_at, null: false
+  t.timestamps
+end
+add_index :channel_histories, :stream_id, unique: true
