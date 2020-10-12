@@ -95,7 +95,7 @@ const Comments = (props: Props) => {
                   <ChatBubbleOutlineIcon />
                 </ListItemIcon>
 
-                <ListItemText primary={thread.title} />
+                <ListItemText primary={`${thread.title} (${thread.comments_size})`} />
               </ListItem>
             ))}
           </List>
