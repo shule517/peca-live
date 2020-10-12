@@ -22,6 +22,13 @@ class Api::V1::ChannelsController < ApplicationController
     render json: target_channels
   end
 
+  def record_history
+    # 配信履歴の記録(10分ごと)
+    channels = get_channels.reject { |channel| yp_channel?(channel) }
+    ChannelHistory.record_channels(channels)
+    render json: channels
+  end
+
   def broadcasting
     ip = forwarded_for.presence || request.ip
     channels = get_channels.select { |channel| channel['tracker'].start_with?(ip) || channel['creator'].start_with?(ip) }
@@ -62,7 +69,7 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def fetch_channels
-    Rails.cache.fetch('api/v1/channels/index', expires_in: 1.minute) do
+    Rails.cache.fetch('Api::V1::ChannelsController/fetch_channels', expires_in: 1.minute) do
       get_channels.select { |channel| visible_channel?(channel) }
     end
   end
@@ -78,9 +85,8 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def get_channels
-    Rails.cache.fetch('get_channels', expires_in: 1.minute) do
-      channels = json_rpc_api.update_yp_channels
-      channels
+    Rails.cache.fetch('Api::V1::ChannelsController/get_channels', expires_in: 1.minute) do
+      json_rpc_api.update_yp_channels
     end
   end
 
@@ -89,9 +95,13 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def visible_channel?(channel)
-    return false if channel['channelId'] == '00000000000000000000000000000000'
+    return false if yp_channel?
     return false if ignore_channel?(channel['name'])
     true
+  end
+
+  def yp_channel?(channel)
+    channel['channelId'] == '00000000000000000000000000000000'
   end
 
   def ignore_channel?(channel_name)
