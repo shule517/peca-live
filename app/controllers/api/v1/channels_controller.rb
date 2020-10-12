@@ -95,7 +95,7 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def visible_channel?(channel)
-    return false if yp_channel?
+    return false if yp_channel?(channel)
     return false if ignore_channel?(channel['name'])
     true
   end
