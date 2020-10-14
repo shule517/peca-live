@@ -10,7 +10,8 @@
 #
 # Indexes
 #
-#  index_private_channels_on_name  (name) UNIQUE
+#  index_private_channels_on_name    (name) UNIQUE
+#  index_private_channels_on_status  (status)
 #
 class PrivateChannel < ApplicationRecord
   enum status: { secret: 0, open: 1 }
