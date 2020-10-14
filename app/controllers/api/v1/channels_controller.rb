@@ -31,9 +31,8 @@ class Api::V1::ChannelsController < ApplicationController
 
   def broadcasting
     ip = forwarded_for.presence || request.ip
-    channels = get_channels.select { |channel| channel['tracker'].start_with?(ip) || channel['creator'].start_with?(ip) }
-
-    render json: channels.map { |channel| channel['private'] = PrivateChannel.where(name: channel['name']).exists?; channel }
+    channels = ChannelHistory.broadcast_from(ip)
+    render json: channels.map { |channel| { channelId: channel.stream_id, name: channel.name, private: PrivateChannel.secret?(channel.name) } }
   end
 
   def check_port
@@ -75,7 +74,7 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def set_private_channel_names
-    @private_channel_names = PrivateChannel.all.pluck(:name)
+    @private_channel_names = PrivateChannel.secret.pluck(:name)
   end
 
   def forwarded_for
