@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at", null: false
     t.integer "status", default: 0, null: false
     t.index ["name"], name: "index_private_channels_on_name", unique: true
+    t.index ["status"], name: "index_private_channels_on_status"
   end
 
   create_table "user_devices", force: :cascade do |t|
