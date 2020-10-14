@@ -15,4 +15,10 @@
 #
 class PrivateChannel < ApplicationRecord
   enum status: { secret: 0, open: 1 }
+
+  class << self
+    def secret?(channel_name)
+      secret.where(name: channel_name).exists?
+    end
+  end
 end

@@ -37,6 +37,8 @@ class ChannelHistory < ApplicationRecord
   validates :latest_lived_at, presence: true
   validates :yellow_page, presence: true
 
+  scope :broadcast_from, -> (ip) { where('tracker LIKE ? OR creator LIKE ?', "#{ip}%", "#{ip}%") }
+
   class << self
     def record_channels(channels)
       channels.each { |channel| record_channel(channel) }
