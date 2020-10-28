@@ -5,8 +5,13 @@ class Api::V1::Channels::PrivateController < ApplicationController
     head :ok and return unless ChannelHistory.where(name: params[:channel_name]).from_ip(ip).exists?
 
     channel = PrivateChannel.find_by(name: params[:channel_name])
+
     if channel.present?
-      channel.destroy!
+      if channel.secret?
+        channel.open!
+      else
+        channel.secret!
+      end
     else
       PrivateChannel.find_or_create_by!(name: params[:channel_name])
     end

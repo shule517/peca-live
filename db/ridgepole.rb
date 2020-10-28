@@ -15,9 +15,11 @@ add_index :user_devices, :user_id
 
 create_table :private_channels, force: :cascade do |t|
   t.string   :name, null: false
+  t.integer  :status, null: false, default: 0
   t.timestamps
 end
 add_index :private_channels, :name, unique: true
+add_index :private_channels, :status
 
 create_table :favorites, force: :cascade do |t|
   t.string   :user_id, null: false
