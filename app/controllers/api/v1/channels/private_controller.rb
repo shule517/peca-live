@@ -2,7 +2,7 @@ class Api::V1::Channels::PrivateController < ApplicationController
   # api/v1/channels/private/しっかりシュールｃｈ
   def show
     ip = forwarded_for.presence || request.ip
-    head :ok and return unless ChannelHistory.where(name: params[:channel_name]).broadcast_from(ip).exists?
+    head :forbidden and return unless ChannelHistory.where(name: params[:channel_name]).broadcast_from(ip).exists?
 
     channel = PrivateChannel.find_by(name: params[:channel_name])
 
