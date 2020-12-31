@@ -3,8 +3,11 @@ class Api::V1::ChannelsController < ApplicationController
 
   def index
     channels = fetch_channels
-    favorites = Array(current_user&.favorites)
-    channels.map { |hash| hash[:favorited] = favorites.any? { |favorite| favorite.channel_name == hash['name'] } }
+    favorite_channel_names = Array(current_user&.favorites&.pluck(:channel_name))
+
+    if favorite_channel_names.present?
+      channels.each { |hash| hash[:favorited] = favorite_channel_names.include?(hash['name']) }
+    end
     render json: channels
   end
 
