@@ -6,7 +6,8 @@ class Api::V1::ChannelsController < ApplicationController
     favorite_channel_names = Array(current_user&.favorites&.pluck(:channel_name))
 
     if favorite_channel_names.present?
-      channels.each { |hash| hash[:favorited] = favorite_channel_names.include?(hash['name']) }
+      fav_hash = favorite_channel_names.map { |name| [name, true] }.to_h
+      channels.each { |hash| hash[:favorited] = fav_hash.key?(hash['name']) }
     end
     render json: channels
   end
