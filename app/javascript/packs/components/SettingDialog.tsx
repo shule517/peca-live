@@ -5,8 +5,7 @@ import TextField from '@material-ui/core/TextField'
 import DialogActions from '@material-ui/core/DialogActions'
 import Button from '@material-ui/core/Button'
 import React, { useEffect, useState } from 'react'
-import { useSelectorPeerCast, updatePeerCast } from '../modules/peercastModule'
-import PeerCast from '../types/PeerCast'
+import { useSelectorPeerCast, updatePeerCast, initPeerCast } from '../modules/peercastModule'
 import { useDispatch } from 'react-redux'
 import FormLabel from '@material-ui/core/FormLabel'
 import FormGroup from '@material-ui/core/FormGroup'
@@ -53,14 +52,12 @@ const SettingDialog = (props: Props) => {
   }
 
   const onDefaultButtonClick = () => {
-    // 設定をデフォルト値に更新する
-    setTextHost(PeerCast.defaultHost)
-    setTextPortNo(PeerCast.defaultPortNo)
-    updatePeerCast(dispatch, PeerCast.defaultHost, PeerCast.defaultPortNo)
-
     // localStorageのPeerCastの設定を初期化
     localStorage.removeItem('pecaHost')
     localStorage.removeItem('pecaPortNo')
+
+    // APIからPeerCastのTIPを取得しなおす
+    initPeerCast(dispatch)
   }
 
   return (

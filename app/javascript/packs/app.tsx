@@ -14,8 +14,7 @@ const drawerWidth = 290
 import { useDispatch } from 'react-redux'
 import { updateChannels } from './modules/channelsModule'
 import { updateFavorites } from './modules/favoritesModule'
-import { updatePeerCast } from './modules/peercastModule'
-import PeerCast from './types/PeerCast'
+import { initPeerCast } from './modules/peercastModule'
 import firebase from './firebase'
 import { updateUser } from './modules/userModule'
 
@@ -41,14 +40,8 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    // 初期値はクッキーから復帰
-    updatePeerCast(
-      dispatch,
-      localStorage.getItem('pecaHost') || PeerCast.defaultHost,
-      localStorage.getItem('pecaPortNo') || PeerCast.defaultPortNo
-    )
-
     // 初回のチャンネル情報を取得
+    initPeerCast(dispatch)
     updateChannels(dispatch)
     updateFavorites(dispatch)
 
