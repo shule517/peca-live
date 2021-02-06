@@ -6,7 +6,7 @@ import { RootState } from './rootState'
 export const userInitialState: UserInterface = {
   uid: null,
   displayName: null,
-  photoURL: null
+  photoURL: null,
 }
 
 export const userModules = createSlice({
@@ -14,8 +14,8 @@ export const userModules = createSlice({
   initialState: userInitialState,
   reducers: {
     updateUser: (state, action: PayloadAction<UserInterface>) => action.payload,
-    signOutUser: (state, action: PayloadAction<UserInterface>) => action.payload
-  }
+    signOutUser: (state, action: PayloadAction<UserInterface>) => action.payload,
+  },
 })
 
 export const updateUser = (dispatch, uid, displayName, photoURL) => {
@@ -23,20 +23,19 @@ export const updateUser = (dispatch, uid, displayName, photoURL) => {
     userModules.actions.updateUser({
       uid: uid,
       displayName: displayName,
-      photoURL: photoURL
+      photoURL: photoURL,
     })
   )
 }
 
-export const signOutUser = dispatch => {
+export const signOutUser = (dispatch) => {
   dispatch(
     userModules.actions.signOutUser({
       uid: null,
       displayName: null,
-      photoURL: null
+      photoURL: null,
     })
   )
 }
 
-export const useSelectorUser = () =>
-  useSelector((state: RootState) => new User(state.user))
+export const useSelectorUser = () => useSelector((state: RootState) => new User(state.user))

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resources :channels do
         collection do
           get :notification_broadcasting
+          get :record_history
           get :broadcasting
           get :check_port
           get :bump
@@ -35,8 +36,10 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :comments, only: %i(index)
-      resources :bbs, only: %i(index)
+      resource :bbs, only: %i(show) do
+        resource :threads, only: %i(show)
+        resource :comments, only: %i(show)
+      end
     end
   end
 end

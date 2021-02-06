@@ -45,10 +45,7 @@ const About = (props: Props) => {
         <DialogContent dividers={scroll === 'paper'}>
           <div style={{ maxWidth: '400px', width: '100%' }}>
             <CenterDiv style={{ margin: '20px 0 15px 0' }}>
-              <Logo
-                src="/images/pecalive.png"
-                style={{ height: '45px', marginRight: '8x' }}
-              />
+              <Logo src="/images/pecalive.png" style={{ height: '45px', marginRight: '8x' }} />
             </CenterDiv>
 
             <CenterDiv
@@ -72,10 +69,7 @@ const About = (props: Props) => {
             </CenterDiv>
 
             <CenterDiv style={{ marginBottom: '5px' }}>
-              <img
-                src="/images/device/anywhere.png"
-                style={{ width: '100%', maxWidth: '350px' }}
-              />
+              <img src="/images/device/anywhere.png" style={{ width: '100%', maxWidth: '350px' }} />
             </CenterDiv>
 
             <CenterDiv
@@ -106,24 +100,15 @@ const About = (props: Props) => {
         <DialogContent dividers={scroll === 'paper'}>
           <div style={{ maxWidth: '400px', width: '100%' }}>
             <CenterDiv>
-              <img
-                src="/images/pecalive-about.jpg"
-                style={{ maxWidth: '360px', width: '100%' }}
-              />
+              <img src="/images/pecalive-about.jpg" style={{ maxWidth: '360px', width: '100%' }} />
             </CenterDiv>
 
             <Title>限界集落と呼ばれて早５年…</Title>
             <div style={{ marginBottom: '5px' }}>
               <Typography variant="body2" color="textSecondary" component="p">
                 <span>「限界集落」と呼ばれだして早５年以上が経ちました。</span>
-                <span>
-                  Youtube Liveや、Twitchなど
-                  お手軽にゲーム配信ができるサービスが増えました。
-                </span>
-                <span>
-                  そして、配信以外にも Youtube、Netflix、amazon prime
-                  videoなどの強敵も登場！
-                </span>
+                <span>Youtube Liveや、Twitchなど お手軽にゲーム配信ができるサービスが増えました。</span>
+                <span>そして、配信以外にも Youtube、Netflix、amazon prime videoなどの強敵も登場！</span>
               </Typography>
             </div>
 
@@ -133,12 +118,8 @@ const About = (props: Props) => {
             <div>
               <Typography variant="body2" color="textSecondary" component="p">
                 <span>僕も気がついたら、Youtubeばっかり見てました。。。</span>
-                <span>
-                  ピアキャスは好きなんだけど、なんとなく離れていってしまう。
-                </span>
-                <span>
-                  あいつらみたいに「お手軽さ」がないとやっていけない時代になってきたんだと思う。
-                </span>
+                <span>ピアキャスは好きなんだけど、なんとなく離れていってしまう。</span>
+                <span>あいつらみたいに「お手軽さ」がないとやっていけない時代になってきたんだと思う。</span>
               </Typography>
             </div>
           </div>
@@ -164,18 +145,13 @@ const About = (props: Props) => {
             <Title>みんなのピアキャスライフをサポートしていきたい！</Title>
             <div style={{ marginBottom: '15px' }}>
               <Typography variant="body2" color="textSecondary" component="div">
-                もっと快適なサービスにしていくために、みなさんの意見が必要です！
-                要望、バグ報告など 気軽に{' '}
-                <a href="https://twitter.com/shule517">@shule517</a>{' '}
-                まで連絡ください。
+                もっと快適なサービスにしていくために、みなさんの意見が必要です！ 要望、バグ報告など 気軽に{' '}
+                <a href="https://twitter.com/shule517">@shule517</a> まで連絡ください。
               </Typography>
             </div>
 
             <CenterDiv>
-              <img
-                src="/images/forever-peerkasu.png"
-                style={{ maxWidth: '400px', width: '100%' }}
-              />
+              <img src="/images/forever-peerkasu.png" style={{ maxWidth: '400px', width: '100%' }} />
             </CenterDiv>
           </div>
         </DialogContent>

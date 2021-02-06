@@ -3,8 +3,12 @@ class Api::V1::ChannelsController < ApplicationController
 
   def index
     channels = fetch_channels
-    favorites = Array(current_user&.favorites)
-    channels.map { |hash| hash[:favorited] = favorites.any? { |favorite| favorite.channel_name == hash['name'] } }
+    favorite_channel_names = Array(current_user&.favorites&.pluck(:channel_name))
+
+    if favorite_channel_names.present?
+      fav_hash = favorite_channel_names.map { |name| [name, true] }.to_h
+      channels.each { |hash| hash[:favorited] = fav_hash.key?(hash['name']) }
+    end
     render json: channels
   end
 
@@ -22,11 +26,17 @@ class Api::V1::ChannelsController < ApplicationController
     render json: target_channels
   end
 
+  def record_history
+    # 配信履歴の記録(10分ごと)
+    channels = get_channels.reject { |channel| yp_channel?(channel) }
+    ChannelHistory.record_channels(channels)
+    render json: channels
+  end
+
   def broadcasting
     ip = forwarded_for.presence || request.ip
-    channels = get_channels.select { |channel| channel['tracker'].start_with?(ip) || channel['creator'].start_with?(ip) }
-
-    render json: channels.map { |channel| channel['private'] = PrivateChannel.where(name: channel['name']).exists?; channel }
+    channels = ChannelHistory.broadcast_from(ip)
+    render json: channels.map { |channel| { channelId: channel.stream_id, name: channel.name, private: PrivateChannel.secret?(channel.name) } }
   end
 
   def check_port
@@ -62,13 +72,13 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def fetch_channels
-    Rails.cache.fetch('api/v1/channels/index', expires_in: 1.minute) do
+    Rails.cache.fetch('Api::V1::ChannelsController/fetch_channels', expires_in: 1.minute) do
       get_channels.select { |channel| visible_channel?(channel) }
     end
   end
 
   def set_private_channel_names
-    @private_channel_names = PrivateChannel.all.pluck(:name)
+    @private_channel_names = PrivateChannel.secret.pluck(:name)
   end
 
   def forwarded_for
@@ -78,9 +88,8 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def get_channels
-    Rails.cache.fetch('get_channels', expires_in: 1.minute) do
-      channels = json_rpc_api.update_yp_channels
-      channels
+    Rails.cache.fetch('Api::V1::ChannelsController/get_channels', expires_in: 1.minute) do
+      json_rpc_api.update_yp_channels
     end
   end
 
@@ -89,9 +98,13 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def visible_channel?(channel)
-    return false if channel['channelId'] == '00000000000000000000000000000000'
+    return false if yp_channel?(channel)
     return false if ignore_channel?(channel['name'])
     true
+  end
+
+  def yp_channel?(channel)
+    channel['channelId'] == '00000000000000000000000000000000'
   end
 
   def ignore_channel?(channel_name)

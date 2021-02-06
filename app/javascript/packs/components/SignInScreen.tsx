@@ -5,13 +5,11 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 const uiConfig = {
   signInFlow: 'popup',
   signInSuccessUrl: '/',
-  signInOptions: [firebase.auth.TwitterAuthProvider.PROVIDER_ID]
+  signInOptions: [firebase.auth.TwitterAuthProvider.PROVIDER_ID],
 }
 
-const SignInScreen = props => {
-  return (
-    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-  )
+const SignInScreen = (props) => {
+  return <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
 }
 
 export default SignInScreen

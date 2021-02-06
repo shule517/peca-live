@@ -97,11 +97,9 @@ const SideBar = (props: Props) => {
           title={
             <div>
               <div>{channel.explanation}</div>
-              <div>{`${
-                channel.listenerCount === -1
-                  ? ''
-                  : `${channel.listenerCount}人が視聴中 - `
-              }${channel.startingTime}`}</div>
+              <div>{`${channel.listenerCount === -1 ? '' : `${channel.listenerCount}人が視聴中 - `}${
+                channel.startingTime
+              }`}</div>
             </div>
           }
           aria-label="listener"
@@ -135,11 +133,7 @@ const SideBar = (props: Props) => {
                   </Grid>
                 </Grid>
               }
-              secondary={
-                <ListenerCountStyle>
-                  {`${channel.compactDetails}`}
-                </ListenerCountStyle>
-              }
+              secondary={<ListenerCountStyle>{`${channel.compactDetails}`}</ListenerCountStyle>}
               secondaryTypographyProps={{
                 color: 'textSecondary',
                 variant: 'subtitle2',
@@ -233,9 +227,7 @@ const SideBar = (props: Props) => {
         subheader={
           <HoverLinkListSubheader>
             <Typography variant="body2" color="textSecondary" component="p">
-              <TwitterLink href={'https://twitter.com/shule517'}>
-                ご連絡は @shule517 まで！
-              </TwitterLink>
+              <TwitterLink href={'https://twitter.com/shule517'}>ご連絡は @shule517 まで！</TwitterLink>
             </Typography>
           </HoverLinkListSubheader>
         }
