@@ -8,8 +8,8 @@ class Bbs
   SHITARABA_BOARD_URL_REGEX = %r{\Ahttps?://jbbs\.shitaraba\.net/([a-z]+)/(\d+)}
   LIVEDOOR_BOARD_URL_REGEX = %r{\Ahttps?://jbbs\.livedoor\.jp/([a-z]+)/(\d+)}
 
-  JPNKN_URL_REGEX = %r{\Ahttps?://bbs\.jpnkn\.com/test/read\.cgi/([a-zA-Z0-9]+)/(\d+)}
-  JPNKN_BORAD_URL_REGEX = %r{\Ahttps?://bbs\.jpnkn\.com/([a-zA-Z0-9]+)}
+  JPNKN_URL_REGEX = %r{\Ahttps?://([a-z\.\/]+)/test/read\.cgi/([a-zA-Z0-9]+)/(\d+)}
+  JPNKN_BORAD_URL_REGEX = %r{\Ahttps?://([a-z\.]+)/([a-zA-Z0-9]+)}
 
   def initialize(url)
     @url = url
@@ -135,13 +135,13 @@ class Bbs
     # したらば
     matches = extract_shitaraba_url
     if matches.present? && matches.size == 4
-      return "https://jbbs.shitaraba.net/bbs/rawmode.cgi/#{matches[1]}/#{matches[2]}/#{matches[3]}/"
+      return "http://jbbs.shitaraba.net/bbs/rawmode.cgi/#{matches[1]}/#{matches[2]}/#{matches[3]}/"
     end
 
     # jpnkn
     matches = extract_jpnkn_url
-    if matches.present? && matches.size == 3
-      return "https://bbs.jpnkn.com/#{matches[1]}/dat/#{matches[2]}.dat"
+    if matches.present? && matches.size == 4
+      return "http://#{matches[1]}/#{matches[2]}/dat/#{matches[3]}.dat"
     end
   end
 
@@ -149,13 +149,13 @@ class Bbs
     # したらば
     matches = extract_shitaraba_url
     if matches.present?
-      return "https://jbbs.shitaraba.net/bbs/read.cgi/#{matches[1]}/#{matches[2]}/#{thread_no}/"
+      return "http://jbbs.shitaraba.net/bbs/read.cgi/#{matches[1]}/#{matches[2]}/#{thread_no}/"
     end
 
     # jpnkn
     matches = extract_jpnkn_url
     if matches.present?
-      return "https://bbs.jpnkn.com/test/read.cgi/#{matches[1]}/#{thread_no}/"
+      return "http://#{matches[1]}/test/read.cgi/#{matches[2]}/#{thread_no}/"
     end
   end
 
@@ -187,13 +187,13 @@ class Bbs
     # したらば
     matches = extract_shitaraba_url
     if matches.present?
-      return "https://jbbs.shitaraba.net/#{matches[1]}/#{matches[2]}/"
+      return "http://jbbs.shitaraba.net/#{matches[1]}/#{matches[2]}/"
     end
 
     # JPNKN
     matches = extract_jpnkn_url
     if matches.present?
-      return "http://bbs.jpnkn.com/#{matches[1]}/"
+      return "http://#{matches[1]}/#{matches[2]}/"
     end
   end
 
