@@ -208,6 +208,8 @@ class Bbs
     # &#65374; → 〜 に変換
     result.scan(/&#([0-9]+);/).flatten.each do |char_code|
       result.gsub!("&##{char_code};", char_code.to_i.chr)
+    rescue Encoding::CompatibilityError
+      # 対応できないエンコードのエラーは無視する
     end
     result
   end
