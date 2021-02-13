@@ -69,6 +69,7 @@ class Bbs
 
   def fetch_jpnkn_comments
     dat = fetch(dat_url, '-w')
+    return { thread_title: nil, comments: [], comment_count: 0 } if dat.blank?
 
     thread_title = nil
     comments = dat.each_line.map.with_index(1) do |line, index|
