@@ -75,7 +75,7 @@ class Bbs
     comments = dat.each_line.map.with_index(1) do |line, index|
       elements = line.chop.split('<>').map { |element| parse_web_code(element)}
       thread_title = elements[4] if index == 1
-      { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3].gsub('<br>', "\n") }
+      { no: index, name: elements[0], mail: elements[1], writed_at: elements[2], body: elements[3]&.gsub('<br>', "\n") }
     end
 
     { thread_title: thread_title, comments: comments.reverse.first(30), comment_count: comments.last[:no] }
