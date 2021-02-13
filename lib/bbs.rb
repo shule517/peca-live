@@ -219,7 +219,9 @@ class Bbs
     # '-e' -> EUC-JP
     # '-w' -> UTF-8
     client = HTTPClient.new
-    body = client.get(url).body
+    response = client.get(url)
+    return '' if response.status != 200
+    body = response.body
     NKF.nkf(charset_nkf_option, body)
   end
 end
