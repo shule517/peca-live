@@ -31,9 +31,16 @@ class UserIconsController < ApplicationController
   end
 
   def fetch_twitter_icon(twitter_id)
-    twitter_icon_url = "http://www.paper-glasses.com/api/twipi/#{twitter_id}/original"
+    twitter_icon_url = twitter_profile_image_url(twitter_id)
     client = HTTPClient.new
     client.get(twitter_icon_url, follow_redirect: true)
+  end
+
+  def twitter_profile_image_url(twitter_id)
+    command = "curl --request GET --url 'https://api.twitter.com/1.1/users/show.json?screen_name=#{twitter_id}' --header 'authorization: Bearer #{ENV['TWITTER_API_BEARER']}'"
+    data = `#{command}`
+    json = JSON.parse(data)
+    json['profile_image_url']
   end
 
   def fetch_default_icon
