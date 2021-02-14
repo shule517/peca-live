@@ -53,9 +53,13 @@ class Bbs
 
   private
 
+  def blank_comments_response
+    { thread_title: nil, comments: [], comment_count: 0 }
+  end
+
   def fetch_shitaraba_comments
     dat = fetch(dat_url, '-w')
-    return [] if dat.include?('指定されたページまたはファイルは存在しません') # アーカイブされていてdatが見れない
+    return blank_comments_response if dat.blank? || dat.include?('指定されたページまたはファイルは存在しません') # アーカイブされていてdatが見れない
 
     thread_title = nil
     comments = dat.each_line.map.with_index do |line, index|
@@ -69,7 +73,7 @@ class Bbs
 
   def fetch_jpnkn_comments
     dat = fetch(dat_url, '-w')
-    return { thread_title: nil, comments: [], comment_count: 0 } if dat.blank?
+    return blank_comments_response if dat.blank?
 
     thread_title = nil
     comments = dat.each_line.map.with_index(1) do |line, index|
@@ -220,6 +224,7 @@ class Bbs
     # '-w' -> UTF-8
     client = HTTPClient.new
     response = client.get(url)
+    pp status: response.status
     return '' if response.status != 200
     body = response.body
     NKF.nkf(charset_nkf_option, body)
