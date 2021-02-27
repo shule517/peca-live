@@ -12,7 +12,7 @@ class UserIconsController < ApplicationController
     twitter_id = extract_twitter_id
     if (twitter_id.present?)
       response = fetch_twitter_icon(twitter_id)
-      return response unless response.code == 404 # Twitterアイコン
+      return response if response.present? && response.code != 404 # Twitterアイコン
     end
 
     fetch_default_icon # デフォルトアイコン
@@ -32,6 +32,7 @@ class UserIconsController < ApplicationController
 
   def fetch_twitter_icon(twitter_id)
     twitter_icon_url = twitter_profile_image_url(twitter_id)
+    return if twitter_icon_url.blank?
     client = HTTPClient.new
     client.get(twitter_icon_url, follow_redirect: true)
   end
