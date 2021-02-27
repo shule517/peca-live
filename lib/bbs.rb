@@ -224,9 +224,10 @@ class Bbs
     # '-w' -> UTF-8
     client = HTTPClient.new
     response = client.get(url)
-    pp status: response.status
     return '' if response.status != 200
     body = response.body
     NKF.nkf(charset_nkf_option, body)
+  rescue HTTPClient::ReceiveTimeoutError
+    '' # したらばタイムアウトしすぎ問題の対策
   end
 end
