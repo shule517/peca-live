@@ -12,13 +12,13 @@ import { Helmet } from 'react-helmet'
 import Comments from './Comments'
 
 type Props = {
-  streamId: string
+  channelName: string
   isHls: boolean
   local: boolean
 }
 
 const ChannelPlayer = (props: Props) => {
-  const { streamId, isHls, local } = props
+  const { channelName, isHls, local } = props
 
   const channels = useSelectorChannels()
   const [channel, setChannel] = useState(Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'))
@@ -33,7 +33,7 @@ const ChannelPlayer = (props: Props) => {
   }, [])
 
   useEffect(() => {
-    const foundChannel = channels.find((channel) => channel.streamId === streamId)
+    const foundChannel = channels.find((channel) => channel.name === channelName)
     const fetchChannel =
       foundChannel || Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...')
 
@@ -41,9 +41,9 @@ const ChannelPlayer = (props: Props) => {
       // 配信を切り替えた
       const index = channels.findIndex((item) => item === fetchChannel)
       const nextChannel = channels[(index + 1) % channels.length]
-      const nextChannelUrl = nextChannel ? `/channels/${nextChannel.streamId}` : null
+      const nextChannelUrl = nextChannel ? `/${nextChannel.name}` : null
       const prevChannel = channels[(index - 1 + channels.length) % channels.length]
-      const prevChannelUrl = prevChannel ? `/channels/${prevChannel.streamId}` : null
+      const prevChannelUrl = prevChannel ? `/${prevChannel.name}` : null
 
       setChannel(fetchChannel)
       setNextChannelUrl(nextChannelUrl)
@@ -77,7 +77,7 @@ const ChannelPlayer = (props: Props) => {
         onClickPreviousChannel={() => prevChannelUrl && history.push(prevChannelUrl)}
         onClickNextChannel={() => nextChannelUrl && history.push(nextChannelUrl)}
         onClickReload={() => {
-          fetch(`/api/v1/channels/bump?streamId=${streamId}`, {
+          fetch(`/api/v1/channels/bump?streamId=${channel.streamId}`, {
             credentials: 'same-origin',
           })
           location.reload()
