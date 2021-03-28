@@ -98,7 +98,7 @@ const ChannelPlayer = (props: Props) => {
 
         <div style={{ paddingRight: '15px' }}>
           <div style={{ display: 'flex' }}>
-            <Typography gutterBottom variant="subtitle2" component="h3" style={{ marginRight: '15px' }}>
+            <Typography gutterBottom variant="subtitle2" component="h1" style={{ marginRight: '15px' }}>
               {channel.name}
             </Typography>
 
@@ -108,7 +108,7 @@ const ChannelPlayer = (props: Props) => {
             </Typography>
           </div>
 
-          <Typography gutterBottom variant="subtitle1" component="h3" style={{ marginBottom: '0x' }}>
+          <Typography gutterBottom variant="subtitle1" component="h2" style={{ marginBottom: '0x' }}>
             {channel.explanation}
           </Typography>
         </div>
