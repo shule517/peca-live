@@ -44,8 +44,8 @@ const ChannelList = (props: Props) => {
       <Helmet title="ぺからいぶ！" />
       {channels.map((channel, index) => {
         return (
-          <Fade key={channel.streamId} in={true}>
-            <Link to={`/channels/${channel.streamId}`} style={{ textDecoration: 'none' }}>
+          <Fade key={channel.name} in={true}>
+            <Link to={`/${channel.name}`} style={{ textDecoration: 'none' }}>
               <Card className={classes.card}>
                 <CardActionArea>
                   <CardContent style={{ minHeight: '92px' }}>

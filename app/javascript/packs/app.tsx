@@ -127,7 +127,7 @@ const App = () => {
               <Switch>
                 <Route exact path="/" render={(props) => <ChannelList />} />
                 <Route
-                  path="/channels/:streamId"
+                  path="/:channelName"
                   render={(props) => {
                     return (
                       <div
@@ -136,23 +136,23 @@ const App = () => {
                           height: window.innerHeight - 64,
                         }}
                       >
-                        <ChannelPlayer streamId={props.match.params.streamId} isHls={isIOS} local={false} />
+                        <ChannelPlayer channelName={props.match.params.channelName} isHls={isIOS} local={false} />
                       </div>
                     )
                   }}
                 />
-                <Route
-                  path="/hls/:streamId"
-                  render={(props) => {
-                    return <ChannelPlayer streamId={props.match.params.streamId} isHls={true} local={false} />
-                  }}
-                />
-                <Route
-                  path="/local/:streamId"
-                  render={(props) => {
-                    return <ChannelPlayer streamId={props.match.params.streamId} isHls={true} local={true} />
-                  }}
-                />
+                {/*<Route*/}
+                {/*  path="/hls/:channelName"*/}
+                {/*  render={(props) => {*/}
+                {/*    return <ChannelPlayer channelName={props.match.params.channelName} isHls={true} local={false} />*/}
+                {/*  }}*/}
+                {/*/>*/}
+                {/*<Route*/}
+                {/*  path="/local/:channelName"*/}
+                {/*  render={(props) => {*/}
+                {/*    return <ChannelPlayer channelName={props.match.params.channelName} isHls={true} local={true} />*/}
+                {/*  }}*/}
+                {/*/>*/}
               </Switch>
             </main>
           </div>

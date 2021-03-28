@@ -1,13 +1,12 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'home#index'
-  get 'channels/*path', to: 'home#index'
-  get 'hls/*path', to: 'home#index'
-  get 'local/*path', to: 'home#index'
-  get 'asuka', to: 'home#index'
-  get 'about', to: 'home#index'
   get 'user_devices', to: 'home#user_devices'
   get 'user_icons/:jpnkn_id', to: 'user_icons#show'
+  get 'channels/:stream_id', to: 'channels#stream_id'
+  # get 'hls/*path', to: 'home#index'
+  # get 'local/*path', to: 'home#index'
+  get ':channel_name', to: 'channels#show'
 
   namespace :api do
     namespace :v1 do
