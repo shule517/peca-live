@@ -19,9 +19,9 @@ const ChannelItem = (props: Props) => {
           <Thumbnail id={thumnbailElementId} src="/images/live-chuu.png" />
         </div>
         <ChannelDetail>
-          <Title>{channel.explanation}</Title>
           <Details>{channel.name}</Details>
         </ChannelDetail>
+        aaaaaaaaaa
       </ChannelItemStyle>
     </Link>
   )

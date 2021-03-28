@@ -1,8 +1,8 @@
 namespace :peercast_station do
   desc "実行処理の説明"
   task get_channels: :environment do
-    peca_tip = 'http://150.95.177.111:7144'
-    api = JsonRpc.new("#{peca_tip}/api/1")
+    peca_tip = 'http://183.77.53.238:8144'
+    api = JsonRpc.new("#{peca_tip}/api/1", ENV['PEERCAST_BASIC_TOKEN'])
 
     channels = api.update_yp_channels
 
@@ -12,7 +12,9 @@ namespace :peercast_station do
       channel_id = channel['channelId']
       tip = channel['tracker']
       name = channel['name']
-      dump_command = "rtmpdump -r \"#{peca_tip}/pls/#{channel_id}?tip=#{tip}\" -o \"channels/#{name}.flv\""
+      flv_file_name = "channels/#{name}.flv"
+      mp4_file_name = "channels/#{name}.mp4"
+      dump_command = "rtmpdump -r \"#{peca_tip}/pls/#{channel_id}?tip=#{tip}\" -o \"#{flv_file_name}\""
       puts dump_command
 
       pp channel
@@ -21,6 +23,12 @@ namespace :peercast_station do
       sleep(10)
       Process.kill(:TERM, -pid)        # -pidに変更
       # TODO: 0バイトファイルの場合は消す？
+
+      a = `ffmpeg -i "#{flv_file_name}" "#{mp4_file_name}"`
+      puts a
+
+      Cloudinary::Uploader.upload(mp4_file_name, :public_id => channel_id, :overwrite => true, :notification_url => "https://mysite.example.com/notify_endpoint", :resource_type => "video")
+      # Cloudinary::Uploader.upload(file_name, :public_id => channel_id, :overwrite => true, :notification_url => "https://mysite.example.com/notify_endpoint", :resource_type => "video")
     rescue => e
       puts "error!!!!!!!!!!!!!!!"
       pp error: e

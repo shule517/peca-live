@@ -121,6 +121,18 @@ const ChannelList = (props: Props) => {
                         </Typography>
                       </Grid>
                     </Grid>
+                    <Grid container wrap="nowrap" spacing={2}>
+                      <Grid item>
+                        <video controls
+                               // autoPlay
+                               width="500">
+                          <source
+                            src={`https://res.cloudinary.com/htmiwhm0i/video/upload/${channel.streamId}.mp4`}
+                            type="video/mp4"
+                          />
+                        </video>
+                      </Grid>
+                    </Grid>
                   </CardContent>
                 </CardActionArea>
               </Card>
