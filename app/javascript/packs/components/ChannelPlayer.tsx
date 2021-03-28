@@ -35,7 +35,7 @@ const ChannelPlayer = (props: Props) => {
   useEffect(() => {
     const foundChannel = channels.find((channel) => channel.name === channelName)
     const fetchChannel =
-      foundChannel || Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...')
+      foundChannel || Channel.nullObject(channels.length > 0 ? `${channelName} の 配信は終了しました。` : 'チャンネル情報を取得中...')
 
     if (channel.name !== fetchChannel.name) {
       // 配信を切り替えた
