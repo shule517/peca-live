@@ -69,7 +69,7 @@ const ChannelPlayer = (props: Props) => {
 
   return (
     <div>
-      <Helmet title={`${channels.length > 0 ? `${channel.name} - ` : ''}ぺからいぶ！`} />
+      <Helmet title={`${channelName} - ぺからいぶ！`} />
       <Video
         channel={channel}
         isHls={isHls}
