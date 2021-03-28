@@ -1,5 +1,8 @@
 class ChannelsController < ApplicationController
   def show
+    @history = ChannelHistory.where(name: params[:channel_name]).order(latest_lived_at: :desc).first
+    @title = "#{params[:channel_name]} - ぺからいぶ！"
+    @description = @history.description if @history.present?
     render 'home/index'
   end
 

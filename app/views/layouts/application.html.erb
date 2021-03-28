@@ -1,7 +1,10 @@
+<% title = @title.presence || 'ぺからいぶ！' %>
+<% description = @description.presence || 'パソコンでも、スマホでも。もっと気軽にピアキャスライフを！ どこからでも簡単にPeerCastが見ることができます！' %>
+
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ぺからいぶ！</title>
+    <title><%= title %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -13,7 +16,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="keywords" content="PeerCast,ピアキャス,ピアキャスト,ぺからいぶ,Peca,ぺか,ペカ" />
-    <meta name="description" content="パソコンでも、スマホでも。もっと気軽にピアキャスライフを！ どこからでも簡単にPeerCastが見ることができます！" />
+
+    <meta property="og:locale" content="ja_JP">
+    <meta property="og:site_name" content="ぺからいぶ！">
+    <meta name="description" content="<%= description %>">
+    <meta property="og:title" content="<%= title %>">
+    <meta property="og:description" content="<%= description %>">
+    <meta property="og:type" content="video.movie">
+    <meta property="og:url" content="<%= request.url %>">
+    <meta property="og:image" content="http://peca.live/images/pecalive.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="http://peca.live/images/pecalive.png">
   </head>
 
   <body style="background-color: #F5F5F5">
