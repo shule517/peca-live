@@ -13,7 +13,7 @@ const ChannelItem = (props: Props) => {
   const thumnbailElementId = `thumnbailElement-${channel.streamId}`
 
   return (
-    <Link to={`/channels/${channel.streamId}`}>
+    <Link to={`/${channel.name}`}>
       <ChannelItemStyle>
         <div>
           <Thumbnail id={thumnbailElementId} src="/images/live-chuu.png" />
