@@ -87,7 +87,7 @@ const SideBar = (props: Props) => {
     return (
       <Link
         key={`Link-${key}-${channel.streamId}`}
-        to={`/channels/${channel.streamId}`}
+        to={`/${channel.name}`}
         onClick={() => {
           onChannelClick() // SP版の時にサイドバーから動画を開いたらサイドバーを閉じる
         }}
