@@ -73,4 +73,16 @@ class ChannelHistory < ApplicationRecord
       end
     end
   end
+
+  def description_no_status
+    description.gsub(/[ -]*<(Open|Free|2M Over|Over)>/, '')
+  end
+
+  def detail
+    desc = description_no_status
+    channel_detail = genre
+    channel_detail += ' - ' if channel_detail.present? && desc.present?
+    channel_detail += desc
+    channel_detail
+  end
 end
