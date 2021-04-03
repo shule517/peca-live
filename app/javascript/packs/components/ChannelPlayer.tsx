@@ -21,7 +21,9 @@ const ChannelPlayer = (props: Props) => {
   const { channelName, isHls, local } = props
 
   const channels = useSelectorChannels()
-  const [channel, setChannel] = useState(Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...'))
+  const [channel, setChannel] = useState(
+    Channel.nullObject(channels.length > 0 ? '配信は終了しました。' : 'チャンネル情報を取得中...')
+  )
   const [nextChannelUrl, setNextChannelUrl] = useState<string>(null)
   const [prevChannelUrl, setPrevChannelUrl] = useState<string>(null)
   const [topImageUrl, setTopImageUrl] = useState<string>(null)
@@ -35,7 +37,8 @@ const ChannelPlayer = (props: Props) => {
   useEffect(() => {
     const foundChannel = channels.find((channel) => channel.name === channelName)
     const fetchChannel =
-      foundChannel || Channel.nullObject(channels.length > 0 ? `${channelName} の 配信は終了しました。` : 'チャンネル情報を取得中...')
+      foundChannel ||
+      Channel.nullObject(channels.length > 0 ? `${channelName} の 配信は終了しました。` : 'チャンネル情報を取得中...')
 
     if (channel.name !== fetchChannel.name) {
       // 配信を切り替えた
@@ -69,7 +72,14 @@ const ChannelPlayer = (props: Props) => {
 
   return (
     <div>
-      <Helmet title={`${channelName} - ぺからいぶ！`} />
+      <Helmet
+        title={`${channelName} - ぺからいぶ！`}
+        meta={[
+          { name: 'description', content: channel.explanation },
+          { name: 'og:title', content: `${channelName} - ぺからいぶ！` },
+          { name: 'og:description', content: channel.explanation },
+        ]}
+      />
       <Video
         channel={channel}
         isHls={isHls}

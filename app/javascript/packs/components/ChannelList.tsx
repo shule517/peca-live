@@ -41,7 +41,7 @@ const ChannelList = (props: Props) => {
 
   return (
     <div className={classes.root}>
-      <Helmet title="ぺからいぶ！" />
+      <Helmet title="ぺからいぶ！" meta={[{ name: 'description', content: 'このページはGastbyサンプルです。' }]} />
       {channels.map((channel, index) => {
         return (
           <Fade key={channel.name} in={true}>
