@@ -89,7 +89,7 @@ class Api::V1::ChannelsController < ApplicationController
 
   def get_channels
     Rails.cache.fetch('Api::V1::ChannelsController/get_channels', expires_in: 1.minute) do
-      json_rpc_api.update_yp_channels
+      JsonRpc.peercast_api.update_yp_channels
     end
   end
 
