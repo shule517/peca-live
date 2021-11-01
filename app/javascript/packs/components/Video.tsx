@@ -176,7 +176,7 @@ const Video = (props: Props) => {
             }}
           />
         ) : (
-          readyState < 4 && (
+          readyState < 3 && (
             <CircularProgress size={80} style={{ color: 'lightgray' }} onClick={() => videoStyleOnClick()} />
           )
         )}
