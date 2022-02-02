@@ -90,6 +90,12 @@ const SettingDialog = (props: Props) => {
 
         <StyledFormGroup>
           <FormLabel component="legend">配信の掲載</FormLabel>
+          {broadcastChannels && broadcastChannels.length === 0 && (
+            <div>
+              <div>このIPからの配信履歴はありません。</div>
+              <div>配信者と同じIPの端末から設定が変更できます。</div>
+            </div>
+          )}
           {broadcastChannels &&
             broadcastChannels.map((channel) => {
               return (
