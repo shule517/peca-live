@@ -90,6 +90,7 @@ const SettingDialog = (props: Props) => {
 
         <StyledFormGroup>
           <FormLabel component="legend">配信の掲載</FormLabel>
+          {broadcastChannels && broadcastChannels.length === 0 && <div>このIPからの配信履歴はありません。</div>}
           {broadcastChannels &&
             broadcastChannels.map((channel) => {
               return (
