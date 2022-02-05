@@ -263,7 +263,7 @@ DEPENDENCIES
   pg
   puma (~> 3.12)
   rack-cors
-  rails (>= 6.0.3.3)
+  rails (< 6.1)
   ridgepole
   rspec-rails
   sass-rails (~> 5)
