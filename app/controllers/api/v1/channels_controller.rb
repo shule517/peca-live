@@ -99,7 +99,7 @@ class Api::V1::ChannelsController < ApplicationController
 
   def visible_channel?(channel)
     return false if yp_channel?(channel)
-    return false if ignore_channel?(channel['name'])
+    return false if ignore_channel?(channel)
     true
   end
 
@@ -107,7 +107,7 @@ class Api::V1::ChannelsController < ApplicationController
     channel['channelId'] == '00000000000000000000000000000000'
   end
 
-  def ignore_channel?(channel_name)
-    @private_channel_names.include?(channel_name)
+  def ignore_channel?(channel)
+    @private_channel_names.include?(channel['name']) || channel['description'].include?('__')
   end
 end
