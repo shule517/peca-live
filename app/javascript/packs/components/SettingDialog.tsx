@@ -90,6 +90,10 @@ const SettingDialog = (props: Props) => {
 
         <StyledFormGroup>
           <FormLabel component="legend">配信の掲載</FormLabel>
+          <div>
+            <div>掲載しない場合は、配信のチャンネル詳細に「__」（アンダーバー２つ）を含めてください。</div>
+          </div>
+          <br />
           {broadcastChannels && broadcastChannels.length === 0 && (
             <div>
               <div>このIPからの配信履歴はありません。</div>
