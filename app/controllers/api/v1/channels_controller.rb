@@ -108,6 +108,6 @@ class Api::V1::ChannelsController < ApplicationController
   end
 
   def ignore_channel?(channel)
-    @private_channel_names.include?(channel['name']) || channel['description'].include?('__') || "#{channel['comment']}#{channel['trackTitle']}#{channel['album']}#{channel['creator']}#{channel['trackUrl']}".include?('__')
+    @private_channel_names.include?(channel['name']) || "#{channel['description']}#{channel['comment']}#{channel['trackTitle']}#{channel['album']}#{channel['creator']}#{channel['trackUrl']}".include?('__')
   end
 end
