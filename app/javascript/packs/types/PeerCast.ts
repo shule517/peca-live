@@ -4,7 +4,7 @@ export type PeerCastInterface = {
 }
 
 class PeerCast {
-  static defaultHost = '150.9.165.109' //shule.peca.live
+  static defaultHost = '150.9.153.38' //shule.peca.live
   static defaultPortNo = 8144
 
   constructor(public json: PeerCastInterface) {}
