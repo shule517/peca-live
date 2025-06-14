@@ -1,12 +1,23 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.1'
+ruby '2.7.8'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '< 6.1'
+# gem 'rails', '< 6.1'
+gem 'actionmailbox', '6.0.4.4'
+gem 'actionmailer', '6.0.4.4'
+gem 'actionpack', '6.0.4.4'
+gem 'actiontext', '6.0.4.4'
+gem 'actionview', '6.0.4.4'
+gem 'activejob', '6.0.4.4'
+gem 'activemodel', '6.0.4.4'
+gem 'activerecord', '6.0.4.4'
+gem 'activestorage', '6.0.4.4'
+gem 'activesupport', '6.0.4.4'
+
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4', group: :development
+# gem 'sqlite3', '~> 1.4', group: :development
 gem 'pg', group: :production
 
 # Use Puma as the app server
