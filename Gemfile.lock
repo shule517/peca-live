@@ -259,12 +259,14 @@ DEPENDENCIES
   pg
   puma (~> 3.12)
   rack-cors
+  railties (= 6.0.4.4)
   ridgepole
   rspec-rails
   sass-rails (~> 5)
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)
+  sprockets-rails (>= 2.0.0)
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 3.3.0)

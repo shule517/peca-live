@@ -15,6 +15,8 @@ gem 'activemodel', '6.0.4.4'
 gem 'activerecord', '6.0.4.4'
 gem 'activestorage', '6.0.4.4'
 gem 'activesupport', '6.0.4.4'
+gem 'railties', '6.0.4.4'
+gem 'sprockets-rails', '>= 2.0.0'
 
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3', '~> 1.4', group: :development
