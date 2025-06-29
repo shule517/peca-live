@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "channel_histories", force: :cascade do |t|
     t.string "stream_id", null: false
     t.string "name", null: false
@@ -47,9 +50,9 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "private_channels", force: :cascade do |t|
     t.string "name", null: false
+    t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "status", default: 0, null: false
     t.index ["name"], name: "index_private_channels_on_name", unique: true
     t.index ["status"], name: "index_private_channels_on_status"
   end
