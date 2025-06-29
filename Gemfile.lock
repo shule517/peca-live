@@ -66,6 +66,7 @@ GEM
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
     base64 (0.3.0)
+    benchmark (0.4.1)
     better_errors (2.10.1)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
@@ -163,6 +164,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.8-x86_64-linux-musl)
       racc (~> 1.4)
+    ostruct (0.6.2)
     pg (1.5.9)
     public_suffix (6.0.2)
     puma (6.6.0)
@@ -302,6 +304,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  benchmark
   better_errors
   bigdecimal (~> 3.2)
   binding_of_caller (~> 1.0)
@@ -315,6 +318,7 @@ DEPENDENCIES
   listen (>= 3.8)
   mutex_m (~> 0.3)
   nkf (~> 0.2)
+  ostruct
   pg
   puma
   rack-cors
