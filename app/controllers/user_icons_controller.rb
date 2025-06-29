@@ -39,10 +39,12 @@ class UserIconsController < ApplicationController
 
   def twitter_profile_image_url(twitter_id)
     Rails.cache.fetch("twitter_profile_image_url(#{twitter_id})", expires_in: 1.day) do
-      command = "curl --request GET --url 'https://api.twitter.com/1.1/users/show.json?screen_name=#{twitter_id}' --header 'authorization: Bearer #{ENV['TWITTER_API_BEARER']}'"
-      data = `#{command}`
-      json = JSON.parse(data)
-      json['profile_image_url']
+      # command = "curl --request GET --url 'https://api.twitter.com/1.1/users/show.json?screen_name=#{twitter_id}' --header 'authorization: Bearer #{ENV['TWITTER_API_BEARER']}'"
+      # data = `#{command}`
+      # json = JSON.parse(data)
+      # json['profile_image_url']
+
+      "https://unavatar.io/twitter/#{twitter_id}"
     end
   end
 
