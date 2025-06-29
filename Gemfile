@@ -10,7 +10,6 @@ gem 'rails', '~> 6.1.7', '>= 6.1.7.10'
 gem 'mutex_m',    '~> 0.3'
 gem 'bigdecimal', '~> 3.2'
 gem 'nkf',        '~> 0.2'
-gem 'logger',     '~> 1.7'
 
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3', '~> 1.4', group: :development
