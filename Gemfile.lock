@@ -311,6 +311,7 @@ DEPENDENCIES
   bootsnap
   bugsnag (~> 6.19)
   capybara (>= 2.15)
+  concurrent-ruby (~> 1.3.4)
   dotenv-rails
   httpclient
   jbuilder (~> 2.7)
