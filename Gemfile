@@ -6,6 +6,9 @@ ruby '3.1.7'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '< 6.1'
 
+# ruby3.1.7にあげるために変更した
+gem 'psych', '< 4'
+
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3', '~> 1.4', group: :development
 gem 'pg'#, group: :production
@@ -49,7 +52,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'better_errors'
-  gem 'binding_of_caller'
+  gem 'binding_of_caller', "~> 1.0"
   gem 'dotenv-rails'
   gem 'annotate'
 end
