@@ -14,7 +14,7 @@ gem 'nkf',        '~> 0.2'
 gem 'benchmark', require: false
 gem 'ostruct',   require: false
 
-gem "concurrent-ruby", "~> 1.3.4" # logが読み込めない対策
+gem "concurrent-ruby", "1.3.4" # logが読み込めない対策
 
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3', '~> 1.4', group: :development
