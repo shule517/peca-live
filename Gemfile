@@ -4,12 +4,13 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.4.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '< 6.1'
+gem 'rails', '~> 6.1.7', '>= 6.1.7.10'
 
-gem 'psych', '< 4' # ruby3.1.7にあげるために追加した
-gem 'mutex_m' # ruby3.4.4にあげるために追加した
-gem 'bigdecimal', '~> 3.1' # ruby3.4.4にあげるために追加した
-gem 'nkf' # ruby3.4.4にあげるために追加した
+# Ruby3.4から標準ライブラリから外れた
+gem 'mutex_m',    '~> 0.3'
+gem 'bigdecimal', '~> 3.2'
+gem 'nkf',        '~> 0.2'
+gem 'logger',     '~> 1.7'
 
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3', '~> 1.4', group: :development
@@ -20,7 +21,7 @@ gem 'puma'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 4.0'
+gem 'webpacker', '~> 5.4'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -36,7 +37,7 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 gem 'rack-cors'
-gem 'ridgepole'
+gem 'ridgepole', "~> 1.2"
 gem 'jwt'
 gem 'httpclient' # twitterアイコン取得用
 
